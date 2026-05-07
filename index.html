@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MacJanitor — AI-Driven Mac Disk Cleanup</title>
+  <meta name="description" content="An AI-driven Mac disk cleaner that uses contextual judgment instead of hard-coded rules. Privacy-first, $19.99 one-time." />
+  <meta property="og:title" content="MacJanitor — AI-Driven Mac Disk Cleanup" />
+  <meta property="og:description" content="Recover gigabytes of disk space with contextual AI judgment, not generic rules." />
+  <meta property="og:type" content="website" />
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <style>
+    :root {
+      --baby-blue: rgba(135, 206, 235, 0.22);
+      --dodger-blue: rgba(30, 144, 255, 0.14);
+      --deep-blue:  rgba(13, 77, 166, 0.08);
+      --accent: #1E90FF;
+      --accent-dark: #0d6efd;
+      --text: #1c1c1e;
+      --muted: #6b7280;
+      --bg: #ffffff;
+      --card: #f8fafc;
+      --border: #e5e7eb;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      color: var(--text);
+      line-height: 1.6;
+      background: linear-gradient(135deg, var(--baby-blue), var(--dodger-blue), var(--deep-blue));
+      min-height: 100vh;
+    }
+    .container { max-width: 720px; margin: 0 auto; padding: 0 24px; }
+    header { padding: 24px 0; }
+    .brand {
+      font-weight: 600;
+      font-size: 18px;
+      color: var(--text);
+      text-decoration: none;
+    }
+    .brand .accent { color: var(--accent); }
+
+    .hero { padding: 64px 0 48px; text-align: center; }
+    .hero h1 {
+      font-size: clamp(36px, 6vw, 56px);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin-bottom: 16px;
+    }
+    .hero .tagline {
+      font-size: clamp(18px, 2.4vw, 22px);
+      color: var(--muted);
+      max-width: 540px;
+      margin: 0 auto 32px;
+    }
+    .pricing {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .pricing .strike {
+      text-decoration: line-through;
+      color: var(--muted);
+      font-size: 20px;
+    }
+    .pricing .price {
+      font-size: 36px;
+      font-weight: 700;
+      color: var(--accent-dark);
+    }
+    .pricing .pill {
+      background: var(--accent);
+      color: white;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 12px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .promo-note {
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 28px;
+    }
+    .promo-note code {
+      background: var(--card);
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-family: "SF Mono", Menlo, Consolas, monospace;
+      color: var(--accent-dark);
+      font-weight: 600;
+    }
+
+    .cta {
+      display: inline-block;
+      background: var(--accent);
+      color: white;
+      padding: 16px 36px;
+      border-radius: 12px;
+      font-size: 18px;
+      font-weight: 600;
+      text-decoration: none;
+      box-shadow: 0 4px 16px rgba(30, 144, 255, 0.3);
+      transition: all 0.2s ease;
+    }
+    .cta:hover {
+      background: var(--accent-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(30, 144, 255, 0.4);
+    }
+
+    .section { padding: 48px 0; }
+    .section h2 {
+      font-size: 28px;
+      font-weight: 600;
+      margin-bottom: 20px;
+      letter-spacing: -0.01em;
+    }
+
+    .features ul,
+    .privacy ul,
+    .requirements ul {
+      list-style: none;
+      padding: 0;
+    }
+    .features li,
+    .privacy li,
+    .requirements li {
+      padding: 12px 0 12px 32px;
+      position: relative;
+      font-size: 16px;
+      color: var(--text);
+    }
+    .features li::before,
+    .privacy li::before,
+    .requirements li::before {
+      content: "→";
+      color: var(--accent);
+      position: absolute;
+      left: 0;
+      font-weight: 600;
+    }
+
+    .privacy { background: var(--card); padding: 32px; border-radius: 16px; margin: 0 -8px; }
+    .privacy h2 { color: var(--accent-dark); }
+
+    .story {
+      background: var(--card);
+      padding: 32px;
+      border-radius: 16px;
+      border-left: 4px solid var(--accent);
+      font-size: 17px;
+      color: var(--text);
+    }
+    .story strong { color: var(--accent-dark); }
+
+    footer {
+      padding: 48px 0 32px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 14px;
+      border-top: 1px solid var(--border);
+      margin-top: 48px;
+    }
+    footer a { color: var(--accent-dark); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+    footer .links { margin-bottom: 12px; }
+    footer .links a { margin: 0 12px; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <a href="/" class="brand">Magpie <span class="accent">Studios</span></a>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="container">
+      <h1>MacJanitor</h1>
+      <p class="tagline">An AI-driven Mac disk cleaner that uses contextual judgment instead of hard-coded rules.</p>
+
+      <div class="pricing">
+        <span class="strike">$29.99</span>
+        <span class="price">$19.99</span>
+        <span class="pill">Founder pricing</span>
+      </div>
+      <p class="promo-note">Use code <code>FOUNDER10</code> at checkout for $10 off. One-time purchase, no subscription.</p>
+
+      <a href="https://magpiestudios.lemonsqueezy.com/checkout/buy/880831f0-9f47-4f44-a562-b16b6827d36b" class="cta">
+        Buy MacJanitor →
+      </a>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="story">
+        <strong>Validated in real use.</strong> 130 GB recovered in 15 minutes during a single disk-pressure incident — at 2.1 GiB free out of 460 GiB. The cleanup involved Xcode iOS simulator runtimes the user didn't know existed, orphaned Squirrel.Mac update caches, and Audible audiobooks safely re-downloadable. None of those were findable via macOS Settings → Storage.
+      </div>
+    </div>
+  </section>
+
+  <section class="section features">
+    <div class="container">
+      <h2>What MacJanitor does</h2>
+      <ul>
+        <li>Scans hidden disk hoarders that macOS Settings doesn't surface — Xcode iOS simulator runtimes, Adobe asset caches, ShipIt updater orphans, iOS device backups, Mac Catalyst app containers.</li>
+        <li>Sends only file paths and sizes to Claude (never file contents) for contextual analysis based on your stated user profile (developer, designer, casual user, etc.).</li>
+        <li>Returns a categorized cleanup plan: safe-to-delete (caches), surgical (path-confirmed), inspect (yes/no questions for ambiguous folders), and keep (never touch).</li>
+        <li>Conservative-by-default — when in doubt between "delete" and "ask," it asks. The user can escalate; they can't undo a delete.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section privacy">
+    <div class="container">
+      <h2>Privacy promise</h2>
+      <ul>
+        <li>File contents NEVER leave your Mac. Only file paths and sizes are sent for analysis.</li>
+        <li>Your Anthropic API key is stored in your macOS Keychain only. Not on a server, not in plain text, not anywhere we control.</li>
+        <li>No telemetry. No analytics. No server-side component. Direct connection to Anthropic's API only.</li>
+        <li>You bring your own API key. Free credits are available at console.anthropic.com.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section requirements">
+    <div class="container">
+      <h2>Requirements</h2>
+      <ul>
+        <li>macOS 14 (Sonoma) or newer. Apple Silicon recommended.</li>
+        <li>Anthropic API key (free credits at console.anthropic.com).</li>
+        <li>~50 MB disk space.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container" style="text-align: center;">
+      <a href="https://magpiestudios.lemonsqueezy.com/checkout/buy/880831f0-9f47-4f44-a562-b16b6827d36b" class="cta">
+        Get MacJanitor for $19.99 →
+      </a>
+      <p class="promo-note" style="margin-top: 16px;">Use code <code>FOUNDER10</code>. Apple-notarized DMG. Instant download.</p>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="links">
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="mailto:support@magpiestudios.app">Support</a>
+        <a href="https://magpiestudios.lemonsqueezy.com">Lemon Squeezy Storefront</a>
+      </div>
+      <div>© 2026 Magpie Studios LLC · Arizona, USA</div>
+    </div>
+  </footer>
+</body>
+</html>
