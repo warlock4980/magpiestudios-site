@@ -8,6 +8,10 @@
   <meta property="og:title" content="MacJanitor — AI-Driven Mac Disk Cleanup" />
   <meta property="og:description" content="Recover gigabytes of disk space with contextual AI judgment, not generic rules." />
   <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://magpiestudios.app/screenshots/shot-08.png" />
+  <meta property="og:url" content="https://magpiestudios.app" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://magpiestudios.app/screenshots/shot-08.png" />
   <link rel="icon" type="image/png" href="favicon.png" />
   <style>
     :root {
@@ -158,6 +162,33 @@
     }
     .story strong { color: var(--accent-dark); }
 
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+      margin-top: 24px;
+    }
+    .gallery figure {
+      margin: 0;
+      background: var(--card);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 12px rgba(13, 77, 166, 0.08);
+      transition: transform 0.2s ease;
+    }
+    .gallery figure:hover { transform: translateY(-2px); }
+    .gallery img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .gallery figcaption {
+      padding: 12px 14px;
+      font-size: 13px;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+    }
+
     footer {
       padding: 48px 0 32px;
       text-align: center;
@@ -201,6 +232,34 @@
     <div class="container">
       <div class="story">
         <strong>Validated in real use.</strong> 130 GB recovered in 15 minutes during a single disk-pressure incident — at 2.1 GiB free out of 460 GiB. The cleanup involved Xcode iOS simulator runtimes the user didn't know existed, orphaned Squirrel.Mac update caches, and Audible audiobooks safely re-downloadable. None of those were findable via macOS Settings → Storage.
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2>See MacJanitor in action</h2>
+      <div class="gallery">
+        <figure>
+          <img src="screenshots/shot-08.png" alt="MacJanitor home screen showing 74.7 GB free with Scan My Mac button" />
+          <figcaption>Home screen — one click to scan.</figcaption>
+        </figure>
+        <figure>
+          <img src="screenshots/shot-07.png" alt="MacJanitor scanning the Mac" />
+          <figcaption>Scanning hidden disk hoarders across the system.</figcaption>
+        </figure>
+        <figure>
+          <img src="screenshots/shot-04.png" alt="MacJanitor recovery report showing 21.9 GB recovered" />
+          <figcaption>First pass: 21.9 GB recovered.</figcaption>
+        </figure>
+        <figure>
+          <img src="screenshots/shot-05.png" alt="MacJanitor recovery report showing 30.3 GB recovered, 124.2 GB free" />
+          <figcaption>Second pass: 30.3 GB more — 124.2 GB total free.</figcaption>
+        </figure>
+        <figure>
+          <img src="screenshots/shot-06.png" alt="macOS Settings Storage showing 132.83 GB free after MacJanitor cleanup" />
+          <figcaption>macOS confirms it: 132.83 GB free, breakdown clean.</figcaption>
+        </figure>
       </div>
     </div>
   </section>
