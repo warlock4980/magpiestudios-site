@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Help &amp; Manual — MacJanitor</title>
+  <meta name="description" content="MacJanitor user guide: quickstart, user profiles, cleanup categories, permissions, troubleshooting, and refunds." />
+  <meta property="og:title" content="MacJanitor Help &amp; Manual" />
+  <meta property="og:description" content="Everything you need to use MacJanitor — quickstart, profiles, permissions, and troubleshooting." />
+  <meta property="og:url" content="https://magpiestudios.app/help.html" />
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <style>
+    :root {
+      --baby-blue: rgba(135, 206, 235, 0.22);
+      --dodger-blue: rgba(30, 144, 255, 0.14);
+      --deep-blue:  rgba(13, 77, 166, 0.08);
+      --accent: #1E90FF;
+      --accent-dark: #0d6efd;
+      --text: #1c1c1e;
+      --muted: #6b7280;
+      --bg: #ffffff;
+      --card: #f8fafc;
+      --border: #e5e7eb;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      color: var(--text);
+      line-height: 1.65;
+      background: linear-gradient(135deg, var(--baby-blue), var(--dodger-blue), var(--deep-blue));
+      min-height: 100vh;
+    }
+    .container { max-width: 760px; margin: 0 auto; padding: 0 24px; }
+    header { padding: 24px 0; }
+    .brand { font-weight: 600; font-size: 18px; color: var(--text); text-decoration: none; }
+    .brand .accent { color: var(--accent); }
+
+    .hero { padding: 48px 0 24px; }
+    .hero h1 {
+      font-size: clamp(32px, 5vw, 44px);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+    }
+    .hero .tagline {
+      font-size: clamp(16px, 2vw, 18px);
+      color: var(--muted);
+      max-width: 600px;
+    }
+
+    .toc {
+      background: var(--card);
+      padding: 24px 28px;
+      border-radius: 14px;
+      margin: 32px 0;
+      border-left: 4px solid var(--accent);
+    }
+    .toc h2 {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: var(--accent-dark);
+    }
+    .toc ol {
+      list-style: none;
+      counter-reset: toc;
+      padding: 0;
+      margin: 0;
+      column-count: 2;
+      column-gap: 32px;
+    }
+    .toc li {
+      counter-increment: toc;
+      padding: 4px 0;
+      break-inside: avoid;
+    }
+    .toc li::before {
+      content: counter(toc) ". ";
+      color: var(--accent);
+      font-weight: 600;
+    }
+    .toc a { color: var(--text); text-decoration: none; }
+    .toc a:hover { color: var(--accent-dark); text-decoration: underline; }
+
+    section.section { padding: 32px 0; border-top: 1px solid var(--border); }
+    section.section:first-of-type { border-top: none; }
+    h2.section-title {
+      font-size: 26px;
+      font-weight: 600;
+      margin-bottom: 16px;
+      letter-spacing: -0.01em;
+      color: var(--accent-dark);
+    }
+    h3 {
+      font-size: 18px;
+      font-weight: 600;
+      margin: 20px 0 8px;
+    }
+    p, li { font-size: 16px; }
+    p { margin-bottom: 12px; }
+
+    ul.feat, ol.feat { padding-left: 0; list-style: none; }
+    ul.feat li, ol.feat li { padding: 8px 0 8px 28px; position: relative; }
+    ul.feat li::before {
+      content: "→";
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-weight: 600;
+    }
+    ol.feat {
+      counter-reset: step;
+    }
+    ol.feat li {
+      counter-increment: step;
+    }
+    ol.feat li::before {
+      content: counter(step);
+      background: var(--accent);
+      color: white;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 13px;
+      position: absolute;
+      left: 0;
+      top: 8px;
+    }
+
+    code {
+      background: rgba(30, 144, 255, 0.1);
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-family: "SF Mono", Menlo, Consolas, monospace;
+      color: var(--accent-dark);
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .callout {
+      background: #fff7ed;
+      border-left: 4px solid #f59e0b;
+      padding: 16px 20px;
+      border-radius: 8px;
+      margin: 16px 0;
+    }
+    .callout strong { color: #92400e; }
+
+    .card {
+      background: var(--card);
+      padding: 20px 24px;
+      border-radius: 12px;
+      margin: 16px 0;
+    }
+
+    table.cats {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+      background: var(--card);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    table.cats th, table.cats td {
+      padding: 12px 16px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+      font-size: 15px;
+      vertical-align: top;
+    }
+    table.cats th { background: rgba(30, 144, 255, 0.08); font-weight: 600; }
+    table.cats tr:last-child td { border-bottom: none; }
+    table.cats code { font-size: 13px; }
+
+    a.inline { color: var(--accent-dark); }
+    a.inline:hover { text-decoration: underline; }
+
+    footer {
+      padding: 48px 0 32px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 14px;
+      border-top: 1px solid var(--border);
+      margin-top: 48px;
+    }
+    footer a { color: var(--accent-dark); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+    footer .links { margin-bottom: 12px; }
+    footer .links a { margin: 0 12px; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <a href="/" class="brand">Magpie <span class="accent">Studios</span></a>
+    </div>
+  </header>
+
+  <div class="container">
+    <section class="hero">
+      <h1>MacJanitor Help &amp; Manual</h1>
+      <p class="tagline">Everything you need to use MacJanitor — from your first scan to what to do when something doesn't behave the way you expect.</p>
+    </section>
+
+    <nav class="toc" aria-label="Table of contents">
+      <h2>What's in this guide</h2>
+      <ol>
+        <li><a href="#quickstart">Quickstart</a></li>
+        <li><a href="#profile">Setting your user profile</a></li>
+        <li><a href="#categories">Cleanup categories explained</a></li>
+        <li><a href="#scanned">What MacJanitor scans and ignores</a></li>
+        <li><a href="#permissions">Permissions &amp; Full Disk Access</a></li>
+        <li><a href="#api-key">Your Anthropic API key</a></li>
+        <li><a href="#license-key">Your license key</a></li>
+        <li><a href="#troubleshooting">Troubleshooting</a></li>
+        <li><a href="#refund">Refunds &amp; cancellations</a></li>
+        <li><a href="#contact">Getting help</a></li>
+      </ol>
+    </nav>
+
+    <section class="section" id="quickstart">
+      <h2 class="section-title">1. Quickstart</h2>
+
+      <div class="callout">
+        <strong>Back up your Mac first.</strong> MacJanitor deletes files. Every proposed deletion is shown to you for review before it runs, but deletion is permanent. A current Time Machine backup before your first cleanup is strongly recommended.
+      </div>
+
+      <ol class="feat">
+        <li>Open <code>MacJanitor-1.0.1.dmg</code> from your purchase email or the customer portal.</li>
+        <li>Drag <strong>MacJanitor</strong> to the Applications folder shown in the DMG window.</li>
+        <li>Eject the DMG and launch <strong>MacJanitor</strong> from Applications or Spotlight.</li>
+        <li>On first launch, paste your Anthropic API key into the prompt. (See <a href="#api-key" class="inline">§6</a> if you need one.)</li>
+        <li>Open <strong>Settings</strong> and pick a user profile that matches how you use this Mac — see <a href="#profile" class="inline">§2</a>.</li>
+        <li>Click <strong>Scan My Mac</strong>. Review the categorized plan. Approve, answer any inspect questions, and let MacJanitor clean.</li>
+      </ol>
+    </section>
+
+    <section class="section" id="profile">
+      <h2 class="section-title">2. Setting your user profile</h2>
+
+      <p>MacJanitor's whole trick is that it knows what's safe to delete on <em>your</em> machine. To do that, it needs to know what you actually do with your Mac.</p>
+
+      <p>In Settings, pick whichever profile matches you best:</p>
+
+      <ul class="feat">
+        <li><strong>Developer</strong> — Xcode iOS simulator runtimes, derived data, package caches, build artifacts. MacJanitor knows your active runtime is load-bearing and old runtimes are likely orphaned.</li>
+        <li><strong>Designer</strong> — Adobe / Sketch / Figma asset caches, font caches, exported renders.</li>
+        <li><strong>Photographer or video editor</strong> — Final Cut renders, Photos library caches, RAW conversion artifacts. MacJanitor will be more conservative around media-app caches because they're expensive to rebuild.</li>
+        <li><strong>Writer or knowledge worker</strong> — Browser caches, downloaded reading material, mail attachments. MacJanitor leans into deeper cleanup of dev/media tools because you're not using them.</li>
+        <li><strong>Casual user</strong> — Conservative defaults across the board.</li>
+      </ul>
+
+      <p>You can change profiles any time. The next scan will use the new profile's judgment.</p>
+    </section>
+
+    <section class="section" id="categories">
+      <h2 class="section-title">3. Cleanup categories explained</h2>
+
+      <p>Every folder MacJanitor finds is sorted into one of four categories based on contextual analysis:</p>
+
+      <table class="cats">
+        <thead>
+          <tr><th>Category</th><th>What it means</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong style="color:#10b981;">Safe to delete</strong></td>
+            <td>Caches and temporary files that any Mac can safely lose. Apps regenerate these on next launch. No user input required — included in the cleanup batch automatically.</td>
+          </tr>
+          <tr>
+            <td><strong style="color:var(--accent-dark);">Surgical</strong></td>
+            <td>Path-verified safe given your profile. Example: an iOS simulator runtime you haven't used in months when you have a newer one active. Shown to you for batch approval before deletion.</td>
+          </tr>
+          <tr>
+            <td><strong style="color:#f59e0b;">Inspect</strong></td>
+            <td>Ambiguous given the available context. MacJanitor asks you a yes/no question (e.g., "You have iOS device backups in MobileSync. Are you using iCloud Backup?"). Your answer determines the action.</td>
+          </tr>
+          <tr>
+            <td><strong style="color:#dc2626;">Keep</strong></td>
+            <td>System-critical, user-data, or load-bearing-for-you files. Never touched. Listed for transparency only.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>The cleanup runs in order: <strong>Safe to delete</strong> happens silently, <strong>Surgical</strong> waits for your batch approval, <strong>Inspect</strong> waits for each yes/no answer, <strong>Keep</strong> is shown but not actionable.</p>
+    </section>
+
+    <section class="section" id="scanned">
+      <h2 class="section-title">4. What MacJanitor scans — and what it never touches</h2>
+
+      <h3>Will scan</h3>
+      <ul class="feat">
+        <li><code>~/Library/Caches</code> — app caches across the system</li>
+        <li><code>~/Library/Application Support</code> — selected app data folders (only where deletion is known-safe)</li>
+        <li><code>~/Library/Developer/CoreSimulator</code> — Xcode iOS simulator runtimes (developer profile only)</li>
+        <li><code>~/Library/Application Support/MobileSync/Backup</code> — iOS device backups</li>
+        <li>Selected app-specific data folders (Slack, Teams, Audible, etc.) where cleanup is known to be safe</li>
+        <li>System-wide cache locations (read-only inspection)</li>
+      </ul>
+
+      <h3>NEVER scans, NEVER touches</h3>
+      <ul class="feat">
+        <li><code>~/Documents</code></li>
+        <li><code>~/Desktop</code></li>
+        <li><code>~/Downloads</code></li>
+        <li><code>~/Pictures</code> and the Photos library</li>
+        <li><code>~/Movies</code></li>
+        <li><code>~/Music</code> and your iTunes/Music library</li>
+        <li>Mail, Messages, iMessage history, contacts, calendars</li>
+        <li>iCloud Drive content</li>
+        <li>Anything in <code>/System</code> (Apple doesn't even let you)</li>
+      </ul>
+
+      <div class="callout">
+        <strong>The privacy contract.</strong> When MacJanitor sends data to the Claude API for analysis, it sends only file <em>paths</em> and <em>sizes</em> — never the file contents themselves. Your Anthropic API key is stored exclusively in your Mac's Keychain and is never sent to Magpie Studios servers (we have none).
+      </div>
+    </section>
+
+    <section class="section" id="permissions">
+      <h2 class="section-title">5. Permissions &amp; Full Disk Access</h2>
+
+      <p>macOS protects certain folders behind <strong>Full Disk Access</strong> (FDA). If MacJanitor reports that it can't scan some locations, you'll need to grant FDA:</p>
+
+      <ol class="feat">
+        <li>Open <strong>System Settings</strong> → <strong>Privacy &amp; Security</strong> → <strong>Full Disk Access</strong>.</li>
+        <li>Click the <strong>+</strong> button.</li>
+        <li>Navigate to <strong>Applications</strong> and select <strong>MacJanitor</strong>.</li>
+        <li>Make sure the toggle next to MacJanitor is <strong>on</strong>.</li>
+        <li>Quit and relaunch MacJanitor.</li>
+      </ol>
+
+      <p>Without FDA, MacJanitor can still scan most of your home directory (where the biggest hoards usually live), but it can't see into protected system caches or some third-party app containers.</p>
+
+      <div class="callout">
+        <strong>Why we ask for this.</strong> macOS is conservative by default and treats every app as untrusted. FDA is the formal Apple-approved way for a cleanup tool to do its job. MacJanitor never reads file <em>contents</em> from anywhere FDA grants access to — it only inspects paths and sizes.
+      </div>
+    </section>
+
+    <section class="section" id="api-key">
+      <h2 class="section-title">6. Your Anthropic API key</h2>
+
+      <p>MacJanitor uses Claude (made by Anthropic) for the contextual analysis step. You provide your own API key, which means:</p>
+      <ul class="feat">
+        <li>You pay Anthropic directly for the (tiny) amount of usage MacJanitor incurs — typically a few cents per scan.</li>
+        <li>Your key is stored only in your Mac's Keychain, encrypted at rest.</li>
+        <li>Magpie Studios never sees, stores, or proxies your API usage.</li>
+      </ul>
+
+      <h3>Getting an API key</h3>
+      <ol class="feat">
+        <li>Visit <a class="inline" href="https://console.anthropic.com">console.anthropic.com</a>.</li>
+        <li>Sign up or log in. New accounts often receive free promotional credits.</li>
+        <li>Go to <strong>API Keys</strong> in the left sidebar.</li>
+        <li>Click <strong>Create Key</strong>. Copy the key (it starts with <code>sk-ant-</code>).</li>
+        <li>Paste it into MacJanitor when prompted, or in <strong>Settings → API Key</strong>.</li>
+      </ol>
+
+      <h3>Approximate costs</h3>
+      <p>A typical disk scan + analysis costs <strong>well under one cent</strong> of Anthropic credit. Even running a cleanup every week, you're looking at <strong>cents per year</strong>. Anthropic's free promotional credits will likely cover years of MacJanitor use.</p>
+    </section>
+
+    <section class="section" id="license-key">
+      <h2 class="section-title">7. Your MacJanitor license key</h2>
+
+      <p>When you purchased MacJanitor, you received a license key starting with <code>MCJ-</code> in the confirmation email and on your Polar customer portal page.</p>
+
+      <p><strong>Keep this key.</strong> You'll want it if you:</p>
+      <ul class="feat">
+        <li>Reinstall MacJanitor on a fresh macOS install</li>
+        <li>Install MacJanitor on another Mac you personally own</li>
+        <li>Contact support — quoting your license key lets us verify your purchase quickly</li>
+      </ul>
+
+      <h3>Lost your key?</h3>
+      <p>Visit the customer portal link from your original purchase email, or email <a class="inline" href="mailto:support@magpiestudios.app">support@magpiestudios.app</a> with the email address you used for purchase and we'll look it up.</p>
+    </section>
+
+    <section class="section" id="troubleshooting">
+      <h2 class="section-title">8. Troubleshooting</h2>
+
+      <h3>"MacJanitor can't be opened because Apple cannot check it for malicious software"</h3>
+      <p>This message appears if Gatekeeper hasn't fully verified the download. Right-click the app, choose <strong>Open</strong>, and confirm. After the first launch this won't happen again. (MacJanitor is fully Apple-notarized — this is a one-time Gatekeeper hiccup, not a real warning.)</p>
+
+      <h3>"Invalid API key" or authentication errors</h3>
+      <ul class="feat">
+        <li>Double-check the key starts with <code>sk-ant-</code>.</li>
+        <li>Confirm the key is still active at <a class="inline" href="https://console.anthropic.com">console.anthropic.com</a> → API Keys.</li>
+        <li>Confirm your Anthropic account has available credit (free promotional credit or paid balance).</li>
+        <li>If you recently created the key, give it ~30 seconds to propagate, then try again.</li>
+      </ul>
+
+      <h3>"Permission denied" errors during cleanup</h3>
+      <p>You probably need to grant Full Disk Access. See <a class="inline" href="#permissions">§5</a>.</p>
+
+      <h3>Scan finds nothing or very little to clean</h3>
+      <p>Good news — your Mac is already clean. Less commonly, this means MacJanitor can't see into the folders where the hoards live. Confirm Full Disk Access is granted (<a class="inline" href="#permissions">§5</a>) and try again.</p>
+
+      <h3>MacJanitor freezes or becomes unresponsive during a scan</h3>
+      <p>Scans can take 1–3 minutes on a very full disk. If MacJanitor is still spinning after 5 minutes, force-quit (⌘+⌥+Esc), relaunch, and try again. Email <a class="inline" href="mailto:support@magpiestudios.app">support@magpiestudios.app</a> if it persists — include your macOS version and any error text.</p>
+
+      <h3>The cleanup deleted something I needed</h3>
+      <p>If you had a Time Machine backup (as we strongly recommended in <a class="inline" href="#quickstart">§1</a>), restore from there. If not, most of what MacJanitor deletes is auto-regenerable: relaunch the affected app and let it rebuild caches. For app data specifically, log back into the affected app — most use server-side state and rehydrate on next sign-in.</p>
+    </section>
+
+    <section class="section" id="refund">
+      <h2 class="section-title">9. Refunds &amp; cancellations</h2>
+
+      <p>We offer a <strong>14-day no-questions-asked refund</strong>. If MacJanitor doesn't work for you for any reason within 14 days of purchase, email <a class="inline" href="mailto:support@magpiestudios.app">support@magpiestudios.app</a> and we'll process a full refund.</p>
+
+      <p>See the full <a class="inline" href="refund.html">Refund Policy</a> for details on processing time, EU/UK statutory rights, and what is and isn't covered.</p>
+    </section>
+
+    <section class="section" id="contact">
+      <h2 class="section-title">10. Getting help from a human</h2>
+
+      <p>If your question isn't covered above, or you'd just rather ask someone:</p>
+
+      <div class="card">
+        <p><strong>Email:</strong> <a class="inline" href="mailto:support@magpiestudios.app">support@magpiestudios.app</a></p>
+        <p><strong>Response time:</strong> Within 48 hours on business days.</p>
+        <p style="margin-top:8px; color:var(--muted); font-size:14px;">Include your macOS version, MacJanitor version (Settings → About), and a description of what happened. If you have a license key handy, mentioning it speeds verification.</p>
+      </div>
+
+      <p>We're a small studio. You'll usually hear back from a human, not a ticket bot.</p>
+    </section>
+  </div>
+
+  <footer>
+    <div class="container">
+      <div class="links">
+        <a href="/">Home</a>
+        <a href="terms.html">Terms &amp; License</a>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="refund.html">Refund Policy</a>
+        <a href="mailto:support@magpiestudios.app">Support</a>
+      </div>
+      <div>© 2026 Magpie Studios LLC · Arizona, USA · All rights reserved.</div>
+      <div style="margin-top:8px; font-size:12px;">MacJanitor and the Magpie logo are trademarks of Magpie Studios LLC.</div>
+    </div>
+  </footer>
+</body>
+</html>
