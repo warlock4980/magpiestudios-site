@@ -133,6 +133,26 @@
     a.inline { color: var(--accent-dark); }
     a.inline:hover { text-decoration: underline; }
 
+    figure.evidence {
+      margin: 24px 0;
+      padding: 0;
+    }
+    figure.evidence img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(13, 77, 166, 0.12);
+      border: 1px solid var(--border);
+    }
+    figure.evidence figcaption {
+      font-size: 13px;
+      color: var(--muted);
+      text-align: center;
+      margin-top: 10px;
+      font-style: italic;
+    }
+
     .product-card {
       background: var(--card);
       padding: 24px 28px;
@@ -248,13 +268,19 @@
         Competing in <a class="inline" href="https://www.kaggle.com/competitions/rogii-wellbore-geology-prediction">ROGII's wellbore geology prediction competition</a> — a machine-learning challenge from a Houston-based oil &amp; gas software company. The task is to predict the geological position (True Vertical Thickness) along the lateral section of horizontal wellbores from sparse training data.
       </p>
 
+      <figure class="evidence">
+        <img src="screenshots/competition-page-header.png" alt="ROGII Wellbore Geology Prediction — official Kaggle competition page header showing the task description and a subsurface geology visualization" loading="lazy" />
+        <figcaption>The official Kaggle competition page — hosted by ROGII, an oil &amp; gas software company.</figcaption>
+      </figure>
+
       <table class="stats">
         <tr><td>Sponsor</td><td>ROGII (Houston, TX)</td></tr>
         <tr><td>Prize pool</td><td>$50,000 total · $25K for 1st</td></tr>
         <tr><td>Competition window</td><td>May 5 – August 5, 2026</td></tr>
         <tr><td>Training data</td><td>~773 horizontal wells, ~6 million labeled depth measurements</td></tr>
         <tr><td>Hidden evaluation set</td><td>~200 wells</td></tr>
-        <tr><td>Magpie's current rank</td><td><em>Updated at competition close</em></td></tr>
+        <tr><td>Magpie's Kaggle profile</td><td><a class="inline" href="https://www.kaggle.com/ismaelrodriguez49">kaggle.com/ismaelrodriguez49</a></td></tr>
+        <tr><td>Current standing</td><td>Active submission · best public-LB score 12.878 (lower is better)</td></tr>
       </table>
 
       <h3>Why it matters (and why we're in it)</h3>
@@ -269,6 +295,11 @@
         <li><strong>Variance reduction.</strong> Seed bagging across stochastic components and adaptive weighting based on local prediction confidence.</li>
         <li><strong>Honest cross-validation.</strong> The visible local test set is a known false positive — all model selection is done via 5-fold GroupKFold across the full training population, calibrated against the public leaderboard.</li>
       </ul>
+
+      <figure class="evidence">
+        <img src="screenshots/kaggle-rogii-best-entry.png" alt="Kaggle leaderboard showing Ismael Rodriguez (Magpie Studios) with a 'Your Best Entry!' badge and a current public-LB score of 12.878" loading="lazy" />
+        <figcaption>A live snapshot from the Kaggle leaderboard — current best public-LB score 12.878 (lower is better; the leaderboard around us is densely clustered).</figcaption>
+      </figure>
 
       <div class="callout">
         <strong>Detailed methodology to be published</strong> after the competition closes on August 5, 2026. In the spirit of fair competition, we don't share specifics that might benefit other teams while the leaderboard is still live.
