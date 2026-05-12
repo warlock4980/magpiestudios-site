@@ -558,21 +558,33 @@
       .mpc-flyby, .mpc-perch { display: none; }
     }
     .mpc-panel {
-      position: fixed; top: 0; right: 0; bottom: 0;
-      width: min(520px, 100vw);
-      height: 100vh;
+      position: fixed; top: 20px; right: 20px;
+      width: min(520px, calc(100vw - 40px));
+      height: calc(100vh - 40px);
       background: #ffffff;
-      border-radius: 18px 0 0 18px;   /* rounded only on the left edge */
-      box-shadow: -12px 0 48px rgba(13, 77, 166, 0.18);
-      border-left: 1px solid #e5e7eb;
+      border-radius: 18px;   /* all four corners */
+      box-shadow: 0 16px 48px rgba(13, 77, 166, 0.32),
+                  0 4px 12px rgba(13, 77, 166, 0.18);
+      border: 1px solid #e5e7eb;
       display: none; flex-direction: column; overflow: hidden;
       z-index: 9999;
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
+      /* Native bottom-right resize handle */
+      resize: both;
+      min-width: 320px; min-height: 380px;
+      max-width: calc(100vw - 20px); max-height: calc(100vh - 20px);
     }
     .mpc-panel.open { display: flex; }
+    .mpc-panel.dragging { transition: none; user-select: none; box-shadow: 0 20px 60px rgba(13, 77, 166, 0.42); }
     @media (max-width: 640px) {
-      .mpc-panel { border-radius: 0; }   /* edge-to-edge on mobile */
+      .mpc-panel {
+        top: 8px; right: 8px;
+        width: calc(100vw - 16px); height: calc(100vh - 16px);
+        border-radius: 12px;
+      }
     }
+    .mpc-header { cursor: move; user-select: none; }
+    .mpc-header .title, .mpc-header .subtitle { pointer-events: none; }
 
     /* Minimized state: thin sliver at the top of the page */
     .mpc-sliver {
@@ -840,6 +852,52 @@
     sliver.addEventListener("keydown", (e) => {
       if (e.key === "Enter" || e.key === " ") { e.preventDefault(); expandFromSliver(); }
     });
+
+    // Drag-to-move: header is the handle. Switches the panel from
+    // top/right anchoring to top/left so dragging works freely.
+    let dragState = null;
+    function getPointer(e) {
+      if (e.touches && e.touches[0]) return { x: e.touches[0].clientX, y: e.touches[0].clientY };
+      return { x: e.clientX, y: e.clientY };
+    }
+    function onDragStart(e) {
+      // Don't start drag if mousedown is on a button
+      const t = e.target;
+      if (t.closest("button")) return;
+      e.preventDefault();
+      const rect = panel.getBoundingClientRect();
+      const { x, y } = getPointer(e);
+      dragState = { offsetX: x - rect.left, offsetY: y - rect.top };
+      // Switch from right anchor to left anchor so drag math is clean
+      panel.style.left = rect.left + "px";
+      panel.style.top  = rect.top  + "px";
+      panel.style.right = "auto";
+      panel.classList.add("dragging");
+    }
+    function onDragMove(e) {
+      if (!dragState) return;
+      e.preventDefault();
+      const { x, y } = getPointer(e);
+      let newLeft = x - dragState.offsetX;
+      let newTop  = y - dragState.offsetY;
+      // Constrain to viewport (always keep at least 80px of the panel on-screen)
+      newLeft = Math.max(20 - panel.offsetWidth + 80, Math.min(window.innerWidth - 80, newLeft));
+      newTop  = Math.max(0, Math.min(window.innerHeight - 44, newTop));
+      panel.style.left = newLeft + "px";
+      panel.style.top  = newTop + "px";
+    }
+    function onDragEnd() {
+      if (!dragState) return;
+      dragState = null;
+      panel.classList.remove("dragging");
+    }
+    const headerEl = panel.querySelector(".mpc-header");
+    headerEl.addEventListener("mousedown", onDragStart);
+    headerEl.addEventListener("touchstart", onDragStart, { passive: false });
+    document.addEventListener("mousemove", onDragMove);
+    document.addEventListener("touchmove", onDragMove, { passive: false });
+    document.addEventListener("mouseup", onDragEnd);
+    document.addEventListener("touchend", onDragEnd);
     function openPanel(isReEngagement) {
       launcher.classList.add("open");
       hideSliver();
