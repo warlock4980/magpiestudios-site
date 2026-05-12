@@ -217,12 +217,21 @@
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
+    // EEA + UK + Switzerland + Iceland/Norway/Liechtenstein → denied by default (GDPR-compliant)
     gtag('consent', 'default', {
       'ad_storage': 'denied',
       'ad_user_data': 'denied',
       'ad_personalization': 'denied',
       'analytics_storage': 'denied',
-      'wait_for_update': 500
+      'wait_for_update': 500,
+      'region': ['AT','BE','BG','HR','CY','CZ','DK','EE','FI','FR','DE','GR','HU','IE','IT','LV','LT','LU','MT','NL','PL','PT','RO','SK','SI','ES','SE','GB','CH','IS','LI','NO']
+    });
+    // Everywhere else → granted by default (CCPA opt-out model; banner still informs visitors)
+    gtag('consent', 'default', {
+      'ad_storage': 'granted',
+      'ad_user_data': 'granted',
+      'ad_personalization': 'granted',
+      'analytics_storage': 'granted'
     });
     try {
       if (localStorage.getItem('magpie-analytics-consent') === 'granted') {
