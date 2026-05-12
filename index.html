@@ -699,7 +699,7 @@
     </div>
     <div class="mpc-body" id="mpc-body">
       <div class="mpc-msg bot">
-        Hi! I'm the assistant for Magpie Studios. Ask me about <strong>MacJanitor</strong>, pricing, refunds, system requirements, or how it works. If I don't know, I'll tell you and point you to Ismael directly.
+        Hi! I'm the assistant for Magpie Studios. Ask me about <strong>MacJanitor</strong>, pricing, refunds, system requirements, or how it works. If I don't know, I'll tell you and point you to the Admin directly.
       </div>
     </div>
     <div class="mpc-input-row">
@@ -742,7 +742,7 @@
     function renderHistory() {
       body.innerHTML = "";
       if (history.length === 0) {
-        addMessage("bot", "Hi! I'm the assistant for Magpie Studios. Ask me about MacJanitor, pricing, refunds, system requirements, or how it works. If I don't know, I'll tell you and point you to Ismael directly.");
+        addMessage("bot", "Hi! I'm the assistant for Magpie Studios. Ask me about MacJanitor, pricing, refunds, system requirements, or how it works. If I don't know, I'll tell you and point you to the Admin directly.");
         return;
       }
       history.forEach(t => addMessage(t.role, t.content, false));
@@ -834,7 +834,7 @@
         }
       } catch (e) {
         typingNode.remove();
-        addMessage("bot", "Sorry — I couldn't reach the server. Email support@magpiestudios.app and Ismael will get back to you within 48 hours.", false);
+        addMessage("bot", "Sorry — I couldn't reach the server. Email support@magpiestudios.app and the Admin will get back to you within 48 hours.", false);
       } finally { sendBtn.disabled = false; input.focus(); }
     }
     sendBtn.addEventListener("click", send);
