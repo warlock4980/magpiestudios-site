@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Thank you — MacJanitor</title>
-  <meta name="description" content="Thanks for buying MacJanitor. Check your email for your license key and download link." />
-  <meta name="robots" content="noindex,nofollow" />
-  <meta property="og:title" content="Thank you — MacJanitor" />
+  <title>About — Magpie Studios</title>
+  <meta name="description" content="Who's behind Magpie Studios — the founder story, the values, and what we're building." />
+  <meta property="og:title" content="About — Magpie Studios" />
+  <meta property="og:description" content="Who's behind Magpie Studios — the founder story, the values, and what we're building." />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://magpiestudios.app/thanks.html" />
+  <meta property="og:url" content="https://magpiestudios.app/about.html" />
   <link rel="icon" type="image/png" href="favicon.png" />
   <style>
     :root {
@@ -17,8 +17,6 @@
       --deep-blue:  rgba(13, 77, 166, 0.08);
       --accent: #1E90FF;
       --accent-dark: #0d6efd;
-      --success: #10b981;
-      --success-bg: #ecfdf5;
       --text: #1c1c1e;
       --muted: #6b7280;
       --bg: #ffffff;
@@ -30,7 +28,7 @@
     body {
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       color: var(--text);
-      line-height: 1.6;
+      line-height: 1.7;
       background: linear-gradient(135deg, var(--baby-blue), var(--dodger-blue), var(--deep-blue));
       min-height: 100vh;
     }
@@ -54,23 +52,18 @@
     }
     .brand .accent { color: var(--accent); }
 
-    .hero { padding: 56px 0 32px; text-align: center; }
-    .success-badge {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 72px;
-      height: 72px;
-      border-radius: 50%;
-      background: var(--success-bg);
-      color: var(--success);
-      font-size: 36px;
-      font-weight: 700;
-      margin-bottom: 24px;
-      border: 3px solid var(--success);
+    .hero { padding: 48px 0 24px; }
+    .eyebrow {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent-dark);
+      margin-bottom: 12px;
     }
     .hero h1 {
-      font-size: clamp(32px, 5vw, 48px);
+      font-size: clamp(36px, 6vw, 52px);
       font-weight: 700;
       line-height: 1.1;
       letter-spacing: -0.02em;
@@ -79,116 +72,58 @@
     .hero .tagline {
       font-size: clamp(17px, 2.2vw, 20px);
       color: var(--muted);
-      max-width: 480px;
-      margin: 0 auto;
+      max-width: 600px;
     }
 
-    .section { padding: 28px 0; }
-    .section h2 {
-      font-size: 24px;
+    section.section { padding: 36px 0; border-top: 1px solid var(--border); }
+    section.section:first-of-type { border-top: none; }
+    section h2 {
+      font-size: 26px;
       font-weight: 600;
       margin-bottom: 16px;
       letter-spacing: -0.01em;
+      color: var(--accent-dark);
+    }
+    p { font-size: 17px; margin-bottom: 14px; }
+    p:last-child { margin-bottom: 0; }
+    p strong { color: var(--text); }
+
+    .pullquote {
+      background: var(--card);
+      padding: 22px 26px;
+      border-radius: 12px;
+      border-left: 4px solid var(--accent);
+      font-size: 17px;
+      font-style: italic;
+      color: var(--text);
+      margin: 18px 0;
     }
 
-    .card {
-      background: var(--card);
-      padding: 28px;
-      border-radius: 16px;
-      border-left: 4px solid var(--accent);
-      font-size: 16px;
-      color: var(--text);
-    }
-    .card strong { color: var(--accent-dark); }
-    .card ul { list-style: none; padding: 0; margin-top: 12px; }
-    .card li {
-      padding: 8px 0 8px 24px;
+    ul.values { list-style: none; padding: 0; margin: 12px 0; }
+    ul.values li {
+      padding: 12px 0 12px 28px;
       position: relative;
+      font-size: 16px;
     }
-    .card li::before {
+    ul.values li::before {
       content: "→";
       color: var(--accent);
       position: absolute;
       left: 0;
       font-weight: 600;
     }
-    code {
-      background: rgba(30, 144, 255, 0.1);
-      padding: 2px 8px;
-      border-radius: 4px;
-      font-family: "SF Mono", Menlo, Consolas, monospace;
-      color: var(--accent-dark);
-      font-weight: 600;
-      font-size: 14px;
-    }
+    ul.values li strong { color: var(--accent-dark); }
 
-    .privacy-card {
-      background: #fff7ed;
-      padding: 28px;
-      border-radius: 16px;
-      border-left: 4px solid #f59e0b;
-    }
-    .privacy-card h2 { color: #92400e; }
-    .privacy-card ul { list-style: none; padding: 0; margin-top: 12px; }
-    .privacy-card li {
-      padding: 6px 0 6px 24px;
-      position: relative;
-    }
-    .privacy-card li::before {
-      content: "✕";
-      color: #f59e0b;
-      position: absolute;
-      left: 0;
-      font-weight: 700;
-    }
+    a.inline { color: var(--accent-dark); text-decoration: none; }
+    a.inline:hover { text-decoration: underline; }
 
-    .quickstart ol {
-      list-style: none;
-      padding: 0;
-      counter-reset: step;
+    .contact-card {
+      background: var(--card);
+      padding: 24px 28px;
+      border-radius: 14px;
+      margin: 12px 0;
     }
-    .quickstart li {
-      counter-increment: step;
-      padding: 16px 0 16px 56px;
-      position: relative;
-      border-bottom: 1px solid var(--border);
-      font-size: 16px;
-    }
-    .quickstart li:last-child { border-bottom: none; }
-    .quickstart li::before {
-      content: counter(step);
-      position: absolute;
-      left: 0;
-      top: 14px;
-      background: var(--accent);
-      color: white;
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      font-size: 16px;
-    }
-    .quickstart li strong { color: var(--accent-dark); }
-
-    .cta-link {
-      display: inline-block;
-      background: var(--accent);
-      color: white;
-      padding: 14px 32px;
-      border-radius: 10px;
-      font-size: 16px;
-      font-weight: 600;
-      text-decoration: none;
-      box-shadow: 0 4px 16px rgba(30, 144, 255, 0.3);
-      transition: all 0.2s ease;
-    }
-    .cta-link:hover {
-      background: var(--accent-dark);
-      transform: translateY(-2px);
-    }
+    .contact-card p { margin: 6px 0; font-size: 16px; }
 
     footer {
       padding: 48px 0 32px;
@@ -204,7 +139,7 @@
     footer .links a { margin: 0 12px; }
   </style>
 
-  <!-- Google Analytics 4 with Consent Mode v2 (default denied until user opts in) -->
+  <!-- Google Analytics 4 with Consent Mode v2 -->
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
@@ -263,67 +198,78 @@
     </div>
   </header>
 
-  <section class="hero">
-    <div class="container">
-      <div class="success-badge" aria-hidden="true">✓</div>
-      <h1>Thank you!</h1>
-      <p class="tagline">Your MacJanitor purchase is complete. Check your email — your license key and download link are on the way.</p>
-    </div>
-  </section>
+  <div class="container">
 
-  <section class="section">
-    <div class="container">
-      <div class="card">
-        <strong>What's in your inbox:</strong>
-        <ul>
-          <li>Your <strong>license key</strong> (starts with <code>MCJ-</code>) — keep this somewhere safe for future reinstalls and support requests.</li>
-          <li>A one-time <strong>download link</strong> for the notarized .dmg installer.</li>
-        </ul>
-        Both arrive within a minute or two of purchase. If you don't see them, check your spam folder before reaching out — receipt emails from payment processors sometimes land there.
+    <section class="hero">
+      <span class="eyebrow">About</span>
+      <h1>Who's behind the magpie.</h1>
+      <p class="tagline">Magpie Studios is a one-person operation building AI-driven utilities for the messy parts of digital life. Here's the story behind it.</p>
+    </section>
+
+    <section class="section">
+      <h2>Where I started</h2>
+      <p>
+        I was born in <strong>Michoacán, Mexico</strong>, and came to the United States with my family when I was <strong>five years old</strong>. We didn't have much &mdash; "dirt poor" is the honest term, and being candid: that hasn't fully changed yet. What changed is what I've learned to build.
+      </p>
+      <p>
+        Growing up between two languages and two cultures teaches you a specific kind of resourcefulness. You learn to figure things out from scratch because nobody around you knows the answer either. You learn that most expensive solutions have a cheaper, more careful alternative if you're willing to read the documentation. You learn that being underestimated has occasional uses.
+      </p>
+      <p>
+        I'm now an Arizona resident, a US citizen, and an LLC owner. None of that was inevitable. All of it was earned.
+      </p>
+    </section>
+
+    <section class="section">
+      <h2>Why I started Magpie</h2>
+      <p>
+        The name comes from the bird. Magpies are famously hoarders of shiny things &mdash; they collect what catches their eye even when they don't strictly need it. Mac users do the same with their disk space, their browser tabs, their cloud storage, their app installs. We collect digital stuff until it becomes friction.
+      </p>
+      <p>
+        My first product, <a class="inline" href="/">MacJanitor</a>, was born from a real moment of friction: I was working on an iOS development project, sat down to compile, and discovered I had <strong>2.1 GiB free out of 460 GiB</strong> on my Mac. With contextual AI guidance, I recovered 130 GB in fifteen minutes &mdash; not by blindly deleting caches, but by understanding which files were dead weight for me specifically and which were load-bearing.
+      </p>
+      <div class="pullquote">
+        "The cleanup required judgment, not rules. The same folder is safe to delete for one user and load-bearing for another. That's the gap, and that's the product."
       </div>
-    </div>
-  </section>
+      <p>
+        Magpie's job is to apply contextual AI judgment to chores that currently require either deep expertise or expensive software. MacJanitor is the first. The second and third are in the works.
+      </p>
+    </section>
 
-  <section class="section quickstart">
-    <div class="container">
-      <h2>Quick start</h2>
-      <ol>
-        <li><strong>Back up your Mac first.</strong> MacJanitor deletes files. A current Time Machine backup is recommended before any cleanup. This is the single most important step.</li>
-        <li><strong>Open the .dmg</strong> and drag MacJanitor to your Applications folder.</li>
-        <li><strong>Launch MacJanitor.</strong> On first run you'll be asked for your Anthropic API key (stored only in your Mac's Keychain — never anywhere else). Free credits available at <a href="https://console.anthropic.com">console.anthropic.com</a>.</li>
-        <li><strong>Set your user profile</strong> in Settings — developer, designer, photographer, casual — so the AI knows what's load-bearing for <em>your</em> Mac.</li>
-        <li><strong>Scan, review, clean.</strong> Every proposed deletion is shown to you before it runs. Conservative by default.</li>
-      </ol>
-    </div>
-  </section>
+    <section class="section">
+      <h2>What you'll see from Magpie</h2>
+      <ul class="values">
+        <li><strong>Privacy as a first-class concern.</strong> Products are built locally; only the minimum data goes to AI providers, and never file contents. We have no telemetry, no analytics SDK, no servers harvesting your behavior.</li>
+        <li><strong>One-time pricing, not subscription traps.</strong> You buy once, you own it. Major version upgrades may be paid &mdash; minor and patch updates are always free. No auto-renewals.</li>
+        <li><strong>Honest documentation.</strong> A real help page, a real refund policy, a real EULA. If something can go wrong, we'd rather tell you up front.</li>
+        <li><strong>Slow, careful shipping.</strong> Magpie Studios is intentionally small. The goal is fewer, better products &mdash; not a sprawling portfolio.</li>
+      </ul>
+    </section>
 
-  <section class="section">
-    <div class="container">
-      <div class="privacy-card">
-        <h2>A note on your inbox</h2>
-        <p>We promised no telemetry, no analytics, no surprises — and that promise applies to your email too. The license-key and download messages are the only things you'll hear from us by default. We will never:</p>
-        <ul>
-          <li>Subscribe you to a newsletter without asking</li>
-          <li>Share your email with any third party</li>
-          <li>Send you "tips and tricks" you didn't request</li>
-        </ul>
-        <p style="margin-top:12px;">If MacJanitor 2.0 ever ships with major upgrades, you'll hear from us — once. Otherwise, your inbox is your own.</p>
+    <section class="section">
+      <h2>Where I'd like to take this</h2>
+      <p>
+        Short-term: ship MacJanitor's next version cleanly, add follow-on products under the Magpie umbrella, and prove that a one-person studio can build software that real people pay for and trust.
+      </p>
+      <p>
+        Long-term: build a portfolio of utilities that handle the chores nobody else wants to automate, and reach the point where the company can support the people I love &mdash; including a house for my mother in Arizona. The honest version of that ambition is the one worth chasing.
+      </p>
+    </section>
+
+    <section class="section">
+      <h2>Get in touch</h2>
+      <div class="contact-card">
+        <p><strong>Support / questions:</strong> <a class="inline" href="mailto:support@magpiestudios.app">support@magpiestudios.app</a></p>
+        <p><strong>Updates list:</strong> Email "Magpie updates list" in the subject and I'll add you. No newsletter spam &mdash; you'll only hear from me when there's actually news.</p>
+        <p style="color: var(--muted); margin-top: 8px; font-size: 15px;">I'm a one-person operation in Arizona. Responses typically arrive within 48 hours on business days.</p>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section class="section">
-    <div class="container" style="text-align:center; padding-top: 16px;">
-      <h2 style="margin-bottom: 8px;">Need a hand?</h2>
-      <p style="margin-bottom: 16px; color: var(--muted);">Check the <a href="help.html" style="color: var(--accent-dark);">Help &amp; Manual</a> for setup, permissions, and troubleshooting. For anything not covered there, email <a href="mailto:support@magpiestudios.app" style="color: var(--accent-dark);">support@magpiestudios.app</a> — we usually respond within 48 hours on business days.</p>
-      <a href="/" class="cta-link">← Back to MacJanitor</a>
-    </div>
-  </section>
+  </div>
 
   <footer>
     <div class="container">
       <div class="links">
-        <a href="about.html">About</a>
+        <a href="/">MacJanitor</a>
         <a href="research.html">Magpie Labs</a>
         <a href="help.html">Help &amp; Manual</a>
         <a href="terms.html">Terms &amp; License</a>
