@@ -202,6 +202,55 @@
     footer .links { margin-bottom: 12px; }
     footer .links a { margin: 0 12px; }
   </style>
+
+  <!-- Google Analytics 4 with Consent Mode v2 (default denied until user opts in) -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('consent', 'default', {
+      'ad_storage': 'denied',
+      'ad_user_data': 'denied',
+      'ad_personalization': 'denied',
+      'analytics_storage': 'denied',
+      'wait_for_update': 500
+    });
+    try {
+      if (localStorage.getItem('magpie-analytics-consent') === 'granted') {
+        gtag('consent', 'update', { 'analytics_storage': 'granted' });
+      }
+    } catch (e) {}
+    gtag('js', new Date());
+    gtag('config', 'G-FY31JVB4P1', { 'anonymize_ip': true });
+  </script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-FY31JVB4P1"></script>
+
+  <style>
+    #cookie-consent {
+      position: fixed; bottom: 16px; left: 16px; right: 16px;
+      max-width: 720px; margin: 0 auto;
+      background: #1c1c1e; color: #ffffff;
+      padding: 20px 24px; border-radius: 12px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+      z-index: 10000;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-size: 14px; line-height: 1.5;
+    }
+    #cookie-consent p { margin: 0 0 12px; color: #ffffff; font-size: 14px; }
+    #cookie-consent a { color: #1E90FF; text-decoration: underline; }
+    #cookie-consent .cc-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+    #cookie-consent button {
+      background: #1E90FF; color: white; border: none;
+      padding: 8px 18px; border-radius: 8px;
+      font-size: 14px; font-weight: 600; cursor: pointer;
+      font-family: inherit;
+    }
+    #cookie-consent button:hover { background: #0d6efd; }
+    #cookie-consent .decline {
+      background: transparent; color: #ffffff;
+      border: 1px solid #6b7280;
+    }
+    #cookie-consent .decline:hover { background: rgba(255,255,255,0.08); }
+  </style>
 </head>
 <body>
   <header>
@@ -330,5 +379,38 @@
       <div style="margin-top:8px; font-size:12px;">MacJanitor and the Magpie logo are trademarks of Magpie Studios LLC.</div>
     </div>
   </footer>
+
+  <div id="cookie-consent" hidden role="dialog" aria-labelledby="cookie-consent-title">
+    <p id="cookie-consent-title">
+      We use Google Analytics (with your consent) to count aggregate visits to magpiestudios.app. No personal information is collected without your okay. See our <a href="privacy.html">Privacy Policy</a>.
+    </p>
+    <div class="cc-actions">
+      <button type="button" id="cookie-consent-accept">Accept analytics</button>
+      <button type="button" class="decline" id="cookie-consent-decline">Decline</button>
+    </div>
+  </div>
+  <script>
+  (function() {
+    var key = 'magpie-analytics-consent';
+    var banner = document.getElementById('cookie-consent');
+    if (!banner) return;
+    try {
+      var existing = localStorage.getItem(key);
+      if (existing === 'granted' || existing === 'denied') return;
+    } catch (e) {}
+    banner.hidden = false;
+    document.getElementById('cookie-consent-accept').addEventListener('click', function() {
+      try { localStorage.setItem(key, 'granted'); } catch (e) {}
+      if (typeof gtag === 'function') {
+        gtag('consent', 'update', { 'analytics_storage': 'granted' });
+      }
+      banner.hidden = true;
+    });
+    document.getElementById('cookie-consent-decline').addEventListener('click', function() {
+      try { localStorage.setItem(key, 'denied'); } catch (e) {}
+      banner.hidden = true;
+    });
+  })();
+  </script>
 </body>
 </html>
