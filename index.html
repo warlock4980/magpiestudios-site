@@ -558,17 +558,51 @@
       .mpc-flyby, .mpc-perch { display: none; }
     }
     .mpc-panel {
-      position: fixed; right: 20px; bottom: 20px;
-      width: 380px; max-width: calc(100vw - 32px);
-      height: 560px; max-height: calc(100vh - 80px);
-      background: #ffffff; border-radius: 16px;
-      box-shadow: 0 12px 48px rgba(13, 77, 166, 0.28);
-      border: 1px solid #e5e7eb;
+      position: fixed; top: 0; right: 0; bottom: 0;
+      width: min(520px, 100vw);
+      height: 100vh;
+      background: #ffffff;
+      border-radius: 18px 0 0 18px;   /* rounded only on the left edge */
+      box-shadow: -12px 0 48px rgba(13, 77, 166, 0.18);
+      border-left: 1px solid #e5e7eb;
       display: none; flex-direction: column; overflow: hidden;
       z-index: 9999;
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
     }
     .mpc-panel.open { display: flex; }
+    @media (max-width: 640px) {
+      .mpc-panel { border-radius: 0; }   /* edge-to-edge on mobile */
+    }
+
+    /* Minimized state: thin sliver at the top of the page */
+    .mpc-sliver {
+      position: fixed; top: 0; left: 0; right: 0;
+      height: 44px;
+      background: linear-gradient(90deg, #0d6efd, #1E90FF);
+      color: #ffffff;
+      display: none; align-items: center; justify-content: space-between;
+      padding: 0 18px 0 22px;
+      font-size: 14px; font-weight: 500;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(13, 77, 166, 0.25);
+      z-index: 9999;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
+    }
+    .mpc-sliver.visible { display: flex; }
+    .mpc-sliver .sliver-text { display: flex; align-items: center; gap: 10px; }
+    .mpc-sliver .sliver-text::before {
+      content: ""; display: inline-block;
+      width: 22px; height: 22px;
+      background: url('magpie-logo.png') center/contain no-repeat;
+      border-radius: 50%;
+    }
+    .mpc-sliver .sliver-expand {
+      background: rgba(255,255,255,0.18);
+      border: none; color: white;
+      padding: 4px 12px; border-radius: 999px;
+      font-size: 13px; font-weight: 500; cursor: pointer;
+    }
+    .mpc-sliver .sliver-expand:hover { background: rgba(255,255,255,0.32); }
     .mpc-header {
       background: linear-gradient(135deg, #1E90FF, #0d6efd);
       color: white; padding: 16px 20px;
@@ -694,6 +728,7 @@
       </div>
       <div class="mpc-header-actions">
         <button class="mpc-clear" id="mpc-clear" aria-label="Clear chat history">Clear</button>
+        <button class="mpc-clear" id="mpc-minimize" aria-label="Minimize chat" title="Minimize to a slim bar at the top">−</button>
         <button class="mpc-close" id="mpc-close" aria-label="Close chat">×</button>
       </div>
     </div>
@@ -707,6 +742,12 @@
       <button class="mpc-send" id="mpc-send">Send</button>
     </div>
     <div class="mpc-footer-note">Powered by Claude · Replies are AI-generated</div>
+  </div>
+
+  <!-- Minimized state: thin bar at top of page, click to re-expand -->
+  <div class="mpc-sliver" id="mpc-sliver" role="button" tabindex="0" aria-label="Expand Magpie chat">
+    <span class="sliver-text">Magpie chat is here — ask anything</span>
+    <button class="sliver-expand" id="mpc-sliver-expand">Expand</button>
   </div>
 
   <script>window.MAGPIE_CHAT_API_URL = "https://magpiestudios-chat.onrender.com/chat";</script>
@@ -776,10 +817,32 @@
       history.forEach(t => addMessage(t.role, t.content, false));
     }
     const perch = document.getElementById("mpc-perch");
+    const sliver = document.getElementById("mpc-sliver");
+    const minimizeBtn = document.getElementById("mpc-minimize");
+    const sliverExpandBtn = document.getElementById("mpc-sliver-expand");
     function hidePerch() { if (perch) perch.classList.add("hidden"); }
     function showPerch() { if (perch) perch.classList.remove("hidden"); }
+    function hideSliver() { if (sliver) sliver.classList.remove("visible"); }
+    function showSliver() { if (sliver) sliver.classList.add("visible"); }
+    function minimizePanel() {
+      panel.classList.remove("open");
+      hidePerch();
+      launcher.classList.add("open");   // keep launcher hidden too
+      showSliver();
+    }
+    function expandFromSliver() {
+      hideSliver();
+      openPanel(false);
+    }
+    minimizeBtn.addEventListener("click", minimizePanel);
+    sliverExpandBtn.addEventListener("click", (e) => { e.stopPropagation(); expandFromSliver(); });
+    sliver.addEventListener("click", expandFromSliver);
+    sliver.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); expandFromSliver(); }
+    });
     function openPanel(isReEngagement) {
       launcher.classList.add("open");
+      hideSliver();
       panel.classList.add("open");
       hidePerch();
       renderHistory();
@@ -799,6 +862,7 @@
     function closePanel() {
       launcher.classList.remove("open");
       panel.classList.remove("open");
+      hideSliver();
       markDismissed();
       showPerch();
     }
