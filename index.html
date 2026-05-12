@@ -427,5 +427,418 @@
     });
   })();
   </script>
+
+  <!-- ════════════════════ Magpie Studios chat widget ════════════════════ -->
+  <style>
+    .mpc-launcher {
+      position: fixed; right: 20px; bottom: 20px;
+      width: 64px; height: 64px; border-radius: 50%;
+      background: #ffffff; color: white; border: 2px solid #1E90FF;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 6px 24px rgba(13, 77, 166, 0.36);
+      z-index: 9998;
+      transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+      font-family: inherit;
+      padding: 0;
+      animation: mpc-idle-bob 2.6s ease-in-out infinite;
+    }
+    .mpc-launcher img {
+      width: 44px; height: 44px;
+      display: block; border-radius: 50%;
+      transition: transform 0.3s;
+    }
+    .mpc-launcher:hover {
+      transform: scale(1.08);
+      box-shadow: 0 10px 32px rgba(13, 77, 166, 0.5);
+      border-color: #0d6efd;
+    }
+    .mpc-launcher:hover img { transform: rotate(-8deg); }
+    .mpc-launcher.open { display: none; }
+    @keyframes mpc-idle-bob {
+      0%, 100% { transform: translateY(0); }
+      50%      { transform: translateY(-6px); }
+    }
+
+    /* ── Hummingbird-style magpie fly-by ──────────────────────────── */
+    .mpc-flyby {
+      position: fixed; top: 90px; left: -80px;
+      width: 64px; height: 64px;
+      pointer-events: none;
+      z-index: 9997;
+      opacity: 0;
+      filter: drop-shadow(0 6px 14px rgba(194, 65, 12, 0.35));
+    }
+    .mpc-flyby svg { width: 100%; height: 100%; display: block; }
+
+    /* Tinkerbell-erratic dart path — 16 waypoints across top half of screen */
+    @keyframes mpc-tinker-flight {
+      0%   { transform: translate(0, 0)         rotate(-6deg); opacity: 0; }
+      4%   { transform: translate(4vw, -8px)    rotate(-2deg); opacity: 1; }
+      10%  { transform: translate(12vw, 14px)   rotate(8deg); }
+      14%  { transform: translate(14vw, 14px)   rotate(0deg); }     /* brief hover */
+      20%  { transform: translate(22vw, -22px)  rotate(-10deg); }
+      28%  { transform: translate(34vw, 8px)    rotate(6deg); }
+      32%  { transform: translate(34vw, 8px)    rotate(2deg); }     /* hover */
+      40%  { transform: translate(48vw, -28px)  rotate(-8deg); }
+      48%  { transform: translate(58vw, 10px)   rotate(8deg); }
+      54%  { transform: translate(58vw, 10px)   rotate(4deg); }     /* hover */
+      62%  { transform: translate(70vw, -18px)  rotate(-6deg); }
+      72%  { transform: translate(82vw, 18px)   rotate(10deg); }
+      78%  { transform: translate(82vw, 18px)   rotate(4deg); }     /* hover */
+      86%  { transform: translate(94vw, -14px)  rotate(-4deg); }
+      96%  { transform: translate(106vw, 6px)   rotate(8deg); opacity: 1; }
+      100% { transform: translate(112vw, 0)     rotate(0deg); opacity: 0; }
+    }
+    .mpc-flyby.flying { animation: mpc-tinker-flight 11s ease-in-out forwards; }
+
+    /* Wings: rapid flap to suggest motion blur (hummingbird vibe) */
+    @keyframes mpc-wings {
+      0%, 100% { transform: scaleY(1); }
+      50%      { transform: scaleY(0.18); }
+    }
+    .mpc-wing-blur {
+      transform-origin: 32px 32px;  /* anchor at body center */
+      animation: mpc-wings 90ms linear infinite;
+    }
+    /* Body bob — gentle vertical wobble on top of the path */
+    @keyframes mpc-body-bob {
+      0%, 100% { transform: translateY(0); }
+      50%      { transform: translateY(-2px); }
+    }
+    .mpc-bird-body { animation: mpc-body-bob 0.5s ease-in-out infinite; }
+
+    /* ── Celebrate-on-chat-open flight (faster, with 360 spin) ──── */
+    @keyframes mpc-celebrate-flight {
+      0%   { transform: translate(0, 0) rotate(-6deg);     opacity: 0; }
+      6%   { opacity: 1; }
+      30%  { transform: translate(35vw, -30px) rotate(40deg); }
+      50%  { transform: translate(50vw, -20px) rotate(360deg); }   /* full spin */
+      70%  { transform: translate(70vw, -40px) rotate(380deg); }
+      96%  { transform: translate(106vw, -10px) rotate(360deg); opacity: 1; }
+      100% { transform: translate(112vw, 0) rotate(360deg); opacity: 0; }
+    }
+    .mpc-flyby.celebrate { animation: mpc-celebrate-flight 5.5s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+
+    /* ── Perched magpie — small SVG that sits on top-right of the launcher ── */
+    .mpc-perch {
+      position: fixed; right: 56px; bottom: 76px;  /* sits just above-left of launcher */
+      width: 36px; height: 36px;
+      pointer-events: none;
+      z-index: 9998;
+      filter: drop-shadow(0 3px 6px rgba(194, 65, 12, 0.3));
+      transition: opacity 0.3s;
+    }
+    .mpc-perch svg { width: 100%; height: 100%; display: block; }
+    .mpc-perch.hidden { opacity: 0; }
+
+    /* Perched-bird idle micro-animations */
+    @keyframes mpc-perch-hop {
+      0%, 92%, 100% { transform: translateY(0) rotate(0); }
+      94%           { transform: translateY(-6px) rotate(-2deg); }
+      96%           { transform: translateY(-3px) rotate(2deg); }
+      98%           { transform: translateY(-6px) rotate(0deg); }
+    }
+    .mpc-perch-svg { animation: mpc-perch-hop 8s ease-in-out infinite; }
+
+    @keyframes mpc-head-tilt {
+      0%, 60%, 100% { transform: rotate(0); }
+      70%, 80%      { transform: rotate(-8deg); }
+    }
+    .mpc-perch-head { transform-origin: 22px 14px; animation: mpc-head-tilt 6s ease-in-out infinite; }
+
+    @keyframes mpc-blink {
+      0%, 93%, 100% { transform: scaleY(1); }
+      95%, 97%      { transform: scaleY(0.1); }
+    }
+    .mpc-perch-eye { transform-origin: center; animation: mpc-blink 4.3s ease-in-out infinite; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .mpc-launcher { animation: none; }
+      .mpc-flyby, .mpc-perch { display: none; }
+    }
+    .mpc-panel {
+      position: fixed; right: 20px; bottom: 20px;
+      width: 380px; max-width: calc(100vw - 32px);
+      height: 560px; max-height: calc(100vh - 80px);
+      background: #ffffff; border-radius: 16px;
+      box-shadow: 0 12px 48px rgba(13, 77, 166, 0.28);
+      border: 1px solid #e5e7eb;
+      display: none; flex-direction: column; overflow: hidden;
+      z-index: 9999;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
+    }
+    .mpc-panel.open { display: flex; }
+    .mpc-header {
+      background: linear-gradient(135deg, #1E90FF, #0d6efd);
+      color: white; padding: 16px 20px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .mpc-header .title { font-size: 16px; font-weight: 600; }
+    .mpc-header .subtitle { font-size: 12px; opacity: 0.85; margin-top: 2px; }
+    .mpc-header-actions { display: flex; gap: 6px; align-items: center; }
+    .mpc-clear, .mpc-close {
+      background: rgba(255,255,255,0.18); border: none; color: white;
+      height: 28px; border-radius: 14px;
+      cursor: pointer; font-size: 13px; line-height: 1;
+      display: flex; align-items: center; justify-content: center;
+      font-family: inherit;
+    }
+    .mpc-clear { padding: 0 12px; font-weight: 500; }
+    .mpc-close { width: 28px; font-size: 18px; }
+    .mpc-clear:hover, .mpc-close:hover { background: rgba(255,255,255,0.32); }
+    .mpc-body {
+      flex: 1; overflow-y: auto;
+      padding: 16px 20px; background: #f8fafc;
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .mpc-msg {
+      max-width: 80%; padding: 10px 14px; border-radius: 14px;
+      font-size: 14px; line-height: 1.5; word-wrap: break-word;
+    }
+    .mpc-msg.user { align-self: flex-end; background: #1E90FF; color: white; border-bottom-right-radius: 4px; }
+    .mpc-msg.bot { align-self: flex-start; background: #ffffff; color: #1c1c1e; border: 1px solid #e5e7eb; border-bottom-left-radius: 4px; }
+    .mpc-msg.bot a { color: #0d6efd; }
+    .mpc-msg.typing { font-style: italic; color: #6b7280; }
+    .mpc-input-row { display: flex; gap: 8px; padding: 12px 16px; background: white; border-top: 1px solid #e5e7eb; }
+    .mpc-input { flex: 1; border: 1px solid #e5e7eb; border-radius: 12px; padding: 10px 14px; font-size: 14px; outline: none; font-family: inherit; }
+    .mpc-input:focus { border-color: #1E90FF; }
+    .mpc-send { background: #1E90FF; color: white; border: none; border-radius: 12px; padding: 0 18px; font-size: 14px; font-weight: 600; cursor: pointer; }
+    .mpc-send:hover { background: #0d6efd; }
+    .mpc-send:disabled { background: #cbd5e1; cursor: not-allowed; }
+    .mpc-footer-note { padding: 8px 16px 12px; font-size: 11px; color: #6b7280; background: white; text-align: center; border-top: 1px solid #f1f5f9; }
+    @media (max-width: 480px) { .mpc-panel { right: 8px; bottom: 8px; width: calc(100vw - 16px); } }
+  </style>
+  <button class="mpc-launcher" id="mpc-launcher" aria-label="Open chat with the Magpie assistant">
+    <img src="magpie-logo.png" alt="" aria-hidden="true" />
+  </button>
+
+  <!-- Perched magpie: sits just above-left of the launcher, with subtle idle micro-animations. -->
+  <div class="mpc-perch" id="mpc-perch" aria-hidden="true">
+    <svg class="mpc-perch-svg" viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="mpc-perch-grad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%"  stop-color="#FB923C"/>
+          <stop offset="60%" stop-color="#C2410C"/>
+          <stop offset="100%" stop-color="#7C2D12"/>
+        </linearGradient>
+      </defs>
+      <!-- Tail tucked behind -->
+      <path d="M8 26 Q2 28 1 24 Q4 30 8 30 Z" fill="#1F2937" opacity="0.8"/>
+      <!-- Body -->
+      <ellipse cx="22" cy="26" rx="11" ry="8" fill="url(#mpc-perch-grad)"/>
+      <!-- White belly -->
+      <ellipse cx="22" cy="29" rx="7" ry="3" fill="#FFEDD5" opacity="0.55"/>
+      <!-- Folded wing -->
+      <path d="M20 22 Q14 24 18 30 Q22 28 22 24 Z" fill="#1F2937" opacity="0.9"/>
+      <!-- Head — has its own subtle tilt animation -->
+      <g class="mpc-perch-head">
+        <circle cx="30" cy="20" r="6" fill="url(#mpc-perch-grad)"/>
+        <path d="M36 20 L43 19 L36 21 Z" fill="#FCD34D"/>
+        <!-- Eye — blinks -->
+        <ellipse class="mpc-perch-eye" cx="31.5" cy="19" rx="1.1" ry="1.1" fill="#1F2937"/>
+        <circle cx="31.8" cy="18.7" r="0.35" fill="#FFFFFF"/>
+      </g>
+    </svg>
+  </div>
+  <div class="mpc-flyby" id="mpc-flyby" aria-hidden="true">
+    <!-- Inline SVG: orange hummingbird-magpie hybrid. Wings flap fast (90ms);
+         body bobs slowly; whole thing travels on the tinker-flight path. -->
+    <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="mpc-body-grad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%"  stop-color="#F97316"/>
+          <stop offset="60%" stop-color="#C2410C"/>
+          <stop offset="100%" stop-color="#7C2D12"/>
+        </linearGradient>
+        <radialGradient id="mpc-eye-grad" cx="0.4" cy="0.4" r="0.6">
+          <stop offset="0%"  stop-color="#FFFFFF"/>
+          <stop offset="100%" stop-color="#1F2937"/>
+        </radialGradient>
+      </defs>
+
+      <g class="mpc-bird-body">
+        <!-- Long magpie tail -->
+        <path d="M14 34 Q4 36 2 30 Q4 38 14 38 Z" fill="#1F2937" opacity="0.85"/>
+        <!-- Main body -->
+        <ellipse cx="32" cy="34" rx="16" ry="11" fill="url(#mpc-body-grad)"/>
+        <!-- White belly accent -->
+        <ellipse cx="32" cy="38" rx="9" ry="4" fill="#FFEDD5" opacity="0.55"/>
+        <!-- Head -->
+        <circle cx="44" cy="28" r="8" fill="url(#mpc-body-grad)"/>
+        <!-- Beak — long & pointed, hummingbird style -->
+        <path d="M52 28 L62 26 L52 30 Z" fill="#FCD34D"/>
+        <!-- Eye -->
+        <circle cx="46" cy="26" r="1.6" fill="url(#mpc-eye-grad)"/>
+        <circle cx="46.4" cy="25.6" r="0.5" fill="#FFFFFF"/>
+        <!-- Wing back-half static (suggests volume) -->
+        <path d="M28 30 Q22 36 30 40 Q34 38 32 32 Z" fill="#7C2D12" opacity="0.7"/>
+      </g>
+
+      <!-- Wings: separate group with fast flap (motion-blur effect via low scaleY at midpoint) -->
+      <g class="mpc-wing-blur">
+        <!-- Upper wing -->
+        <path d="M30 32 Q24 18 38 18 Q40 26 36 32 Z" fill="#1F2937" opacity="0.9"/>
+        <!-- Lower wing accent -->
+        <path d="M30 34 Q32 24 40 22 Q42 30 36 34 Z" fill="#C2410C" opacity="0.6"/>
+        <!-- Wing-tip blur ghost (extra motion smear) -->
+        <path d="M30 30 Q22 14 40 14" stroke="#1F2937" stroke-width="1" fill="none" opacity="0.35"/>
+      </g>
+    </svg>
+  </div>
+  <div class="mpc-panel" id="mpc-panel" role="dialog" aria-labelledby="mpc-title">
+    <div class="mpc-header">
+      <div>
+        <div class="title" id="mpc-title">Ask Magpie</div>
+        <div class="subtitle">Questions about MacJanitor or Magpie Studios</div>
+      </div>
+      <div class="mpc-header-actions">
+        <button class="mpc-clear" id="mpc-clear" aria-label="Clear chat history">Clear</button>
+        <button class="mpc-close" id="mpc-close" aria-label="Close chat">×</button>
+      </div>
+    </div>
+    <div class="mpc-body" id="mpc-body">
+      <div class="mpc-msg bot">
+        Hi! I'm the assistant for Magpie Studios. Ask me about <strong>MacJanitor</strong>, pricing, refunds, system requirements, or how it works. If I don't know, I'll tell you and point you to Ismael directly.
+      </div>
+    </div>
+    <div class="mpc-input-row">
+      <input type="text" class="mpc-input" id="mpc-input" placeholder="Ask a question..." autocomplete="off" />
+      <button class="mpc-send" id="mpc-send">Send</button>
+    </div>
+    <div class="mpc-footer-note">Powered by Claude · Replies are AI-generated</div>
+  </div>
+  <script>
+  (function() {
+    const MAGPIE_CHAT_API_URL = window.MAGPIE_CHAT_API_URL || "/chat";
+    const STORAGE_KEY = "magpie-chat-history";
+    const launcher = document.getElementById("mpc-launcher");
+    const panel = document.getElementById("mpc-panel");
+    const closeBtn = document.getElementById("mpc-close");
+    const clearBtn = document.getElementById("mpc-clear");
+    const body = document.getElementById("mpc-body");
+    const input = document.getElementById("mpc-input");
+    const sendBtn = document.getElementById("mpc-send");
+    const DISMISS_KEY = "magpie-chat-dismissed";
+    const AUTO_OPEN_MS = 6000;
+    let history = [];
+    try { history = JSON.parse(sessionStorage.getItem(STORAGE_KEY) || "[]"); } catch (e) {}
+    function persistHistory() { try { sessionStorage.setItem(STORAGE_KEY, JSON.stringify(history.slice(-20))); } catch (e) {} }
+    function markDismissed() { try { sessionStorage.setItem(DISMISS_KEY, "1"); } catch (e) {} }
+    function isDismissed() {
+      try { return sessionStorage.getItem(DISMISS_KEY) === "1"; } catch (e) { return false; }
+    }
+    function addMessage(role, text, isTyping) {
+      const div = document.createElement("div");
+      div.className = "mpc-msg " + role + (isTyping ? " typing" : "");
+      const esc = text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+      div.innerHTML = esc.replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>');
+      body.appendChild(div);
+      body.scrollTop = body.scrollHeight;
+      return div;
+    }
+    function renderHistory() {
+      body.innerHTML = "";
+      if (history.length === 0) {
+        addMessage("bot", "Hi! I'm the assistant for Magpie Studios. Ask me about MacJanitor, pricing, refunds, system requirements, or how it works. If I don't know, I'll tell you and point you to Ismael directly.");
+        return;
+      }
+      history.forEach(t => addMessage(t.role, t.content, false));
+    }
+    const perch = document.getElementById("mpc-perch");
+    function hidePerch() { if (perch) perch.classList.add("hidden"); }
+    function showPerch() { if (perch) perch.classList.remove("hidden"); }
+    function openPanel() {
+      launcher.classList.add("open");
+      panel.classList.add("open");
+      hidePerch();
+      renderHistory();
+      // Celebrate: trigger a fly-by with a 360° spin (one-shot)
+      celebrateFlight();
+      setTimeout(() => input.focus(), 100);
+    }
+    function closePanel() {
+      launcher.classList.remove("open");
+      panel.classList.remove("open");
+      markDismissed();
+      showPerch();
+    }
+    function celebrateFlight() {
+      if (!flyby) return;
+      if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      flyby.classList.remove("flying", "celebrate");
+      void flyby.offsetWidth;
+      flyby.classList.add("celebrate");
+    }
+    function clearHistory() {
+      history = [];
+      try { sessionStorage.removeItem(STORAGE_KEY); } catch (e) {}
+      renderHistory();
+      input.focus();
+    }
+    launcher.addEventListener("click", openPanel);
+    closeBtn.addEventListener("click", closePanel);
+    clearBtn.addEventListener("click", clearHistory);
+    // Auto-open the panel after 6s on first visit (per session).
+    // Skipped if user already opened/dismissed the chat this session,
+    // or if a previous chat history exists.
+    if (!isDismissed() && history.length === 0) {
+      setTimeout(() => {
+        if (!isDismissed() && !panel.classList.contains("open")) {
+          openPanel();
+        }
+      }, AUTO_OPEN_MS);
+    }
+
+    // Magpie fly-by: a little wink of personality across the top of the page.
+    // First flight after 12s, then every 75s — skips when chat panel is open
+    // or when the user prefers reduced motion.
+    const flyby = document.getElementById("mpc-flyby");
+    function magpieFlyBy() {
+      if (!flyby) return;
+      if (panel.classList.contains("open")) return;
+      if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      flyby.classList.remove("flying");
+      // Force reflow so the animation can replay
+      void flyby.offsetWidth;
+      flyby.classList.add("flying");
+    }
+    setTimeout(magpieFlyBy, 12000);
+    setInterval(magpieFlyBy, 75000);
+    async function send() {
+      const msg = input.value.trim();
+      if (!msg) return;
+      sendBtn.disabled = true;
+      addMessage("user", msg, false);
+      history.push({ role: "user", content: msg });
+      persistHistory();
+      input.value = "";
+      const typingNode = addMessage("bot", "…", true);
+      try {
+        const res = await fetch(MAGPIE_CHAT_API_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message: msg, history: history.slice(0, -1) }),
+        });
+        const data = await res.json();
+        typingNode.remove();
+        if (data.error) {
+          addMessage("bot", "Sorry — I hit an error. Try emailing support@magpiestudios.app instead.", false);
+        } else {
+          const reply = data.reply || "I'm not sure how to answer that — please email support@magpiestudios.app.";
+          addMessage("bot", reply, false);
+          history.push({ role: "assistant", content: reply });
+          persistHistory();
+        }
+      } catch (e) {
+        typingNode.remove();
+        addMessage("bot", "Sorry — I couldn't reach the server. Email support@magpiestudios.app and Ismael will get back to you within 48 hours.", false);
+      } finally { sendBtn.disabled = false; input.focus(); }
+    }
+    sendBtn.addEventListener("click", send);
+    input.addEventListener("keydown", (e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); send(); } });
+  })();
+  </script>
+  <!-- ═════════════════════ end Magpie chat widget ═════════════════════ -->
 </body>
 </html>
