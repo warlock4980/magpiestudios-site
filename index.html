@@ -634,6 +634,49 @@
       0% { opacity: 0; transform: translateY(8px) scale(0.92); }
       100% { opacity: 1; transform: translateY(0) scale(1); }
     }
+
+    /* ── Genie smoke wisps rising from the launcher ─────────────── */
+    .mpc-smoke {
+      position: fixed;
+      bottom: 40px;   /* base near the top of the launcher */
+      right: 30px;
+      width: 80px;
+      height: 200px;
+      pointer-events: none;
+      z-index: 9997;
+      display: none;
+    }
+    .mpc-smoke.visible { display: block; }
+    .mpc-smoke .puff {
+      position: absolute;
+      bottom: 0;
+      width: 26px; height: 26px;
+      background: radial-gradient(circle,
+        rgba(30, 144, 255, 0.55) 0%,
+        rgba(30, 144, 255, 0.30) 35%,
+        rgba(30, 144, 255, 0)    75%);
+      border-radius: 50%;
+      filter: blur(6px);
+      opacity: 0;
+      animation: mpc-smoke-rise 5.5s ease-out infinite;
+    }
+    .mpc-smoke .puff:nth-child(1) { left: 28px; animation-delay: 0s;   animation-duration: 5.0s; }
+    .mpc-smoke .puff:nth-child(2) { left: 14px; animation-delay: 1.0s; animation-duration: 5.6s; }
+    .mpc-smoke .puff:nth-child(3) { left: 36px; animation-delay: 2.0s; animation-duration: 5.2s; }
+    .mpc-smoke .puff:nth-child(4) { left: 22px; animation-delay: 3.0s; animation-duration: 5.8s; }
+    .mpc-smoke .puff:nth-child(5) { left: 30px; animation-delay: 4.0s; animation-duration: 5.4s; }
+
+    @keyframes mpc-smoke-rise {
+      0%   { opacity: 0;   transform: translate(0, 0)      scale(0.5); }
+      15%  { opacity: 0.65; transform: translate(2px, -28px) scale(1.0); }
+      45%  { opacity: 0.55; transform: translate(12px, -78px) scale(1.5); }
+      75%  { opacity: 0.30; transform: translate(-6px, -130px) scale(1.9); }
+      100% { opacity: 0;   transform: translate(2px, -185px) scale(2.3); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .mpc-smoke .puff { animation: none; }
+    }
     .mpc-header {
       background: linear-gradient(135deg, #1E90FF, #0d6efd);
       color: white; padding: 16px 20px;
@@ -777,8 +820,17 @@
 
   <!-- Minimized state: speech-bubble next to launcher, click to re-expand -->
   <div class="mpc-sliver" id="mpc-sliver" role="button" tabindex="0" aria-label="Expand Magpie chat">
-    <span class="sliver-text"><strong>I'm right here</strong>Click to keep chatting.</span>
+    <span class="sliver-text" id="mpc-sliver-text"><strong>I'm right here</strong>if you need me…</span>
     <button class="sliver-expand" id="mpc-sliver-expand" aria-hidden="true" tabindex="-1">Expand</button>
+  </div>
+
+  <!-- Genie smoke wisps rising from the launcher when minimized -->
+  <div class="mpc-smoke" id="mpc-smoke" aria-hidden="true">
+    <span class="puff"></span>
+    <span class="puff"></span>
+    <span class="puff"></span>
+    <span class="puff"></span>
+    <span class="puff"></span>
   </div>
 
   <script>window.MAGPIE_CHAT_API_URL = "https://magpiestudios-chat.onrender.com/chat";</script>
@@ -853,8 +905,52 @@
     const sliverExpandBtn = document.getElementById("mpc-sliver-expand");
     function hidePerch() { if (perch) perch.classList.add("hidden"); }
     function showPerch() { if (perch) perch.classList.remove("hidden"); }
-    function hideSliver() { if (sliver) sliver.classList.remove("visible"); }
-    function showSliver() { if (sliver) sliver.classList.add("visible"); }
+    const smoke = document.getElementById("mpc-smoke");
+    const sliverText = document.getElementById("mpc-sliver-text");
+    const sliverMessages = [
+      "<strong>I'm right here</strong>if you need me…",
+      "<strong>Got a question?</strong>Pricing, refunds, anything.",
+      "<strong>MacJanitor curious?</strong>Ask me how it works.",
+      "<strong>Looking for help?</strong>I know the manual cold.",
+      "<strong>Want a walkthrough?</strong>Just say the word.",
+      "<strong>Building something?</strong>The Admin takes select work.",
+      "<strong>Magpie Labs?</strong>I can tell you what we're researching.",
+      "<strong>Pi to 116 digits?</strong>I keep those handy too.",
+    ];
+    let sliverMsgIdx = 0;
+    let sliverMsgTimer = null;
+    function startSliverRotation() {
+      if (sliverMsgTimer) clearInterval(sliverMsgTimer);
+      sliverMsgIdx = 0;
+      sliverMsgTimer = setInterval(() => {
+        sliverMsgIdx = (sliverMsgIdx + 1) % sliverMessages.length;
+        if (sliverText) {
+          sliverText.style.opacity = "0";
+          setTimeout(() => {
+            sliverText.innerHTML = sliverMessages[sliverMsgIdx];
+            sliverText.style.opacity = "1";
+          }, 220);
+        }
+      }, 5000);
+    }
+    function stopSliverRotation() {
+      if (sliverMsgTimer) { clearInterval(sliverMsgTimer); sliverMsgTimer = null; }
+    }
+    function hideSliver() {
+      if (sliver) sliver.classList.remove("visible");
+      if (smoke) smoke.classList.remove("visible");
+      stopSliverRotation();
+    }
+    function showSliver() {
+      if (sliver) sliver.classList.add("visible");
+      if (smoke) smoke.classList.add("visible");
+      if (sliverText) {
+        sliverText.style.transition = "opacity 0.22s";
+        sliverText.innerHTML = sliverMessages[0];
+        sliverMsgIdx = 0;
+      }
+      startSliverRotation();
+    }
     function minimizePanel() {
       panel.classList.remove("open");
       hidePerch();
