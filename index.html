@@ -38,10 +38,20 @@
     .container { max-width: 720px; margin: 0 auto; padding: 0 24px; }
     header { padding: 24px 0; }
     .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
       font-weight: 600;
       font-size: 18px;
       color: var(--text);
       text-decoration: none;
+    }
+    .brand-logo {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      display: block;
+      box-shadow: 0 2px 8px rgba(13, 77, 166, 0.18);
     }
     .brand .accent { color: var(--accent); }
 
@@ -255,7 +265,10 @@
 <body>
   <header>
     <div class="container">
-      <a href="/" class="brand">Magpie <span class="accent">Studios</span></a>
+      <a href="/" class="brand">
+        <img src="magpie-logo.png" alt="Magpie Studios" class="brand-logo" />
+        <span>Magpie <span class="accent">Studios</span></span>
+      </a>
     </div>
   </header>
 
