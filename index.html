@@ -586,35 +586,54 @@
     .mpc-header { cursor: move; user-select: none; }
     .mpc-header .title, .mpc-header .subtitle { pointer-events: none; }
 
-    /* Minimized state: thin sliver at the top of the page */
+    /* Minimized state: speech-bubble next to the launcher */
     .mpc-sliver {
-      position: fixed; top: 0; left: 0; right: 0;
-      height: 44px;
-      background: linear-gradient(90deg, #0d6efd, #1E90FF);
-      color: #ffffff;
-      display: none; align-items: center; justify-content: space-between;
-      padding: 0 18px 0 22px;
-      font-size: 14px; font-weight: 500;
+      position: fixed;
+      bottom: 102px;   /* sits just above the launcher button */
+      right: 14px;
+      max-width: 260px;
+      background: #ffffff;
+      color: #1c1c1e;
+      border: 1px solid #e5e7eb;
+      border-radius: 16px;
+      padding: 12px 16px;
+      display: none;
+      align-items: center;
+      gap: 10px;
+      font-size: 13.5px; line-height: 1.4;
+      box-shadow: 0 10px 28px rgba(13, 77, 166, 0.22),
+                  0 2px 6px rgba(13, 77, 166, 0.10);
+      z-index: 9998;
       cursor: pointer;
-      box-shadow: 0 4px 16px rgba(13, 77, 166, 0.25);
-      z-index: 9999;
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
+      animation: mpc-sliver-pop 0.32s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+      transform-origin: bottom right;
     }
     .mpc-sliver.visible { display: flex; }
-    .mpc-sliver .sliver-text { display: flex; align-items: center; gap: 10px; }
-    .mpc-sliver .sliver-text::before {
-      content: ""; display: inline-block;
-      width: 22px; height: 22px;
-      background: url('magpie-logo.png') center/contain no-repeat;
-      border-radius: 50%;
+    .mpc-sliver:hover { border-color: #1E90FF; box-shadow: 0 12px 32px rgba(13,77,166,0.28); }
+    .mpc-sliver .sliver-text { flex: 1; }
+    .mpc-sliver .sliver-text strong {
+      display: block; font-weight: 600;
+      color: #0d6efd; margin-bottom: 2px;
     }
-    .mpc-sliver .sliver-expand {
-      background: rgba(255,255,255,0.18);
-      border: none; color: white;
-      padding: 4px 12px; border-radius: 999px;
-      font-size: 13px; font-weight: 500; cursor: pointer;
+    /* Speech-bubble tail pointing down toward the launcher */
+    .mpc-sliver::after {
+      content: '';
+      position: absolute;
+      bottom: -7px;
+      right: 24px;
+      width: 14px; height: 14px;
+      background: #ffffff;
+      border-right: 1px solid #e5e7eb;
+      border-bottom: 1px solid #e5e7eb;
+      transform: rotate(45deg);
     }
-    .mpc-sliver .sliver-expand:hover { background: rgba(255,255,255,0.32); }
+    /* Hide the Expand button — bubble is fully clickable */
+    .mpc-sliver .sliver-expand { display: none; }
+    @keyframes mpc-sliver-pop {
+      0% { opacity: 0; transform: translateY(8px) scale(0.92); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
     .mpc-header {
       background: linear-gradient(135deg, #1E90FF, #0d6efd);
       color: white; padding: 16px 20px;
@@ -756,10 +775,10 @@
     <div class="mpc-footer-note">Powered by Claude · Replies are AI-generated</div>
   </div>
 
-  <!-- Minimized state: thin bar at top of page, click to re-expand -->
+  <!-- Minimized state: speech-bubble next to launcher, click to re-expand -->
   <div class="mpc-sliver" id="mpc-sliver" role="button" tabindex="0" aria-label="Expand Magpie chat">
-    <span class="sliver-text">Magpie chat is here — ask anything</span>
-    <button class="sliver-expand" id="mpc-sliver-expand">Expand</button>
+    <span class="sliver-text"><strong>I'm right here</strong>Click to keep chatting.</span>
+    <button class="sliver-expand" id="mpc-sliver-expand" aria-hidden="true" tabindex="-1">Expand</button>
   </div>
 
   <script>window.MAGPIE_CHAT_API_URL = "https://magpiestudios-chat.onrender.com/chat";</script>
@@ -839,7 +858,7 @@
     function minimizePanel() {
       panel.classList.remove("open");
       hidePerch();
-      launcher.classList.add("open");   // keep launcher hidden too
+      launcher.classList.remove("open"); // launcher visible alongside the bubble
       showSliver();
     }
     function expandFromSliver() {
