@@ -733,8 +733,16 @@
     function addMessage(role, text, isTyping) {
       const div = document.createElement("div");
       div.className = "mpc-msg " + role + (isTyping ? " typing" : "");
-      const esc = text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-      div.innerHTML = esc.replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>');
+      let h = text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+      // Markdown links [text](url) — must run BEFORE bare-URL detection
+      h = h.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+      // Bold **text**
+      h = h.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+      // Inline `code`
+      h = h.replace(/`([^`]+)`/g, '<code>$1</code>');
+      // Bare URLs — preceded by space/paren/start; stop at trailing punctuation
+      h = h.replace(/(^|[\s(])(https?:\/\/[^\s<>)"\',;]+)/g, '$1<a href="$2" target="_blank" rel="noopener">$2</a>');
+      div.innerHTML = h;
       body.appendChild(div);
       body.scrollTop = body.scrollHeight;
       return div;
