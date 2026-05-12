@@ -721,14 +721,34 @@
     const body = document.getElementById("mpc-body");
     const input = document.getElementById("mpc-input");
     const sendBtn = document.getElementById("mpc-send");
-    const DISMISS_KEY = "magpie-chat-dismissed";
-    const AUTO_OPEN_MS = 6000;
+    const DISMISS_KEY = "magpie-chat-dismissed-at";
+    const IDLE_MS = 6000;
+    const RECHECK_MS = 15 * 60 * 1000;
+    let idleTimer = null;
     let history = [];
     try { history = JSON.parse(sessionStorage.getItem(STORAGE_KEY) || "[]"); } catch (e) {}
     function persistHistory() { try { sessionStorage.setItem(STORAGE_KEY, JSON.stringify(history.slice(-20))); } catch (e) {} }
-    function markDismissed() { try { sessionStorage.setItem(DISMISS_KEY, "1"); } catch (e) {} }
-    function isDismissed() {
-      try { return sessionStorage.getItem(DISMISS_KEY) === "1"; } catch (e) { return false; }
+    function getDismissedAt() {
+      try { const t = sessionStorage.getItem(DISMISS_KEY); return t ? parseInt(t, 10) : null; }
+      catch (e) { return null; }
+    }
+    function markDismissed() {
+      try { sessionStorage.setItem(DISMISS_KEY, String(Date.now())); } catch (e) {}
+      // Re-arm the idle watcher after RECHECK_MS so we can check back like a courteous shopkeeper
+      setTimeout(resetIdleTimer, RECHECK_MS);
+    }
+    function canAutoOpen() {
+      if (panel.classList.contains("open")) return false;
+      const dismissedAt = getDismissedAt();
+      if (dismissedAt === null) return true;
+      return (Date.now() - dismissedAt) >= RECHECK_MS;
+    }
+    function resetIdleTimer() {
+      if (idleTimer) clearTimeout(idleTimer);
+      if (!canAutoOpen()) return;
+      idleTimer = setTimeout(() => {
+        if (canAutoOpen()) openPanel(getDismissedAt() !== null);
+      }, IDLE_MS);
     }
     function addMessage(role, text, isTyping) {
       const div = document.createElement("div");
@@ -758,12 +778,21 @@
     const perch = document.getElementById("mpc-perch");
     function hidePerch() { if (perch) perch.classList.add("hidden"); }
     function showPerch() { if (perch) perch.classList.remove("hidden"); }
-    function openPanel() {
+    function openPanel(isReEngagement) {
       launcher.classList.add("open");
       panel.classList.add("open");
       hidePerch();
       renderHistory();
-      // Celebrate: trigger a fly-by with a 360° spin (one-shot)
+      if (isReEngagement) {
+        // 15+ min since last close — courteous "still browsing?" check-in.
+        addMessage("bot",
+          "Hi again — still around? Happy to help with anything specific. " +
+          "Common questions: MacJanitor pricing or refunds, system requirements, " +
+          "the [About page](https://magpiestudios.app/about.html), " +
+          "the [User Manual](https://magpiestudios.app/help.html), " +
+          "or what we are building at [Magpie Labs](https://magpiestudios.app/research.html). " +
+          "What is on your mind?");
+      }
       celebrateFlight();
       setTimeout(() => input.focus(), 100);
     }
@@ -789,16 +818,13 @@
     launcher.addEventListener("click", openPanel);
     closeBtn.addEventListener("click", closePanel);
     clearBtn.addEventListener("click", clearHistory);
-    // Auto-open the panel after 6s on first visit (per session).
-    // Skipped if user already opened/dismissed the chat this session,
-    // or if a previous chat history exists.
-    if (!isDismissed() && history.length === 0) {
-      setTimeout(() => {
-        if (!isDismissed() && !panel.classList.contains("open")) {
-          openPanel();
-        }
-      }, AUTO_OPEN_MS);
-    }
+    // Idle-based auto-open: pops up after IDLE_MS of no user activity,
+    // resets on any mouse/scroll/key. If user dismisses, waits RECHECK_MS
+    // (15 min) before checking back — like a courteous retail clerk.
+    ['mousemove', 'mousedown', 'keydown', 'scroll', 'touchstart', 'wheel'].forEach(evt =>
+      document.addEventListener(evt, resetIdleTimer, { passive: true })
+    );
+    resetIdleTimer();  // start watching immediately
 
     // Magpie fly-by: a little wink of personality across the top of the page.
     // First flight after 12s, then every 75s — skips when chat panel is open
