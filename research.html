@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Magpie Labs — Research &amp; Active Projects</title>
+  <meta name="description" content="What Magpie Studios works on beyond our shipping products — ML competitions, AI research, and tooling that sharpens what we ship." />
+  <meta property="og:title" content="Magpie Labs — Research &amp; Active Projects" />
+  <meta property="og:description" content="What Magpie Studios works on beyond MacJanitor — ML competitions, AI research, and tooling that sharpens what we ship." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://magpiestudios.app/research.html" />
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <style>
+    :root {
+      --baby-blue: rgba(135, 206, 235, 0.22);
+      --dodger-blue: rgba(30, 144, 255, 0.14);
+      --deep-blue:  rgba(13, 77, 166, 0.08);
+      --accent: #1E90FF;
+      --accent-dark: #0d6efd;
+      --text: #1c1c1e;
+      --muted: #6b7280;
+      --bg: #ffffff;
+      --card: #f8fafc;
+      --border: #e5e7eb;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      color: var(--text);
+      line-height: 1.65;
+      background: linear-gradient(135deg, var(--baby-blue), var(--dodger-blue), var(--deep-blue));
+      min-height: 100vh;
+    }
+    .container { max-width: 760px; margin: 0 auto; padding: 0 24px; }
+    header { padding: 24px 0; }
+    .brand { font-weight: 600; font-size: 18px; color: var(--text); text-decoration: none; }
+    .brand .accent { color: var(--accent); }
+
+    .hero { padding: 56px 0 32px; }
+    .eyebrow {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent-dark);
+      margin-bottom: 12px;
+    }
+    .hero h1 {
+      font-size: clamp(36px, 6vw, 52px);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin-bottom: 16px;
+    }
+    .hero .tagline {
+      font-size: clamp(17px, 2.2vw, 20px);
+      color: var(--muted);
+      max-width: 620px;
+    }
+
+    section.project { padding: 40px 0; border-top: 1px solid var(--border); }
+    section.project:first-of-type { border-top: none; }
+
+    .project-header { display: flex; gap: 16px; align-items: baseline; flex-wrap: wrap; margin-bottom: 16px; }
+    .project-header h2 {
+      font-size: 28px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      color: var(--accent-dark);
+      margin: 0;
+    }
+    .project-meta {
+      font-size: 13px;
+      color: var(--muted);
+      font-variant: small-caps;
+      letter-spacing: 0.05em;
+    }
+    .project-meta strong { color: var(--text); font-weight: 600; }
+
+    .lede {
+      font-size: 17px;
+      margin-bottom: 20px;
+    }
+
+    h3 {
+      font-size: 17px;
+      font-weight: 600;
+      margin: 24px 0 8px;
+      color: var(--text);
+    }
+    p { margin-bottom: 12px; }
+    p, li { font-size: 16px; }
+
+    ul.bullets { list-style: none; padding: 0; margin: 8px 0 16px; }
+    ul.bullets li { padding: 6px 0 6px 24px; position: relative; }
+    ul.bullets li::before {
+      content: "→";
+      color: var(--accent);
+      position: absolute;
+      left: 0;
+      font-weight: 600;
+    }
+
+    table.stats {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+      background: var(--card);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    table.stats td {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+      font-size: 15px;
+    }
+    table.stats td:first-child { color: var(--muted); width: 40%; }
+    table.stats td:last-child { font-weight: 600; }
+    table.stats tr:last-child td { border-bottom: none; }
+
+    .callout {
+      background: var(--card);
+      padding: 18px 22px;
+      border-radius: 12px;
+      border-left: 4px solid var(--accent);
+      margin: 16px 0;
+      font-size: 15px;
+    }
+    .callout strong { color: var(--accent-dark); }
+
+    a.inline { color: var(--accent-dark); }
+    a.inline:hover { text-decoration: underline; }
+
+    .product-card {
+      background: var(--card);
+      padding: 24px 28px;
+      border-radius: 14px;
+      margin: 12px 0;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .product-card .meta-block { flex: 1; min-width: 260px; }
+    .product-card h3 { margin: 0 0 4px; font-size: 18px; color: var(--accent-dark); }
+    .product-card p { margin: 0 0 0; font-size: 15px; color: var(--text); }
+    .product-card .cta-mini {
+      display: inline-block;
+      background: var(--accent);
+      color: white;
+      padding: 8px 18px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+    }
+    .product-card .cta-mini:hover { background: var(--accent-dark); }
+
+    footer {
+      padding: 48px 0 32px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 14px;
+      border-top: 1px solid var(--border);
+      margin-top: 48px;
+    }
+    footer a { color: var(--accent-dark); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+    footer .links { margin-bottom: 12px; }
+    footer .links a { margin: 0 12px; }
+  </style>
+
+  <!-- Google Analytics 4 with Consent Mode v2 (default denied until user opts in) -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('consent', 'default', {
+      'ad_storage': 'denied',
+      'ad_user_data': 'denied',
+      'ad_personalization': 'denied',
+      'analytics_storage': 'denied',
+      'wait_for_update': 500
+    });
+    try {
+      if (localStorage.getItem('magpie-analytics-consent') === 'granted') {
+        gtag('consent', 'update', { 'analytics_storage': 'granted' });
+      }
+    } catch (e) {}
+    gtag('js', new Date());
+    gtag('config', 'G-FY31JVB4P1', { 'anonymize_ip': true });
+  </script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-FY31JVB4P1"></script>
+
+  <style>
+    #cookie-consent {
+      position: fixed; bottom: 16px; left: 16px; right: 16px;
+      max-width: 720px; margin: 0 auto;
+      background: #1c1c1e; color: #ffffff;
+      padding: 20px 24px; border-radius: 12px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+      z-index: 10000;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-size: 14px; line-height: 1.5;
+    }
+    #cookie-consent p { margin: 0 0 12px; color: #ffffff; font-size: 14px; }
+    #cookie-consent a { color: #1E90FF; text-decoration: underline; }
+    #cookie-consent .cc-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+    #cookie-consent button {
+      background: #1E90FF; color: white; border: none;
+      padding: 8px 18px; border-radius: 8px;
+      font-size: 14px; font-weight: 600; cursor: pointer;
+      font-family: inherit;
+    }
+    #cookie-consent button:hover { background: #0d6efd; }
+    #cookie-consent .decline {
+      background: transparent; color: #ffffff;
+      border: 1px solid #6b7280;
+    }
+    #cookie-consent .decline:hover { background: rgba(255,255,255,0.08); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <a href="/" class="brand">Magpie <span class="accent">Studios</span></a>
+    </div>
+  </header>
+
+  <div class="container">
+
+    <section class="hero">
+      <span class="eyebrow">Magpie Labs</span>
+      <h1>Research &amp; active projects</h1>
+      <p class="tagline">We work on hard data problems — sometimes for our own products, sometimes to keep our edge sharp. Below is a snapshot of what's currently in motion.</p>
+    </section>
+
+    <section class="project">
+      <div class="project-header">
+        <h2>ROGII Wellbore Geology Prediction</h2>
+        <span class="project-meta">
+          <strong>Active</strong> · Kaggle competition · $50,000 prize pool
+        </span>
+      </div>
+
+      <p class="lede">
+        Competing in <a class="inline" href="https://www.kaggle.com/competitions/rogii-wellbore-geology-prediction">ROGII's wellbore geology prediction competition</a> — a machine-learning challenge from a Houston-based oil &amp; gas software company. The task is to predict the geological position (True Vertical Thickness) along the lateral section of horizontal wellbores from sparse training data.
+      </p>
+
+      <table class="stats">
+        <tr><td>Sponsor</td><td>ROGII (Houston, TX)</td></tr>
+        <tr><td>Prize pool</td><td>$50,000 total · $25K for 1st</td></tr>
+        <tr><td>Competition window</td><td>May 5 – August 5, 2026</td></tr>
+        <tr><td>Training data</td><td>~773 horizontal wells, ~6 million labeled depth measurements</td></tr>
+        <tr><td>Hidden evaluation set</td><td>~200 wells</td></tr>
+        <tr><td>Magpie's current rank</td><td><em>Updated at competition close</em></td></tr>
+      </table>
+
+      <h3>Why it matters (and why we're in it)</h3>
+      <p>
+        Subsurface prediction is the same class of problem that shows up in many of our own product areas: making confident judgments from sparse, irregular, high-stakes data. The skills that win a Kaggle competition like this — careful cross-validation, ensemble construction, calibration discipline — are the same skills that make our shipped products reliable.
+      </p>
+
+      <h3>Approach (high-level)</h3>
+      <ul class="bullets">
+        <li><strong>Geometric reformulation.</strong> The problem reduces to predicting a 2D spatial surface, then projecting back to the original space — a reframing that simplifies what initially looks like a sequence-modeling task.</li>
+        <li><strong>Ensemble of disjoint method families.</strong> Spatial statistics, neural surface models, and sequence-attention models combined with careful per-row clipping to prevent catastrophic outliers from dragging the average.</li>
+        <li><strong>Variance reduction.</strong> Seed bagging across stochastic components and adaptive weighting based on local prediction confidence.</li>
+        <li><strong>Honest cross-validation.</strong> The visible local test set is a known false positive — all model selection is done via 5-fold GroupKFold across the full training population, calibrated against the public leaderboard.</li>
+      </ul>
+
+      <div class="callout">
+        <strong>Detailed methodology to be published</strong> after the competition closes on August 5, 2026. In the spirit of fair competition, we don't share specifics that might benefit other teams while the leaderboard is still live.
+      </div>
+
+      <h3>What we're learning</h3>
+      <p>
+        The biggest insights from this competition — careful calibration of cross-validation vs. leaderboard metrics, variance reduction for ensembled neural models, and the discipline of resisting fragile-but-impressive single-method "wins" — apply directly to our shipped products. Reliability under distribution shift is a feature you don't notice until it breaks, and it doesn't break by accident.
+      </p>
+    </section>
+
+    <section class="project">
+      <div class="project-header">
+        <h2>MacJanitor</h2>
+        <span class="project-meta">
+          <strong>Shipping</strong> · v1.0.2 · Mac utility · One-time $19.99
+        </span>
+      </div>
+
+      <p class="lede">
+        Our first shipping product. An AI-driven Mac disk cleaner that uses contextual judgment instead of generic rules — knowing that the same iOS simulator runtime is dead weight for a writer and load-bearing for a developer.
+      </p>
+
+      <div class="product-card">
+        <div class="meta-block">
+          <h3>Privacy-first, judgment-driven cleanup</h3>
+          <p>File contents never leave your Mac. Only paths and sizes are sent for analysis. Bring your own Anthropic API key.</p>
+        </div>
+        <a href="/" class="cta-mini">View MacJanitor →</a>
+      </div>
+
+      <p>
+        The same posture that drives our Kaggle approach — careful judgment, honest calibration, resistance to over-confident single-method wins — drives MacJanitor's product behavior. Every proposed deletion is shown to you before it runs. Conservative by default. The conservative pass is the trust-building one.
+      </p>
+    </section>
+
+    <section class="project">
+      <div class="project-header">
+        <h2>What's next</h2>
+        <span class="project-meta">
+          <strong>Coming</strong> · Under development
+        </span>
+      </div>
+
+      <p class="lede">
+        Magpie is structured to ship a portfolio of focused utilities — each one applying contextual AI judgment to a chore that currently requires deep manual expertise. Specifics on what's next will be announced when there's something to actually show.
+      </p>
+
+      <p>
+        If you'd like to be notified when our next product or research result ships, email <a class="inline" href="mailto:support@magpiestudios.app?subject=Magpie%20updates%20list">support@magpiestudios.app</a> with subject "Magpie updates list."
+      </p>
+    </section>
+
+  </div>
+
+  <footer>
+    <div class="container">
+      <div class="links">
+        <a href="/">MacJanitor</a>
+        <a href="help.html">Help &amp; Manual</a>
+        <a href="terms.html">Terms &amp; License</a>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="refund.html">Refund Policy</a>
+        <a href="mailto:support@magpiestudios.app">Support</a>
+      </div>
+      <div>© 2026 Magpie Studios LLC · Arizona, USA · All rights reserved.</div>
+      <div style="margin-top:8px; font-size:12px;">MacJanitor and the Magpie logo are trademarks of Magpie Studios LLC.</div>
+    </div>
+  </footer>
+
+  <div id="cookie-consent" hidden role="dialog" aria-labelledby="cookie-consent-title">
+    <p id="cookie-consent-title">
+      We use Google Analytics (with your consent) to count aggregate visits to magpiestudios.app. No personal information is collected without your okay. See our <a href="privacy.html">Privacy Policy</a>.
+    </p>
+    <div class="cc-actions">
+      <button type="button" id="cookie-consent-accept">Accept analytics</button>
+      <button type="button" class="decline" id="cookie-consent-decline">Decline</button>
+    </div>
+  </div>
+  <script>
+  (function() {
+    var key = 'magpie-analytics-consent';
+    var banner = document.getElementById('cookie-consent');
+    if (!banner) return;
+    try {
+      var existing = localStorage.getItem(key);
+      if (existing === 'granted' || existing === 'denied') return;
+    } catch (e) {}
+    banner.hidden = false;
+    document.getElementById('cookie-consent-accept').addEventListener('click', function() {
+      try { localStorage.setItem(key, 'granted'); } catch (e) {}
+      if (typeof gtag === 'function') {
+        gtag('consent', 'update', { 'analytics_storage': 'granted' });
+      }
+      banner.hidden = true;
+    });
+    document.getElementById('cookie-consent-decline').addEventListener('click', function() {
+      try { localStorage.setItem(key, 'denied'); } catch (e) {}
+      banner.hidden = true;
+    });
+  })();
+  </script>
+</body>
+</html>
