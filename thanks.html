@@ -532,6 +532,71 @@
       max-width: calc(100vw - 20px); max-height: calc(100vh - 20px);
     }
     .mpc-panel.open { display: flex; }
+    /* ── Magpie mascot in chat header (the brand bird collecting shinies) ── */
+    .mpc-header { gap: 10px; }
+    .mpc-header-left {
+      display: flex; align-items: center; gap: 10px;
+      flex: 1; min-width: 0;
+    }
+    .mpc-header-text { min-width: 0; }
+    .mpc-mascot {
+      width: 48px; height: 48px; flex-shrink: 0;
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+    }
+    .mpc-mascot svg { width: 100%; height: 100%; display: block; overflow: visible; }
+
+    /* The brand behavior: every ~9s the magpie spots a shiny, does a
+       cartwheel toward it, swipes it, and tucks it under the wing. */
+    @keyframes mpc-magpie-cartwheel {
+      0%, 55%, 100% { transform: rotate(0deg) translate(0, 0); }
+      60%  { transform: rotate(0deg)   translate(0, -1.5px); }   /* hop anticipation */
+      65%  { transform: rotate(0deg)   translate(2px, -1px); }   /* lunge toward shiny */
+      72%  { transform: rotate(140deg) translate(3px, -2px); }
+      78%  { transform: rotate(280deg) translate(2px, -1px); }
+      84%  { transform: rotate(360deg) translate(0, 0); }        /* lands w/ loot */
+      88%  { transform: rotate(360deg) translate(0, -1px); }     /* satisfied bob */
+      92%  { transform: rotate(360deg) translate(0, 0); }
+    }
+    .mpc-magpie-body {
+      transform-origin: 32px 36px;
+      animation: mpc-magpie-cartwheel 9s ease-in-out infinite;
+    }
+
+    @keyframes mpc-magpie-shiny {
+      0%, 58% { opacity: 0; transform: translate(0, 0) scale(0.5) rotate(0deg); }
+      62%  { opacity: 0; transform: translate(0, 0) scale(0.5) rotate(-25deg); }
+      66%  { opacity: 1; transform: translate(0, 0) scale(1)   rotate(0deg); }    /* twinkle in */
+      75%  { opacity: 1; transform: translate(-10px, 4px) scale(1) rotate(40deg); } /* drifts */
+      82%  { opacity: 0; transform: translate(-16px, 6px) scale(0.4) rotate(180deg); } /* swiped */
+      100% { opacity: 0; }
+    }
+    .mpc-magpie-shiny {
+      transform-origin: 52px 36px;
+      animation: mpc-magpie-shiny 9s ease-in-out infinite;
+    }
+
+    /* Tiny stash sparkle under the wing when the loot lands */
+    @keyframes mpc-magpie-stash-flash {
+      0%, 83%, 100% { opacity: 0; transform: scale(0.5); }
+      86%, 90% { opacity: 0.9; transform: scale(1); }
+    }
+    .mpc-magpie-stash-flash {
+      transform-origin: 26px 40px;
+      animation: mpc-magpie-stash-flash 9s ease-in-out infinite;
+    }
+
+    @keyframes mpc-magpie-eye-blink {
+      0%, 93%, 100% { transform: scaleY(1); }
+      95%, 97% { transform: scaleY(0.1); }
+    }
+    .mpc-magpie-eye { transform-origin: center; animation: mpc-magpie-eye-blink 4.3s ease-in-out infinite; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .mpc-magpie-body, .mpc-magpie-shiny, .mpc-magpie-stash-flash, .mpc-magpie-eye {
+        animation: none;
+      }
+    }
+
     /* Expand button styling — matches GrubTrucks icon-button shape */
     .mpc-expand {
       background: rgba(255,255,255,0.18); border: none; color: white;
@@ -786,9 +851,50 @@
   </div>
   <div class="mpc-panel" id="mpc-panel" role="dialog" aria-labelledby="mpc-title">
     <div class="mpc-header">
-      <div>
-        <div class="title" id="mpc-title">Ask Magpie</div>
-        <div class="subtitle">Questions about MacJanitor or Magpie Studios</div>
+      <div class="mpc-header-left">
+        <div class="mpc-mascot" aria-hidden="true">
+          <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="mpc-mascot-grad" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%"  stop-color="#FB923C"/>
+                <stop offset="60%" stop-color="#C2410C"/>
+                <stop offset="100%" stop-color="#7C2D12"/>
+              </linearGradient>
+            </defs>
+            <!-- Shiny treasure: appears, drifts toward bird, fades when swiped -->
+            <g class="mpc-magpie-shiny">
+              <path d="M52 32 L53.5 35.5 L57 36 L54.5 38.5 L55 42 L52 40.3 L49 42 L49.5 38.5 L47 36 L50.5 35.5 Z"
+                    fill="#FCD34D" stroke="#0B1F33" stroke-width="0.5" stroke-linejoin="round"/>
+              <circle cx="51.5" cy="36" r="0.7" fill="#FFFFFF" opacity="0.85"/>
+            </g>
+            <!-- Tiny stash sparkle when the loot lands under the wing -->
+            <g class="mpc-magpie-stash-flash">
+              <path d="M26 38 L27 40 L29 40.5 L27 41 L26 43 L25 41 L23 40.5 L25 40 Z" fill="#FCD34D"/>
+            </g>
+            <!-- Magpie body (rotates during cartwheel) -->
+            <g class="mpc-magpie-body">
+              <!-- Long magpie tail -->
+              <path d="M16 36 Q4 38 3 32 Q6 44 16 42 Z" fill="#1F2937" opacity="0.85"/>
+              <!-- Body -->
+              <ellipse cx="32" cy="36" rx="13" ry="9" fill="url(#mpc-mascot-grad)"/>
+              <!-- White belly accent -->
+              <ellipse cx="32" cy="40" rx="8" ry="3.5" fill="#FFEDD5" opacity="0.55"/>
+              <!-- Folded wing -->
+              <path d="M28 30 Q20 32 26 42 Q32 38 32 32 Z" fill="#1F2937" opacity="0.9"/>
+              <!-- Head -->
+              <circle cx="42" cy="28" r="7" fill="url(#mpc-mascot-grad)"/>
+              <!-- Beak -->
+              <path d="M49 28 L57 26 L49 30 Z" fill="#FCD34D"/>
+              <!-- Eye (blinks) -->
+              <ellipse class="mpc-magpie-eye" cx="44" cy="26" rx="1.4" ry="1.4" fill="#1F2937"/>
+              <circle cx="44.4" cy="25.6" r="0.5" fill="#FFFFFF"/>
+            </g>
+          </svg>
+        </div>
+        <div class="mpc-header-text">
+          <div class="title" id="mpc-title">Ask Magpie</div>
+          <div class="subtitle">Questions about MacJanitor or Magpie Studios</div>
+        </div>
       </div>
       <div class="mpc-header-actions">
         <button class="mpc-expand" id="mpc-expand" aria-label="Expand chat" title="Expand">
