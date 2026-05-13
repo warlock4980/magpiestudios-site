@@ -901,8 +901,15 @@
       // Inline `code`
       h = h.replace(/`([^`]+)`/g, '<code>$1</code>');
       // Bare URLs — preceded by space/paren/start; stop at trailing punctuation
-      h = h.replace(/(^|[\s(])(https?:\/\/[^\s<>)"\',;]+)/g, '$1<a href="$2" target="_blank" rel="noopener">$2</a>');
-      h = h.replace(/(^|[\s(])([A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,})/g, '$1<a href="mailto:$2">$2</a>');
+      // Lightweight Markdown → HTML so bot replies render cleanly.
+      h = h.replace(/\*\*([^*\n]+)\*\*/g, '<strong>$1</strong>');
+      h = h.replace(/(^|[^*])\*([^*\n]+)\*(?!\*)/g, '$1<em>$2</em>');
+      h = h.replace(/`([^`\n]+)`/g, '<code>$1</code>');
+      // URL + email auto-link. Lookbehind now includes `>` so URLs that ended
+      // up inside <strong>...</strong> still get linked. `*` excluded from
+      // URL chars as a safety belt against unhandled markdown wrappers.
+      h = h.replace(/(^|[\s(>])(https?:\/\/[^\s<>)"\'*,;]+)/g, '$1<a href="$2" target="_blank" rel="noopener">$2</a>');
+      h = h.replace(/(^|[\s(>])([A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,})/g, '$1<a href="mailto:$2">$2</a>');
       div.innerHTML = h;
       body.appendChild(div);
       body.scrollTop = body.scrollHeight;
