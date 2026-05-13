@@ -574,17 +574,125 @@
       .mpc-flyby, .mpc-perch { display: none; }
     }
     .mpc-panel {
-      position: fixed; right: 20px; bottom: 20px;
-      width: 380px; max-width: calc(100vw - 32px);
-      height: 560px; max-height: calc(100vh - 80px);
-      background: #ffffff; border-radius: 16px;
-      box-shadow: 0 12px 48px rgba(13, 77, 166, 0.28);
+      position: fixed; top: 20px; right: 20px;
+      width: min(520px, calc(100vw - 40px));
+      height: calc(100vh - 40px);
+      background: #ffffff;
+      border-radius: 18px;   /* all four corners */
+      box-shadow: 0 16px 48px rgba(13, 77, 166, 0.32),
+                  0 4px 12px rgba(13, 77, 166, 0.18);
       border: 1px solid #e5e7eb;
       display: none; flex-direction: column; overflow: hidden;
-      z-index: 9999;
+      z-index: 10001;
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
+      /* Native bottom-right resize handle */
+      resize: both;
+      min-width: 320px; min-height: 380px;
+      max-width: calc(100vw - 20px); max-height: calc(100vh - 20px);
     }
     .mpc-panel.open { display: flex; }
+    .mpc-panel.dragging { transition: none; user-select: none; box-shadow: 0 20px 60px rgba(13, 77, 166, 0.42); }
+    @media (max-width: 768px) {
+      .mpc-panel {
+        top: 8px; right: 8px;
+        width: calc(100vw - 16px); height: calc(100dvh - 16px);
+        border-radius: 12px;
+      }
+    }
+    .mpc-header { cursor: move; user-select: none; }
+    .mpc-header .title, .mpc-header .subtitle { pointer-events: none; }
+
+    /* Minimized state: speech-bubble next to the launcher */
+    .mpc-sliver {
+      position: fixed;
+      bottom: 102px;   /* sits just above the launcher button */
+      right: 14px;
+      max-width: 260px;
+      background: #ffffff;
+      color: #1c1c1e;
+      border: 1px solid #e5e7eb;
+      border-radius: 16px;
+      padding: 12px 16px;
+      display: none;
+      align-items: center;
+      gap: 10px;
+      font-size: 13.5px; line-height: 1.4;
+      box-shadow: 0 10px 28px rgba(13, 77, 166, 0.22),
+                  0 2px 6px rgba(13, 77, 166, 0.10);
+      z-index: 9998;
+      cursor: pointer;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
+      animation: mpc-sliver-pop 0.32s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+      transform-origin: bottom right;
+    }
+    .mpc-sliver.visible { display: flex; }
+    .mpc-sliver:hover { border-color: #1E90FF; box-shadow: 0 12px 32px rgba(13,77,166,0.28); }
+    .mpc-sliver .sliver-text { flex: 1; }
+    .mpc-sliver .sliver-text strong {
+      display: block; font-weight: 600;
+      color: #0d6efd; margin-bottom: 2px;
+    }
+    /* Speech-bubble tail pointing down toward the launcher */
+    .mpc-sliver::after {
+      content: '';
+      position: absolute;
+      bottom: -7px;
+      right: 24px;
+      width: 14px; height: 14px;
+      background: #ffffff;
+      border-right: 1px solid #e5e7eb;
+      border-bottom: 1px solid #e5e7eb;
+      transform: rotate(45deg);
+    }
+    /* Hide the Expand button — bubble is fully clickable */
+    .mpc-sliver .sliver-expand { display: none; }
+    @keyframes mpc-sliver-pop {
+      0% { opacity: 0; transform: translateY(8px) scale(0.92); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* ── Genie smoke wisps rising from the launcher ─────────────── */
+    .mpc-smoke {
+      position: fixed;
+      bottom: 40px;   /* base near the top of the launcher */
+      right: 30px;
+      width: 80px;
+      height: 200px;
+      pointer-events: none;
+      z-index: 9997;
+      display: none;
+    }
+    .mpc-smoke.visible { display: block; }
+    .mpc-smoke .puff {
+      position: absolute;
+      bottom: 0;
+      width: 26px; height: 26px;
+      background: radial-gradient(circle,
+        rgba(250, 248, 240, 0.85) 0%,
+        rgba(250, 248, 240, 0.55) 35%,
+        rgba(250, 248, 240, 0)    75%);
+      border-radius: 50%;
+      filter: blur(6px);
+      opacity: 0;
+      animation: mpc-smoke-rise 5.5s ease-out infinite;
+    }
+    .mpc-smoke .puff:nth-child(1) { left: 28px; animation-delay: 0s;   animation-duration: 5.0s; }
+    .mpc-smoke .puff:nth-child(2) { left: 14px; animation-delay: 1.0s; animation-duration: 5.6s; }
+    .mpc-smoke .puff:nth-child(3) { left: 36px; animation-delay: 2.0s; animation-duration: 5.2s; }
+    .mpc-smoke .puff:nth-child(4) { left: 22px; animation-delay: 3.0s; animation-duration: 5.8s; }
+    .mpc-smoke .puff:nth-child(5) { left: 30px; animation-delay: 4.0s; animation-duration: 5.4s; }
+
+    @keyframes mpc-smoke-rise {
+      0%   { opacity: 0;   transform: translate(0, 0)      scale(0.5); }
+      15%  { opacity: 0.65; transform: translate(2px, -28px) scale(1.0); }
+      45%  { opacity: 0.55; transform: translate(12px, -78px) scale(1.5); }
+      75%  { opacity: 0.30; transform: translate(-6px, -130px) scale(1.9); }
+      100% { opacity: 0;   transform: translate(2px, -185px) scale(2.3); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .mpc-smoke .puff { animation: none; }
+    }
     .mpc-header {
       background: linear-gradient(135deg, #1E90FF, #0d6efd);
       color: white; padding: 16px 20px;
@@ -616,65 +724,13 @@
     .mpc-msg.bot { align-self: flex-start; background: #ffffff; color: #1c1c1e; border: 1px solid #e5e7eb; border-bottom-left-radius: 4px; }
     .mpc-msg.bot a { color: #0d6efd; }
     .mpc-msg.typing { font-style: italic; color: #6b7280; }
-    .mpc-input-row { display: flex; gap: 8px; padding: 12px 16px; background: white; border-top: 1px solid #e5e7eb; }
+    .mpc-input-row { display: flex; gap: 8px; padding: 12px 16px calc(12px + env(safe-area-inset-bottom)) 16px; background: white; border-top: 1px solid #e5e7eb; }
     .mpc-input { flex: 1; border: 1px solid #e5e7eb; border-radius: 12px; padding: 10px 14px; font-size: 14px; outline: none; font-family: inherit; }
     .mpc-input:focus { border-color: #1E90FF; }
     .mpc-send { background: #1E90FF; color: white; border: none; border-radius: 12px; padding: 0 18px; font-size: 14px; font-weight: 600; cursor: pointer; }
     .mpc-send:hover { background: #0d6efd; }
     .mpc-send:disabled { background: #cbd5e1; cursor: not-allowed; }
     .mpc-footer-note { padding: 8px 16px 12px; font-size: 11px; color: #6b7280; background: white; text-align: center; border-top: 1px solid #f1f5f9; }
-    /* ── Drag-to-move + expand toggle ─────────────────────────────── */
-    .mpc-expand {
-      background: rgba(255,255,255,0.18); border: none; color: white;
-      height: 28px; width: 28px; border-radius: 14px;
-      cursor: pointer; padding: 0;
-      display: flex; align-items: center; justify-content: center;
-      font-family: inherit;
-    }
-    .mpc-expand:hover { background: rgba(255,255,255,0.32); }
-    .mpc-expand svg { width: 13px; height: 13px; display: block; }
-    .mpc-panel:not(.expanded) .mpc-icon-collapse { display: none; }
-    .mpc-panel.expanded .mpc-icon-expand { display: none; }
-    .mpc-header { cursor: grab; user-select: none; touch-action: none; }
-    .mpc-header:active { cursor: grabbing; }
-    .mpc-header-actions button { touch-action: auto; cursor: pointer; }
-    .mpc-panel.dragging {
-      transition: none !important;
-      box-shadow: 0 18px 64px rgba(0, 0, 0, 0.35);
-    }
-    .mpc-panel.expanded {
-      right: 20px !important; bottom: 20px !important;
-      left: auto; top: auto;
-      width: min(720px, calc(100vw - 40px)) !important; max-width: none !important;
-      height: min(800px, calc(100vh - 40px)) !important; max-height: none !important;
-    }
-    .mpc-panel.expanded .mpc-header { cursor: default; }
-
-    @media (max-width: 480px) {
-      .mpc-panel {
-        right: 8px;
-        bottom: calc(8px + env(safe-area-inset-bottom));
-        width: calc(100vw - 16px);
-        max-height: calc(100dvh - 80px - env(safe-area-inset-bottom));
-      }
-      .mpc-panel.expanded {
-        right: 0 !important;
-        bottom: 0 !important;
-        left: 0;
-        top: 0;
-        width: 100vw !important;
-        max-width: none !important;
-        height: 100dvh !important;
-        max-height: none !important;
-        border-radius: 0 !important;
-      }
-      .mpc-panel.expanded .mpc-input-row {
-        padding-bottom: calc(12px + env(safe-area-inset-bottom));
-      }
-      .mpc-panel.expanded .mpc-header {
-        padding-top: calc(16px + env(safe-area-inset-top));
-      }
-    }
   </style>
   <button class="mpc-launcher" id="mpc-launcher" aria-label="Open chat with the Magpie assistant">
     <img src="magpie-logo.png" alt="" aria-hidden="true" />
@@ -760,19 +816,8 @@
         <div class="subtitle">Questions about MacJanitor or Magpie Studios</div>
       </div>
       <div class="mpc-header-actions">
-        <button class="mpc-expand" id="mpc-expand" aria-label="Expand chat" title="Expand">
-          <svg class="mpc-icon-expand" viewBox="0 0 16 16" aria-hidden="true">
-            <path d="M3 6 L3 3 L6 3 M10 3 L13 3 L13 6 M3 10 L3 13 L6 13 M13 10 L13 13 L10 13"
-                  stroke="currentColor" stroke-width="1.6" fill="none"
-                  stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-          <svg class="mpc-icon-collapse" viewBox="0 0 16 16" aria-hidden="true">
-            <path d="M6 3 L6 6 L3 6 M10 6 L13 6 L13 3 M6 13 L6 10 L3 10 M13 10 L10 10 L10 13"
-                  stroke="currentColor" stroke-width="1.6" fill="none"
-                  stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </button>
         <button class="mpc-clear" id="mpc-clear" aria-label="Clear chat history">Clear</button>
+        <button class="mpc-clear" id="mpc-minimize" aria-label="Minimize chat" title="Minimize to a slim bar at the top">−</button>
         <button class="mpc-close" id="mpc-close" aria-label="Close chat">×</button>
       </div>
     </div>
@@ -787,6 +832,23 @@
     </div>
     <div class="mpc-footer-note">Powered by Claude · Replies are AI-generated</div>
   </div>
+
+  <!-- Minimized state: speech-bubble next to launcher, click to re-expand -->
+  <div class="mpc-sliver" id="mpc-sliver" role="button" tabindex="0" aria-label="Expand Magpie chat">
+    <span class="sliver-text" id="mpc-sliver-text"><strong>I'm right here</strong>if you need me…</span>
+    <button class="sliver-expand" id="mpc-sliver-expand" aria-hidden="true" tabindex="-1">Expand</button>
+  </div>
+
+  <!-- Genie smoke wisps rising from the launcher when minimized -->
+  <div class="mpc-smoke" id="mpc-smoke" aria-hidden="true">
+    <span class="puff"></span>
+    <span class="puff"></span>
+    <span class="puff"></span>
+    <span class="puff"></span>
+    <span class="puff"></span>
+  </div>
+
+  <script>window.MAGPIE_CHAT_API_URL = "https://magpiestudios-chat.onrender.com/chat";</script>
   <script>
   (function() {
     const MAGPIE_CHAT_API_URL = window.MAGPIE_CHAT_API_URL || "/chat";
@@ -798,25 +860,48 @@
     const body = document.getElementById("mpc-body");
     const input = document.getElementById("mpc-input");
     const sendBtn = document.getElementById("mpc-send");
-    const DISMISS_KEY = "magpie-chat-dismissed";
-    const AUTO_OPEN_MS = 6000;
+    const DISMISS_KEY = "magpie-chat-dismissed-at";
+    const IDLE_MS = 6000;
+    const RECHECK_MS = 15 * 60 * 1000;
+    let idleTimer = null;
     let history = [];
     try { history = JSON.parse(sessionStorage.getItem(STORAGE_KEY) || "[]"); } catch (e) {}
     function persistHistory() { try { sessionStorage.setItem(STORAGE_KEY, JSON.stringify(history.slice(-20))); } catch (e) {} }
-    function markDismissed() { try { sessionStorage.setItem(DISMISS_KEY, "1"); } catch (e) {} }
-    function isDismissed() {
-      try { return sessionStorage.getItem(DISMISS_KEY) === "1"; } catch (e) { return false; }
+    function getDismissedAt() {
+      try { const t = sessionStorage.getItem(DISMISS_KEY); return t ? parseInt(t, 10) : null; }
+      catch (e) { return null; }
+    }
+    function markDismissed() {
+      try { sessionStorage.setItem(DISMISS_KEY, String(Date.now())); } catch (e) {}
+      // Re-arm the idle watcher after RECHECK_MS so we can check back like a courteous shopkeeper
+      setTimeout(resetIdleTimer, RECHECK_MS);
+    }
+    function canAutoOpen() {
+      if (panel.classList.contains("open")) return false;
+      const dismissedAt = getDismissedAt();
+      if (dismissedAt === null) return true;
+      return (Date.now() - dismissedAt) >= RECHECK_MS;
+    }
+    function resetIdleTimer() {
+      if (idleTimer) clearTimeout(idleTimer);
+      if (!canAutoOpen()) return;
+      idleTimer = setTimeout(() => {
+        if (canAutoOpen()) openPanel(getDismissedAt() !== null);
+      }, IDLE_MS);
     }
     function addMessage(role, text, isTyping) {
       const div = document.createElement("div");
       div.className = "mpc-msg " + role + (isTyping ? " typing" : "");
-      const esc = text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-      div.innerHTML = esc.replace(/(https?:\/\/[^\s<]+)|([A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,})/g,
-        function(m, url, email) {
-          if (url)   return '<a href="' + url + '" target="_blank" rel="noopener">' + url + '</a>';
-          if (email) return '<a href="mailto:' + email + '">' + email + '</a>';
-          return m;
-        });
+      let h = text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+      // Markdown links [text](url) — must run BEFORE bare-URL detection
+      h = h.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+      // Bold **text**
+      h = h.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+      // Inline `code`
+      h = h.replace(/`([^`]+)`/g, '<code>$1</code>');
+      // Bare URLs — preceded by space/paren/start; stop at trailing punctuation
+      h = h.replace(/(^|[\s(])(https?:\/\/[^\s<>)"\',;]+)/g, '$1<a href="$2" target="_blank" rel="noopener">$2</a>');
+      div.innerHTML = h;
       body.appendChild(div);
       body.scrollTop = body.scrollHeight;
       return div;
@@ -830,23 +915,152 @@
       history.forEach(t => addMessage(t.role, t.content, false));
     }
     const perch = document.getElementById("mpc-perch");
+    const sliver = document.getElementById("mpc-sliver");
+    const minimizeBtn = document.getElementById("mpc-minimize");
+    const sliverExpandBtn = document.getElementById("mpc-sliver-expand");
     function hidePerch() { if (perch) perch.classList.add("hidden"); }
     function showPerch() { if (perch) perch.classList.remove("hidden"); }
-    function openPanel() {
+    const smoke = document.getElementById("mpc-smoke");
+    const sliverText = document.getElementById("mpc-sliver-text");
+    const sliverMessages = [
+      // Greetings / prompts
+      "<strong>I'm right here</strong>if you need me…",
+      "<strong>Got a question?</strong>Pricing, refunds, anything.",
+      "<strong>MacJanitor curious?</strong>Ask how it works.",
+      "<strong>Try asking</strong>'How does MacJanitor work?'",
+      "<strong>Want the manual?</strong>The Help page is one click away.",
+      // Product facts
+      "<strong>One-time $19.99</strong>— no subscription, ever.",
+      "<strong>Privacy-first.</strong>File contents never leave your Mac.",
+      "<strong>14-day refund.</strong>No questions asked.",
+      "<strong>AI judgment</strong>over generic rules — that's the difference.",
+      "<strong>Bring your own API key</strong>— pennies per cleanup.",
+      "<strong>Apple notarized.</strong>No Gatekeeper warnings.",
+      "<strong>Built by one engineer</strong>in Arizona.",
+      // Studio + research
+      "<strong>Magpie Labs:</strong>$50K Kaggle competition in flight.",
+      "<strong>Building something?</strong>The Admin takes select work.",
+      "<strong>Pi to 116 digits?</strong>I keep those handy too.",
+    ];
+    let sliverMsgIdx = 0;
+    let sliverMsgTimer = null;
+    function startSliverRotation() {
+      if (sliverMsgTimer) clearInterval(sliverMsgTimer);
+      sliverMsgIdx = 0;
+      sliverMsgTimer = setInterval(() => {
+        sliverMsgIdx = (sliverMsgIdx + 1) % sliverMessages.length;
+        if (sliverText) {
+          sliverText.style.opacity = "0";
+          setTimeout(() => {
+            sliverText.innerHTML = sliverMessages[sliverMsgIdx];
+            sliverText.style.opacity = "1";
+          }, 220);
+        }
+      }, 5000);
+    }
+    function stopSliverRotation() {
+      if (sliverMsgTimer) { clearInterval(sliverMsgTimer); sliverMsgTimer = null; }
+    }
+    function hideSliver() {
+      if (sliver) sliver.classList.remove("visible");
+      if (smoke) smoke.classList.remove("visible");
+      stopSliverRotation();
+    }
+    function showSliver() {
+      if (sliver) sliver.classList.add("visible");
+      if (smoke) smoke.classList.add("visible");
+      if (sliverText) {
+        sliverText.style.transition = "opacity 0.22s";
+        sliverText.innerHTML = sliverMessages[0];
+        sliverMsgIdx = 0;
+      }
+      startSliverRotation();
+    }
+    function minimizePanel() {
+      panel.classList.remove("open");
+      hidePerch();
+      launcher.classList.remove("open"); // launcher visible alongside the bubble
+      showSliver();
+    }
+    function expandFromSliver() {
+      hideSliver();
+      openPanel(false);
+    }
+    minimizeBtn.addEventListener("click", minimizePanel);
+    sliverExpandBtn.addEventListener("click", (e) => { e.stopPropagation(); expandFromSliver(); });
+    sliver.addEventListener("click", expandFromSliver);
+    sliver.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); expandFromSliver(); }
+    });
+
+    // Drag-to-move: header is the handle. Switches the panel from
+    // top/right anchoring to top/left so dragging works freely.
+    let dragState = null;
+    function getPointer(e) {
+      if (e.touches && e.touches[0]) return { x: e.touches[0].clientX, y: e.touches[0].clientY };
+      return { x: e.clientX, y: e.clientY };
+    }
+    function onDragStart(e) {
+      // Don't start drag if mousedown is on a button
+      const t = e.target;
+      if (t.closest("button")) return;
+      e.preventDefault();
+      const rect = panel.getBoundingClientRect();
+      const { x, y } = getPointer(e);
+      dragState = { offsetX: x - rect.left, offsetY: y - rect.top };
+      // Switch from right anchor to left anchor so drag math is clean
+      panel.style.left = rect.left + "px";
+      panel.style.top  = rect.top  + "px";
+      panel.style.right = "auto";
+      panel.classList.add("dragging");
+    }
+    function onDragMove(e) {
+      if (!dragState) return;
+      e.preventDefault();
+      const { x, y } = getPointer(e);
+      let newLeft = x - dragState.offsetX;
+      let newTop  = y - dragState.offsetY;
+      // Constrain to viewport (always keep at least 80px of the panel on-screen)
+      newLeft = Math.max(20 - panel.offsetWidth + 80, Math.min(window.innerWidth - 80, newLeft));
+      newTop  = Math.max(0, Math.min(window.innerHeight - 44, newTop));
+      panel.style.left = newLeft + "px";
+      panel.style.top  = newTop + "px";
+    }
+    function onDragEnd() {
+      if (!dragState) return;
+      dragState = null;
+      panel.classList.remove("dragging");
+    }
+    const headerEl = panel.querySelector(".mpc-header");
+    headerEl.addEventListener("mousedown", onDragStart);
+    headerEl.addEventListener("touchstart", onDragStart, { passive: false });
+    document.addEventListener("mousemove", onDragMove);
+    document.addEventListener("touchmove", onDragMove, { passive: false });
+    document.addEventListener("mouseup", onDragEnd);
+    document.addEventListener("touchend", onDragEnd);
+    function openPanel(isReEngagement) {
       launcher.classList.add("open");
+      hideSliver();
       panel.classList.add("open");
       hidePerch();
       renderHistory();
-      // Celebrate: trigger a fly-by with a 360° spin (one-shot)
+      if (isReEngagement) {
+        // 15+ min since last close — courteous "still browsing?" check-in.
+        addMessage("bot",
+          "Hi again — still around? Happy to help with anything specific. " +
+          "Common questions: MacJanitor pricing or refunds, system requirements, " +
+          "the [About page](https://magpiestudios.app/about.html), " +
+          "the [User Manual](https://magpiestudios.app/help.html), " +
+          "or what we are building at [Magpie Labs](https://magpiestudios.app/research.html). " +
+          "What is on your mind?");
+      }
       celebrateFlight();
       setTimeout(() => input.focus(), 100);
     }
     function closePanel() {
       launcher.classList.remove("open");
       panel.classList.remove("open");
-      panel.classList.remove("expanded");
-      panel.style.left = ""; panel.style.top = "";
-      panel.style.right = ""; panel.style.bottom = "";
+      hideSliver();
       markDismissed();
       showPerch();
     }
@@ -866,16 +1080,13 @@
     launcher.addEventListener("click", openPanel);
     closeBtn.addEventListener("click", closePanel);
     clearBtn.addEventListener("click", clearHistory);
-    // Auto-open the panel after 6s on first visit (per session).
-    // Skipped if user already opened/dismissed the chat this session,
-    // or if a previous chat history exists.
-    if (!isDismissed() && history.length === 0) {
-      setTimeout(() => {
-        if (!isDismissed() && !panel.classList.contains("open")) {
-          openPanel();
-        }
-      }, AUTO_OPEN_MS);
-    }
+    // Idle-based auto-open: pops up after IDLE_MS of no user activity,
+    // resets on any mouse/scroll/key. If user dismisses, waits RECHECK_MS
+    // (15 min) before checking back — like a courteous retail clerk.
+    ['mousemove', 'mousedown', 'keydown', 'scroll', 'touchstart', 'wheel'].forEach(evt =>
+      document.addEventListener(evt, resetIdleTimer, { passive: true })
+    );
+    resetIdleTimer();  // start watching immediately
 
     // Magpie fly-by: a little wink of personality across the top of the page.
     // First flight after 12s, then every 75s — skips when chat panel is open
@@ -924,63 +1135,6 @@
     }
     sendBtn.addEventListener("click", send);
     input.addEventListener("keydown", (e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); send(); } });
-
-    // ── Drag-to-move + expand toggle ─────────────────────────────────────
-    const expandBtn = document.getElementById("mpc-expand");
-    const dragHeader = panel.querySelector(".mpc-header");
-
-    if (expandBtn) {
-      expandBtn.addEventListener("click", (e) => {
-        e.stopPropagation();
-        const willExpand = !panel.classList.contains("expanded");
-        panel.classList.toggle("expanded");
-        panel.style.left = ""; panel.style.top = "";
-        panel.style.right = ""; panel.style.bottom = "";
-        expandBtn.setAttribute("aria-label", willExpand ? "Collapse chat" : "Expand chat");
-        expandBtn.setAttribute("title",      willExpand ? "Collapse"      : "Expand");
-      });
-    }
-
-    let dragState = null;
-    function isActionBtn(el) { return !!(el && el.closest && el.closest("button")); }
-
-    if (dragHeader) {
-      dragHeader.addEventListener("pointerdown", (e) => {
-        if (panel.classList.contains("expanded")) return;
-        if (isActionBtn(e.target)) return;
-        const rect = panel.getBoundingClientRect();
-        dragState = {
-          pointerId: e.pointerId,
-          startX: e.clientX, startY: e.clientY,
-          initialLeft: rect.left, initialTop: rect.top,
-          width: rect.width, height: rect.height,
-        };
-        panel.classList.add("dragging");
-        try { dragHeader.setPointerCapture(e.pointerId); } catch (_) {}
-      });
-      dragHeader.addEventListener("pointermove", (e) => {
-        if (!dragState || e.pointerId !== dragState.pointerId) return;
-        e.preventDefault();
-        const dx = e.clientX - dragState.startX;
-        const dy = e.clientY - dragState.startY;
-        const maxLeft = window.innerWidth  - dragState.width;
-        const maxTop  = window.innerHeight - dragState.height;
-        const newLeft = Math.max(0, Math.min(maxLeft, dragState.initialLeft + dx));
-        const newTop  = Math.max(0, Math.min(maxTop,  dragState.initialTop  + dy));
-        panel.style.left = newLeft + "px";
-        panel.style.top  = newTop  + "px";
-        panel.style.right = "auto";
-        panel.style.bottom = "auto";
-      });
-      function endDrag(e) {
-        if (!dragState || e.pointerId !== dragState.pointerId) return;
-        try { dragHeader.releasePointerCapture(e.pointerId); } catch (_) {}
-        dragState = null;
-        panel.classList.remove("dragging");
-      }
-      dragHeader.addEventListener("pointerup", endDrag);
-      dragHeader.addEventListener("pointercancel", endDrag);
-    }
   })();
   </script>
   <!-- ═════════════════════ end Magpie chat widget ═════════════════════ -->
