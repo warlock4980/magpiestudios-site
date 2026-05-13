@@ -386,6 +386,7 @@
   </script>
 <!-- ════════════════════ Magpie Studios chat widget ════════════════════ -->
   <style>
+    :root { --mpc-kb-height: 0px; }
     .mpc-launcher {
       position: fixed; right: 20px; bottom: 20px;
       width: 64px; height: 64px; border-radius: 50%;
@@ -535,7 +536,7 @@
     @media (max-width: 768px) {
       .mpc-panel {
         top: 8px; right: 8px;
-        width: calc(100vw - 16px); height: calc(100dvh - 16px);
+        width: calc(100vw - 16px); height: calc(100dvh - 16px - var(--mpc-kb-height, 0px));
         border-radius: 12px;
       }
     }
@@ -841,6 +842,7 @@
       h = h.replace(/`([^`]+)`/g, '<code>$1</code>');
       // Bare URLs — preceded by space/paren/start; stop at trailing punctuation
       h = h.replace(/(^|[\s(])(https?:\/\/[^\s<>)"\',;]+)/g, '$1<a href="$2" target="_blank" rel="noopener">$2</a>');
+      h = h.replace(/(^|[\s(])([A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,})/g, '$1<a href="mailto:$2">$2</a>');
       div.innerHTML = h;
       body.appendChild(div);
       body.scrollTop = body.scrollHeight;
@@ -1075,6 +1077,19 @@
     }
     sendBtn.addEventListener("click", send);
     input.addEventListener("keydown", (e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); send(); } });
+
+    // iOS / Android soft-keyboard inset: push CSS var so mobile panel
+    // height shrinks above the keyboard, keeping the send button visible.
+    if (window.visualViewport) {
+      const updateKbInset = () => {
+        const vv = window.visualViewport;
+        const inset = Math.max(0, window.innerHeight - vv.height - vv.offsetTop);
+        document.documentElement.style.setProperty("--mpc-kb-height", inset + "px");
+      };
+      window.visualViewport.addEventListener("resize", updateKbInset);
+      window.visualViewport.addEventListener("scroll", updateKbInset);
+      updateKbInset();
+    }
   })();
   </script>
   <!-- ═════════════════════ end Magpie chat widget ═════════════════════ -->
