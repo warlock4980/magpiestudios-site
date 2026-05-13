@@ -263,6 +263,13 @@
       border: 1px solid #6b7280;
     }
     #cookie-consent .decline:hover { background: rgba(255,255,255,0.08); }
+    /* Mobile: park consent at the top of the viewport so it doesn't
+       overlap the bottom-anchored chat panel. Without this, consent
+       (z:10000) covers the chat input row (z:9999) on phones and
+       steals taps — iOS Safari never opens the keyboard. */
+    @media (max-width: 480px) {
+      #cookie-consent { top: 8px; bottom: auto; left: 8px; right: 8px; }
+    }
   </style>
 </head>
 <body>
