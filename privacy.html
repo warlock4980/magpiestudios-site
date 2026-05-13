@@ -82,7 +82,7 @@
        overlap the bottom-anchored chat panel. Without this, consent
        (z:10000) covers the chat input row (z:9999) on phones and
        steals taps — iOS Safari never opens the keyboard. */
-    @media (max-width: 480px) {
+    @media (max-width: 768px) {
       #cookie-consent { top: 8px; bottom: auto; left: 8px; right: 8px; }
     }
   </style>
@@ -407,7 +407,7 @@
                   0 4px 12px rgba(13, 77, 166, 0.18);
       border: 1px solid #e5e7eb;
       display: none; flex-direction: column; overflow: hidden;
-      z-index: 9999;
+      z-index: 10001;
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
       /* Native bottom-right resize handle */
       resize: both;
@@ -416,10 +416,10 @@
     }
     .mpc-panel.open { display: flex; }
     .mpc-panel.dragging { transition: none; user-select: none; box-shadow: 0 20px 60px rgba(13, 77, 166, 0.42); }
-    @media (max-width: 640px) {
+    @media (max-width: 768px) {
       .mpc-panel {
         top: 8px; right: 8px;
-        width: calc(100vw - 16px); height: calc(100vh - 16px);
+        width: calc(100vw - 16px); height: calc(100dvh - 16px);
         border-radius: 12px;
       }
     }
@@ -548,14 +548,13 @@
     .mpc-msg.bot { align-self: flex-start; background: #ffffff; color: #1c1c1e; border: 1px solid #e5e7eb; border-bottom-left-radius: 4px; }
     .mpc-msg.bot a { color: #0d6efd; }
     .mpc-msg.typing { font-style: italic; color: #6b7280; }
-    .mpc-input-row { display: flex; gap: 8px; padding: 12px 16px; background: white; border-top: 1px solid #e5e7eb; }
+    .mpc-input-row { display: flex; gap: 8px; padding: 12px 16px calc(12px + env(safe-area-inset-bottom)) 16px; background: white; border-top: 1px solid #e5e7eb; }
     .mpc-input { flex: 1; border: 1px solid #e5e7eb; border-radius: 12px; padding: 10px 14px; font-size: 14px; outline: none; font-family: inherit; }
     .mpc-input:focus { border-color: #1E90FF; }
     .mpc-send { background: #1E90FF; color: white; border: none; border-radius: 12px; padding: 0 18px; font-size: 14px; font-weight: 600; cursor: pointer; }
     .mpc-send:hover { background: #0d6efd; }
     .mpc-send:disabled { background: #cbd5e1; cursor: not-allowed; }
     .mpc-footer-note { padding: 8px 16px 12px; font-size: 11px; color: #6b7280; background: white; text-align: center; border-top: 1px solid #f1f5f9; }
-    @media (max-width: 480px) { .mpc-panel { right: 8px; bottom: 8px; width: calc(100vw - 16px); } }
   </style>
   <button class="mpc-launcher" id="mpc-launcher" aria-label="Open chat with the Magpie assistant">
     <img src="magpie-logo.png" alt="" aria-hidden="true" />
