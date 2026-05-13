@@ -532,12 +532,46 @@
       max-width: calc(100vw - 20px); max-height: calc(100vh - 20px);
     }
     .mpc-panel.open { display: flex; }
+    /* Expand button styling — matches GrubTrucks icon-button shape */
+    .mpc-expand {
+      background: rgba(255,255,255,0.18); border: none; color: white;
+      height: 28px; width: 28px; border-radius: 14px;
+      cursor: pointer; padding: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-family: inherit;
+    }
+    .mpc-expand:hover { background: rgba(255,255,255,0.32); }
+    .mpc-expand svg { width: 13px; height: 13px; display: block; }
+    .mpc-panel:not(.expanded) .mpc-icon-collapse { display: none; }
+    .mpc-panel.expanded .mpc-icon-expand { display: none; }
+
+    /* Expanded panel — desktop: comfortable 720×800 anchored at bottom-right */
+    .mpc-panel.expanded {
+      right: 20px !important; bottom: 20px !important;
+      top: auto; left: auto;
+      width: min(720px, calc(100vw - 40px)) !important; max-width: none !important;
+      height: min(800px, calc(100vh - 40px)) !important; max-height: none !important;
+    }
     .mpc-panel.dragging { transition: none; user-select: none; box-shadow: 0 20px 60px rgba(13, 77, 166, 0.42); }
     @media (max-width: 768px) {
       .mpc-panel {
         top: 8px; right: 8px;
         width: calc(100vw - 16px); height: calc(100dvh - 16px - var(--mpc-kb-height, 0px));
         border-radius: 12px;
+      }
+      /* Expanded panel on phones: true full-screen, edge-to-edge, with
+         safe-area insets so header + input row clear the system UI. */
+      .mpc-panel.expanded {
+        right: 0 !important; bottom: 0 !important; left: 0; top: 0;
+        width: 100vw !important; max-width: none !important;
+        height: 100dvh !important; max-height: none !important;
+        border-radius: 0 !important;
+      }
+      .mpc-panel.expanded .mpc-input-row {
+        padding-bottom: calc(12px + env(safe-area-inset-bottom) + var(--mpc-kb-height, 0px));
+      }
+      .mpc-panel.expanded .mpc-header {
+        padding-top: calc(16px + env(safe-area-inset-top));
       }
     }
     .mpc-header { cursor: move; user-select: none; }
@@ -757,6 +791,18 @@
         <div class="subtitle">Questions about MacJanitor or Magpie Studios</div>
       </div>
       <div class="mpc-header-actions">
+        <button class="mpc-expand" id="mpc-expand" aria-label="Expand chat" title="Expand">
+          <svg class="mpc-icon-expand" viewBox="0 0 16 16" aria-hidden="true">
+            <path d="M3 6 L3 3 L6 3 M10 3 L13 3 L13 6 M3 10 L3 13 L6 13 M13 10 L13 13 L10 13"
+                  stroke="currentColor" stroke-width="1.6" fill="none"
+                  stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <svg class="mpc-icon-collapse" viewBox="0 0 16 16" aria-hidden="true">
+            <path d="M6 3 L6 6 L3 6 M10 6 L13 6 L13 3 M6 13 L6 10 L3 10 M13 10 L10 10 L10 13"
+                  stroke="currentColor" stroke-width="1.6" fill="none"
+                  stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
         <button class="mpc-clear" id="mpc-clear" aria-label="Clear chat history">Clear</button>
         <button class="mpc-clear" id="mpc-minimize" aria-label="Minimize chat" title="Minimize to a slim bar at the top">−</button>
         <button class="mpc-close" id="mpc-close" aria-label="Close chat">×</button>
@@ -1009,9 +1055,25 @@
     function closePanel() {
       launcher.classList.remove("open");
       panel.classList.remove("open");
+      panel.classList.remove("expanded");
+      panel.style.left = ""; panel.style.top = "";
+      panel.style.right = ""; panel.style.bottom = "";
       hideSliver();
       markDismissed();
       showPerch();
+    }
+
+    const expandBtn = document.getElementById("mpc-expand");
+    if (expandBtn) {
+      expandBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const willExpand = !panel.classList.contains("expanded");
+        panel.classList.toggle("expanded");
+        panel.style.left = ""; panel.style.top = "";
+        panel.style.right = ""; panel.style.bottom = "";
+        expandBtn.setAttribute("aria-label", willExpand ? "Collapse chat" : "Expand chat");
+        expandBtn.setAttribute("title",      willExpand ? "Collapse"      : "Expand");
+      });
     }
     function celebrateFlight() {
       if (!flyby) return;
