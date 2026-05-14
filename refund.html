@@ -1087,5 +1087,29 @@
   })();
   </script>
   <!-- ═════════════════════ end Magpie chat widget ═════════════════════ -->
+  <div class="footer-translate" style="max-width: 720px; margin: 24px auto 32px; padding: 0 24px; font-size: 13px; color: #6b7280; text-align: center;">
+    🌐 Translate this page:
+    <a class="t-link" data-lang="es">Español</a> ·
+    <a class="t-link" data-lang="zh-CN">中文</a> ·
+    <a class="t-link" data-lang="ja">日本語</a> ·
+    <a class="t-link" data-lang="hi">हिन्दी</a> ·
+    <a class="t-link" data-lang="ar">العربية</a> ·
+    <a class="t-link" data-lang="pt">Português</a> ·
+    <a class="t-link" data-lang="">More…</a>
+  </div>
+  <script>
+    (function() {
+      var links = document.querySelectorAll('.footer-translate .t-link');
+      var here = encodeURIComponent(location.href);
+      for (var i = 0; i < links.length; i++) {
+        var lang = links[i].getAttribute('data-lang');
+        links[i].href = lang
+          ? 'https://translate.google.com/translate?sl=en&tl=' + lang + '&u=' + here
+          : 'https://translate.google.com/?op=websites&sl=en&u=' + here;
+        links[i].target = '_blank';
+        links[i].rel = 'noopener';
+      }
+    })();
+  </script>
 </body>
 </html>
