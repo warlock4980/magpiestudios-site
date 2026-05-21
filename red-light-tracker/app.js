@@ -42,6 +42,7 @@ const translations = {
     "tracker.eyebrow": "Session",
     "tracker.title": "Log a session",
     "tracker.export": "Export CSV",
+    "tracker.pdf": "PDF report",
     "tracker.save": "Save session",
     "form.date": "Date",
     "form.bodyArea": "Body area",
@@ -134,12 +135,34 @@ const translations = {
     "unit.min": "min",
     "unit.daysShort": "d",
     "confirm.clear": "Clear all saved red light therapy sessions from this browser?",
+    "report.title": "Red Light Therapy Session Report",
+    "report.generated": "Generated",
+    "report.range": "Date range",
+    "report.noRange": "No sessions yet",
+    "report.sessions": "Sessions",
+    "report.totalMinutes": "Total minutes",
+    "report.avgChange": "Avg before/after change",
+    "report.streak": "Current streak",
+    "report.lastSeven": "Last 7 days",
+    "report.history": "Session history",
+    "report.bodyArea": "Body area",
+    "report.device": "Device",
+    "report.wavelength": "Wavelength",
+    "report.duration": "Duration",
+    "report.distance": "Distance",
+    "report.beforeAfter": "Before -> after",
+    "report.notes": "Notes",
+    "report.noSessions": "No sessions have been saved in this browser yet.",
+    "report.localNotice": "This report is generated from entries stored locally in this browser. Export CSV before clearing browser data, using private browsing, or switching devices.",
+    "report.healthNote": "Informational only. Not medical advice. This tracker is not intended to diagnose, treat, cure, or prevent disease.",
+    "report.printHint": "Use your browser print dialog and choose Save as PDF.",
+    "report.popupBlocked": "The PDF report window was blocked. Allow pop-ups for this site and try again.",
     chatIntro: "Hi. I can help you log sessions, understand the tracker, export data, and find the NovaaLab link. I cannot provide medical advice.",
     chatNoSessions: "You have no saved sessions yet. Start with one simple entry: body area, duration, distance, discomfort before, discomfort after, and one note about how sitting or movement felt.",
     chatStats: ({ count, minutes, avg }) => `You have ${count} saved session${count === 1 ? "" : "s"}, ${minutes} total minutes, and an average before/after change of ${avg.toFixed(1)} points. Export CSV if you want a backup or a doctor-friendly record.`,
     chatMedical: "I can help with tracking, but I cannot give medical advice or diagnose symptoms. For severe, persistent, worsening, bleeding, or unexplained symptoms, talk to a qualified clinician. The tracker is best used as a personal log you can export and discuss.",
     chatNovaa: 'The NovaaLab link is in the Devices section. Magpie Studios LLC may earn a commission if you buy through that link, at no extra cost to you. <a href="#shop">Jump to devices</a>.',
-    chatExport: "Use the Export CSV button at the top of the tracker panel. It downloads your saved sessions from this browser as a spreadsheet-friendly file.",
+    chatExport: "Use Export CSV for a spreadsheet backup, or PDF report for a polished printable summary. Both use saved sessions from this browser.",
     chatPrivacy: "Your entries are stored locally in this browser with localStorage. There is no account system in this MVP, so export CSV before clearing browser data or switching devices.",
     chatTimer: "Set the duration, then use Start, Pause, or Reset in the timer block. Saving a session uses the duration field, so adjust that number if your actual session ran shorter or longer.",
     chatLog: "For a useful entry, log body area, duration, distance, wavelength if known, discomfort before and after, and one note about function: sitting tolerance, setup, sleep, exercise, or skin response.",
@@ -164,6 +187,7 @@ const translations = {
     "tracker.eyebrow": "Sesión",
     "tracker.title": "Registrar sesión",
     "tracker.export": "Exportar CSV",
+    "tracker.pdf": "Reporte PDF",
     "tracker.save": "Guardar sesión",
     "form.date": "Fecha",
     "form.bodyArea": "Zona del cuerpo",
@@ -256,12 +280,34 @@ const translations = {
     "unit.min": "min",
     "unit.daysShort": "d",
     "confirm.clear": "¿Borrar todas las sesiones de terapia de luz roja guardadas en este navegador?",
+    "report.title": "Reporte de sesiones de terapia de luz roja",
+    "report.generated": "Generado",
+    "report.range": "Rango de fechas",
+    "report.noRange": "Aún no hay sesiones",
+    "report.sessions": "Sesiones",
+    "report.totalMinutes": "Minutos totales",
+    "report.avgChange": "Cambio prom. antes/después",
+    "report.streak": "Racha actual",
+    "report.lastSeven": "Últimos 7 días",
+    "report.history": "Historial de sesiones",
+    "report.bodyArea": "Zona",
+    "report.device": "Dispositivo",
+    "report.wavelength": "Longitud de onda",
+    "report.duration": "Duración",
+    "report.distance": "Distancia",
+    "report.beforeAfter": "Antes -> después",
+    "report.notes": "Notas",
+    "report.noSessions": "Aún no hay sesiones guardadas en este navegador.",
+    "report.localNotice": "Este reporte se genera desde registros guardados localmente en este navegador. Exporta CSV antes de borrar datos, usar navegación privada o cambiar de dispositivo.",
+    "report.healthNote": "Solo informativo. No es consejo médico. Este tracker no está diseñado para diagnosticar, tratar, curar ni prevenir enfermedades.",
+    "report.printHint": "Usa el diálogo de impresión del navegador y elige Guardar como PDF.",
+    "report.popupBlocked": "La ventana del reporte PDF fue bloqueada. Permite pop-ups para este sitio e intenta de nuevo.",
     chatIntro: "Hola. Puedo ayudarte a registrar sesiones, entender el tracker, exportar datos y encontrar el enlace de NovaaLab. No puedo dar consejo médico.",
     chatNoSessions: "Aún no tienes sesiones guardadas. Empieza con una entrada simple: zona del cuerpo, duración, distancia, molestia antes, molestia después y una nota sobre cómo se sintió sentarte o moverte.",
     chatStats: ({ count, minutes, avg }) => `Tienes ${count} ${count === 1 ? "sesión guardada" : "sesiones guardadas"}, ${minutes} minutos totales y un cambio promedio antes/después de ${avg.toFixed(1)} puntos. Exporta CSV si quieres respaldo o un registro fácil de compartir con tu médico.`,
     chatMedical: "Puedo ayudar con el registro, pero no puedo dar consejo médico ni diagnosticar síntomas. Para síntomas severos, persistentes, que empeoran, con sangrado o sin explicación, habla con un profesional de salud. El tracker funciona mejor como registro personal que puedes exportar y comentar.",
     chatNovaa: 'El enlace de NovaaLab está en la sección Dispositivos. Magpie Studios LLC puede ganar una comisión si compras mediante ese enlace, sin costo adicional para ti. <a href="#shop">Ir a dispositivos</a>.',
-    chatExport: "Usa el botón Exportar CSV en la parte superior del panel del tracker. Descarga tus sesiones guardadas en este navegador como un archivo compatible con hojas de cálculo.",
+    chatExport: "Usa Exportar CSV para un respaldo en hoja de cálculo, o Reporte PDF para un resumen pulido e imprimible. Ambos usan las sesiones guardadas en este navegador.",
     chatPrivacy: "Tus entradas se guardan localmente en este navegador con localStorage. Este MVP no tiene sistema de cuenta, así que exporta CSV antes de borrar datos del navegador o cambiar de dispositivo.",
     chatTimer: "Ajusta la duración y usa Iniciar, Pausar o Reiniciar en el bloque del temporizador. Guardar una sesión usa el campo de duración, así que ajusta ese número si tu sesión duró más o menos.",
     chatLog: "Para una entrada útil, registra zona del cuerpo, duración, distancia, longitud de onda si la sabes, molestia antes y después, y una nota funcional: tolerancia al sentarte, configuración, sueño, ejercicio o respuesta de la piel.",
@@ -705,6 +751,360 @@ function downloadCsv() {
   URL.revokeObjectURL(url);
 }
 
+function sortedSessions(sessions) {
+  return [...sessions].sort((a, b) => `${a.date}-${a.createdAt}`.localeCompare(`${b.date}-${b.createdAt}`));
+}
+
+function reportStats(sessions) {
+  const totalMinutes = sessions.reduce((sum, session) => sum + Number(session.duration || 0), 0);
+  const changes = sessions.map((session) => Number(session.painBefore) - Number(session.painAfter));
+  const avgChange = changes.length ? changes.reduce((sum, value) => sum + value, 0) / changes.length : 0;
+  return {
+    count: sessions.length,
+    totalMinutes,
+    avgChange,
+    streak: computeStreak(sessions),
+  };
+}
+
+function formatReportDate(dateValue) {
+  if (!dateValue) return "";
+  return new Date(`${dateValue}T00:00:00`).toLocaleDateString(locale(), {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
+}
+
+function reportDateRange(sessions) {
+  if (!sessions.length) return t("report.noRange");
+  const sorted = sortedSessions(sessions);
+  const first = formatReportDate(sorted[0].date);
+  const last = formatReportDate(sorted[sorted.length - 1].date);
+  return first === last ? first : `${first} - ${last}`;
+}
+
+function reportChart(sessions) {
+  const days = lastSevenDays();
+  const minutesByDay = new Map(days.map((day) => [day, 0]));
+  sessions.forEach((session) => {
+    if (minutesByDay.has(session.date)) {
+      minutesByDay.set(session.date, minutesByDay.get(session.date) + Number(session.duration || 0));
+    }
+  });
+  const values = days.map((day) => minutesByDay.get(day));
+  const maxValue = Math.max(1, ...values);
+  return days.map((day, index) => {
+    const label = new Date(`${day}T00:00:00`).toLocaleDateString(locale(), { weekday: "short" });
+    const value = values[index];
+    const height = Math.max(10, Math.round((value / maxValue) * 104));
+    return `
+      <div class="report-bar">
+        <div class="report-bar-track"><span style="height:${height}px"></span></div>
+        <strong>${escapeHtml(String(value))}</strong>
+        <small>${escapeHtml(label)}</small>
+      </div>
+    `;
+  }).join("");
+}
+
+function reportRows(sessions) {
+  if (!sessions.length) {
+    return `<tr><td colspan="8" class="empty-row">${t("report.noSessions")}</td></tr>`;
+  }
+  return sortedSessions(sessions).map((session) => {
+    const change = Number(session.painBefore) - Number(session.painAfter);
+    const sign = change > 0 ? "+" : "";
+    return `
+      <tr>
+        <td>${escapeHtml(formatReportDate(session.date))}</td>
+        <td>${escapeHtml(labelFor("bodyArea", session.bodyArea))}</td>
+        <td>${escapeHtml(session.device || "")}</td>
+        <td>${escapeHtml(labelFor("wavelength", session.wavelength))}</td>
+        <td>${escapeHtml(session.duration)} ${t("unit.min")}</td>
+        <td>${escapeHtml(labelFor("distance", session.distance))}</td>
+        <td>${escapeHtml(session.painBefore)} -> ${escapeHtml(session.painAfter)} (${sign}${change.toFixed(1)})</td>
+        <td>${escapeHtml(session.notes || "")}</td>
+      </tr>
+    `;
+  }).join("");
+}
+
+function reportStyles() {
+  return `
+    <style>
+      :root {
+        --ink: #171514;
+        --muted: #68625f;
+        --paper: #fffaf4;
+        --surface: #ffffff;
+        --line: #eadbd0;
+        --red: #c9362c;
+        --amber: #d9983d;
+        --teal: #276c68;
+        --mint: #d9f1e8;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        background: linear-gradient(135deg, rgba(217, 241, 232, 0.55), rgba(255, 241, 232, 0.92)), var(--paper);
+        color: var(--ink);
+      }
+      .report {
+        max-width: 1020px;
+        margin: 0 auto;
+        padding: 38px;
+      }
+      .report-hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 24px;
+        align-items: start;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 28px;
+        background:
+          linear-gradient(135deg, rgba(255, 255, 255, 0.92), rgba(255, 241, 232, 0.84)),
+          var(--surface);
+        box-shadow: 0 18px 50px rgba(59, 28, 19, 0.12);
+      }
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 18px;
+        color: var(--teal);
+        font-weight: 850;
+      }
+      .brand-dot {
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
+        background: radial-gradient(circle at 35% 35%, #ffd3c4, var(--red) 54%, #8d1f1b);
+        box-shadow: 0 8px 22px rgba(201, 54, 44, 0.26);
+      }
+      h1, h2, p { margin: 0; }
+      h1 {
+        max-width: 720px;
+        font-size: 34px;
+        line-height: 1.04;
+        letter-spacing: 0;
+      }
+      .meta {
+        display: grid;
+        gap: 8px;
+        color: var(--muted);
+        font-size: 13px;
+        text-align: right;
+      }
+      .print-button {
+        min-height: 40px;
+        border: 0;
+        border-radius: 999px;
+        padding: 0 16px;
+        color: #fff;
+        background: linear-gradient(135deg, var(--red), var(--red-deep, #8d1f1b));
+        font-weight: 850;
+        cursor: pointer;
+      }
+      .metric-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 12px;
+        margin: 18px 0;
+      }
+      .metric {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 16px;
+        background: rgba(255, 255, 255, 0.84);
+      }
+      .metric span {
+        display: block;
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 850;
+      }
+      .metric strong {
+        display: block;
+        margin-top: 8px;
+        color: var(--teal);
+        font-size: 26px;
+      }
+      .panel {
+        break-inside: avoid;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        margin-top: 18px;
+        padding: 20px;
+        background: rgba(255, 255, 255, 0.86);
+      }
+      .panel h2 {
+        margin-bottom: 14px;
+        font-size: 18px;
+      }
+      .report-chart {
+        height: 156px;
+        display: grid;
+        grid-template-columns: repeat(7, minmax(0, 1fr));
+        gap: 10px;
+        align-items: end;
+      }
+      .report-bar {
+        display: grid;
+        gap: 6px;
+        justify-items: center;
+      }
+      .report-bar-track {
+        width: 100%;
+        height: 112px;
+        display: flex;
+        align-items: end;
+        border-radius: 999px;
+        background: #f4e8df;
+        overflow: hidden;
+      }
+      .report-bar-track span {
+        width: 100%;
+        display: block;
+        border-radius: 999px 999px 0 0;
+        background: linear-gradient(180deg, var(--red), var(--amber));
+      }
+      .report-bar strong {
+        color: var(--teal);
+        font-size: 12px;
+      }
+      .report-bar small {
+        color: var(--muted);
+        font-size: 11px;
+        font-weight: 800;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 12px;
+      }
+      th, td {
+        border-bottom: 1px solid var(--line);
+        padding: 10px 8px;
+        text-align: left;
+        vertical-align: top;
+      }
+      th {
+        color: var(--teal);
+        font-size: 11px;
+        text-transform: uppercase;
+      }
+      .empty-row {
+        color: var(--muted);
+        text-align: center;
+      }
+      .notice {
+        display: grid;
+        gap: 8px;
+        margin-top: 18px;
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1.5;
+      }
+      @media print {
+        @page { size: letter; margin: 0.45in; }
+        body { background: #fff; }
+        .report { padding: 0; }
+        .print-button { display: none; }
+        .report-hero, .metric, .panel { box-shadow: none; }
+      }
+      @media (max-width: 760px) {
+        .report { padding: 18px; }
+        .report-hero, .metric-grid { grid-template-columns: 1fr; }
+        .meta { text-align: left; }
+        table { font-size: 11px; }
+      }
+    </style>
+  `;
+}
+
+function buildPdfReportHtml(sessions) {
+  const stats = reportStats(sessions);
+  const generatedAt = new Date().toLocaleString(locale(), { dateStyle: "medium", timeStyle: "short" });
+  return `<!doctype html>
+    <html lang="${currentLang === "es" ? "es-MX" : "en"}">
+      <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>${escapeHtml(t("report.title"))} ${escapeHtml(todayIso())}</title>
+        ${reportStyles()}
+      </head>
+      <body>
+        <main class="report">
+          <section class="report-hero">
+            <div>
+              <div class="brand"><span class="brand-dot"></span><span>Magpie Studios LLC</span></div>
+              <h1>${escapeHtml(t("report.title"))}</h1>
+            </div>
+            <div class="meta">
+              <span><strong>${escapeHtml(t("report.generated"))}:</strong> ${escapeHtml(generatedAt)}</span>
+              <span><strong>${escapeHtml(t("report.range"))}:</strong> ${escapeHtml(reportDateRange(sessions))}</span>
+              <button class="print-button" type="button" onclick="window.print()">${escapeHtml(t("report.printHint"))}</button>
+            </div>
+          </section>
+
+          <section class="metric-grid" aria-label="Report summary">
+            <div class="metric"><span>${escapeHtml(t("report.sessions"))}</span><strong>${stats.count}</strong></div>
+            <div class="metric"><span>${escapeHtml(t("report.totalMinutes"))}</span><strong>${stats.totalMinutes}</strong></div>
+            <div class="metric"><span>${escapeHtml(t("report.avgChange"))}</span><strong>${stats.avgChange.toFixed(1)}</strong></div>
+            <div class="metric"><span>${escapeHtml(t("report.streak"))}</span><strong>${stats.streak}${escapeHtml(t("unit.daysShort"))}</strong></div>
+          </section>
+
+          <section class="panel">
+            <h2>${escapeHtml(t("report.lastSeven"))}</h2>
+            <div class="report-chart">${reportChart(sessions)}</div>
+          </section>
+
+          <section class="panel">
+            <h2>${escapeHtml(t("report.history"))}</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>${escapeHtml(t("form.date"))}</th>
+                  <th>${escapeHtml(t("report.bodyArea"))}</th>
+                  <th>${escapeHtml(t("report.device"))}</th>
+                  <th>${escapeHtml(t("report.wavelength"))}</th>
+                  <th>${escapeHtml(t("report.duration"))}</th>
+                  <th>${escapeHtml(t("report.distance"))}</th>
+                  <th>${escapeHtml(t("report.beforeAfter"))}</th>
+                  <th>${escapeHtml(t("report.notes"))}</th>
+                </tr>
+              </thead>
+              <tbody>${reportRows(sessions)}</tbody>
+            </table>
+          </section>
+
+          <section class="notice">
+            <p>${escapeHtml(t("report.localNotice"))}</p>
+            <p>${escapeHtml(t("affiliate.disclosureLong"))}</p>
+            <p>${escapeHtml(t("report.healthNote"))}</p>
+          </section>
+        </main>
+      </body>
+    </html>`;
+}
+
+function openPdfReport() {
+  const reportWindow = window.open("", "_blank", "width=980,height=760");
+  if (!reportWindow) {
+    window.alert(t("report.popupBlocked"));
+    return;
+  }
+  reportWindow.opener = null;
+  reportWindow.document.open();
+  reportWindow.document.write(buildPdfReportHtml(readSessions()));
+  reportWindow.document.close();
+  reportWindow.focus();
+  reportWindow.setTimeout(() => reportWindow.print(), 400);
+}
+
 function startTimer() {
   if (timerHandle) return;
   if (!timerRemaining) syncTimerFromDuration();
@@ -789,6 +1189,7 @@ document.getElementById("startTimer").addEventListener("click", startTimer);
 document.getElementById("pauseTimer").addEventListener("click", pauseTimer);
 document.getElementById("resetTimer").addEventListener("click", resetTimer);
 document.getElementById("exportCsv").addEventListener("click", downloadCsv);
+document.getElementById("exportPdf").addEventListener("click", openPdfReport);
 document.getElementById("clearData").addEventListener("click", () => {
   if (window.confirm(t("confirm.clear"))) {
     writeSessions([]);

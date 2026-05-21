@@ -434,6 +434,13 @@ h3 {
   margin-bottom: 14px;
 }
 
+.section-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
 .tracker-form {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
