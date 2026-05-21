@@ -489,26 +489,96 @@ input[type="range"] {
 }
 
 .timer {
-  display: flex;
-  justify-content: space-between;
-  gap: 16px;
-  align-items: center;
-  padding: 16px;
-  border: 1px solid var(--line);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 20px;
+  align-items: end;
+  padding: clamp(18px, 3vw, 26px);
+  border: 1px solid rgba(141, 31, 27, 0.18);
   border-radius: 8px;
-  background: var(--surface-warm);
+  background:
+    radial-gradient(circle at 16% 14%, rgba(255, 246, 230, 0.76), transparent 34%),
+    linear-gradient(135deg, rgba(201, 54, 44, 0.12), rgba(39, 108, 104, 0.14)),
+    var(--surface-warm);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.78), 0 18px 42px rgba(59, 28, 19, 0.1);
 }
 
-.timer strong {
-  color: var(--red-deep);
-  font-size: 42px;
+.timer-face {
+  min-width: 0;
+}
+
+.flip-clock {
+  display: inline-grid;
+  grid-template-columns: repeat(2, minmax(38px, 1fr)) auto repeat(2, minmax(38px, 1fr));
+  gap: clamp(5px, 1vw, 9px);
+  align-items: center;
+  max-width: 100%;
+  filter: drop-shadow(0 16px 28px rgba(59, 28, 19, 0.18));
+}
+
+.flip-unit {
+  position: relative;
+  min-width: clamp(38px, 7vw, 64px);
+  min-height: clamp(58px, 9vw, 86px);
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(23, 21, 20, 0.16);
+  border-radius: 8px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.18), transparent 49%, rgba(0, 0, 0, 0.2) 50%, rgba(0, 0, 0, 0.4)),
+    linear-gradient(180deg, #3a2724, #171514);
+  color: #fff6e8;
+  font-family: "SF Mono", "Roboto Mono", Menlo, Consolas, monospace;
+  font-size: clamp(34px, 7vw, 60px);
+  font-weight: 900;
   line-height: 1;
+  letter-spacing: 0;
+  overflow: hidden;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18), inset 0 -10px 20px rgba(0, 0, 0, 0.26);
+}
+
+.flip-unit::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1px;
+  background: rgba(255, 250, 244, 0.16);
+  box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.42);
+}
+
+.flip-unit::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.08), transparent 18% 82%, rgba(0, 0, 0, 0.16));
+  pointer-events: none;
+}
+
+.flip-unit.is-flipping {
+  animation: flipTick 0.34s ease;
+}
+
+.flip-separator {
+  color: var(--red-deep);
+  font-size: clamp(32px, 6vw, 54px);
+  font-weight: 900;
+  line-height: 1;
+  transform: translateY(-2px);
+}
+
+@keyframes flipTick {
+  0% { transform: rotateX(0deg); filter: brightness(1); }
+  48% { transform: rotateX(-74deg); filter: brightness(0.82); }
+  100% { transform: rotateX(0deg); filter: brightness(1.08); }
 }
 
 .timer-controls {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+  justify-content: flex-end;
 }
 
 .metric-grid {
@@ -637,6 +707,28 @@ input[type="range"] {
 .family-section {
   margin-top: 22px;
   padding: 26px;
+}
+
+.build-section {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 22px;
+  align-items: center;
+  margin-top: 22px;
+  padding: 28px;
+  border: 1px solid rgba(201, 54, 44, 0.18);
+  border-radius: 8px;
+  background:
+    linear-gradient(135deg, rgba(255, 246, 230, 0.92), rgba(217, 241, 232, 0.8)),
+    #fffdfb;
+  box-shadow: 0 18px 44px rgba(59, 28, 19, 0.1);
+}
+
+.build-section p {
+  max-width: 720px;
+  margin: 12px 0 0;
+  color: var(--muted);
+  line-height: 1.55;
 }
 
 .family-grid {
@@ -1064,7 +1156,8 @@ input[type="range"] {
   .workspace,
   .shop-section,
   .info-band,
-  .family-grid {
+  .family-grid,
+  .build-section {
     grid-template-columns: 1fr;
   }
 
@@ -1158,7 +1251,6 @@ input[type="range"] {
   .section-head,
   .timer {
     align-items: stretch;
-    flex-direction: column;
   }
 
   .button {
@@ -1167,9 +1259,23 @@ input[type="range"] {
 
   .hero-actions .button,
   .timer-controls .button,
-  .shop-actions .button {
+  .shop-actions .button,
+  .build-section .button {
     width: auto;
     flex: 1 1 140px;
+  }
+
+  .flip-clock {
+    grid-template-columns: repeat(2, minmax(32px, 1fr)) auto repeat(2, minmax(32px, 1fr));
+    width: 100%;
+  }
+
+  .flip-unit {
+    min-width: 0;
+  }
+
+  .timer-controls {
+    justify-content: stretch;
   }
 
   .chat-launcher {

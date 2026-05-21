@@ -87,6 +87,10 @@ const translations = {
     "info.patternsText": "Use weekly minutes, streaks, and average change to see whether your routine is staying consistent.",
     "info.ownershipTitle": "Keep ownership",
     "info.ownershipText": "Your tracker entries are stored in this browser with localStorage. Export CSV whenever you want your own copy.",
+    "build.eyebrow": "Need a page like this?",
+    "build.title": "Magpie Studios builds polished product websites, trackers, and launch pages.",
+    "build.text": "From affiliate-ready landing pages to interactive tools, we ship clean, fast, compliance-aware web experiences with the kind of details people remember.",
+    "build.cta": "Hire Magpie Studios",
     "family.eyebrow": "Magpie family",
     "family.title": "Built beside the rest of the Magpie stack.",
     "family.labsLabel": "Magpie Labs",
@@ -205,6 +209,10 @@ const translations = {
     "info.patternsText": "Usa minutos semanales, rachas y cambio promedio para ver si tu rutina se mantiene constante.",
     "info.ownershipTitle": "Mantén control",
     "info.ownershipText": "Tus registros se guardan en este navegador con localStorage. Exporta CSV cuando quieras tu propia copia.",
+    "build.eyebrow": "¿Necesitas una página como esta?",
+    "build.title": "Magpie Studios crea sitios de producto, trackers y páginas de lanzamiento bien pulidas.",
+    "build.text": "Desde landing pages listas para afiliados hasta herramientas interactivas, entregamos experiencias web limpias, rápidas y cuidadas con detalles que la gente recuerda.",
+    "build.cta": "Contratar Magpie Studios",
     "family.eyebrow": "Familia Magpie",
     "family.title": "Construido junto al resto del stack Magpie.",
     "family.labsLabel": "Magpie Labs",
@@ -363,11 +371,30 @@ function formatTimer(seconds) {
   return `${String(mins).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
 }
 
+function setTimerDisplay(seconds) {
+  const text = formatTimer(seconds);
+  const digits = text.replace(":", "").split("");
+  const units = timerDisplay.querySelectorAll(".flip-unit");
+  if (!units.length) {
+    timerDisplay.textContent = text;
+    return;
+  }
+  units.forEach((unit, index) => {
+    if (unit.textContent !== digits[index]) {
+      unit.textContent = digits[index];
+      unit.dataset.value = digits[index];
+      unit.classList.remove("is-flipping");
+      void unit.offsetWidth;
+      unit.classList.add("is-flipping");
+    }
+  });
+}
+
 function syncTimerFromDuration() {
   timerSeconds = Math.max(1, Number(durationInput.value || 1)) * 60;
   if (!timerHandle) {
     timerRemaining = timerSeconds;
-    timerDisplay.textContent = formatTimer(timerRemaining);
+    setTimerDisplay(timerRemaining);
   }
 }
 
@@ -669,7 +696,7 @@ function startTimer() {
   if (!timerRemaining) syncTimerFromDuration();
   timerHandle = window.setInterval(() => {
     timerRemaining = Math.max(0, timerRemaining - 1);
-    timerDisplay.textContent = formatTimer(timerRemaining);
+    setTimerDisplay(timerRemaining);
     if (timerRemaining === 0) {
       pauseTimer();
     }

@@ -181,9 +181,15 @@
           </label>
 
           <div class="timer wide">
-            <div>
+            <div class="timer-face" aria-live="polite">
               <p class="eyebrow" data-i18n="timer.eyebrow">Timer</p>
-              <strong id="timerDisplay">15:00</strong>
+              <strong id="timerDisplay" class="flip-clock">
+                <span class="flip-unit" data-value="1">1</span>
+                <span class="flip-unit" data-value="5">5</span>
+                <span class="flip-separator">:</span>
+                <span class="flip-unit" data-value="0">0</span>
+                <span class="flip-unit" data-value="0">0</span>
+              </strong>
             </div>
             <div class="timer-controls" aria-label="Timer controls">
               <button class="button secondary" id="startTimer" type="button" data-i18n="timer.start">Start</button>
@@ -278,6 +284,15 @@
           <p data-i18n="family.studioText">The studio home for shipped tools, support, and future releases.</p>
         </a>
       </div>
+    </section>
+
+    <section class="build-section" aria-labelledby="build-title">
+      <div>
+        <p class="eyebrow" data-i18n="build.eyebrow">Need a page like this?</p>
+        <h2 id="build-title" data-i18n="build.title">Magpie Studios builds polished product websites, trackers, and launch pages.</h2>
+        <p data-i18n="build.text">From affiliate-ready landing pages to interactive tools, we ship clean, fast, compliance-aware web experiences with the kind of details people remember.</p>
+      </div>
+      <a class="button primary" href="mailto:support@magpiestudios.app?subject=Website%20project%20inquiry" data-i18n="build.cta">Hire Magpie Studios</a>
     </section>
 
     <section id="shop" class="shop-section">
