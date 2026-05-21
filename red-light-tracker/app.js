@@ -640,6 +640,20 @@ function toggleChatExpanded() {
   chatMessages.scrollTop = chatMessages.scrollHeight;
 }
 
+function pulseElement(element) {
+  if (!element) return;
+  element.classList.remove("focus-pulse");
+  void element.offsetWidth;
+  element.classList.add("focus-pulse");
+  window.setTimeout(() => element.classList.remove("focus-pulse"), 950);
+}
+
+function scrollToElement(element) {
+  if (!element) return;
+  element.scrollIntoView({ behavior: "smooth", block: "start" });
+  pulseElement(element);
+}
+
 function updateChatExpandLabel() {
   const expanded = chatPanel?.classList.contains("expanded");
   const label = expanded ? t("chat.collapse") : t("chat.expand");
@@ -780,6 +794,21 @@ document.getElementById("clearData").addEventListener("click", () => {
     writeSessions([]);
     render();
   }
+});
+
+document.querySelectorAll("[data-hero-action]").forEach((button) => {
+  button.addEventListener("click", () => {
+    const action = button.dataset.heroAction;
+    if (action === "logs") {
+      scrollToElement(document.querySelector(".recent-block") || document.getElementById("tracker"));
+    }
+    if (action === "csv") {
+      downloadCsv();
+    }
+    if (action === "assistant") {
+      openChat();
+    }
+  });
 });
 
 cookieAccept.addEventListener("click", () => {
