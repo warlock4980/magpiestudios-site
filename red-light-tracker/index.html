@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Red Light Therapy Tracker | Magpie Studios</title>
+  <meta name="description" content="A private red light therapy session tracker for logging duration, body area, device details, symptoms, and trends over time.">
+  <meta property="og:title" content="Red Light Therapy Tracker | Magpie Studios">
+  <meta property="og:description" content="Track red light therapy sessions, symptom changes, device settings, and consistency over time.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://magpiestudios.app/red-light-tracker/">
+  <meta name="theme-color" content="#fffaf4">
+  <link rel="canonical" href="https://magpiestudios.app/red-light-tracker/">
+  <link rel="stylesheet" href="./styles.css">
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("consent", "default", {
+      "ad_storage": "denied",
+      "ad_user_data": "denied",
+      "ad_personalization": "denied",
+      "analytics_storage": "denied",
+      "wait_for_update": 500
+    });
+    try {
+      if (localStorage.getItem("magpie-analytics-consent") === "granted") {
+        gtag("consent", "update", {
+          "ad_storage": "granted",
+          "ad_user_data": "granted",
+          "ad_personalization": "granted",
+          "analytics_storage": "granted"
+        });
+      }
+    } catch (error) {}
+    gtag("js", new Date());
+    gtag("config", "G-FY31JVB4P1", { "anonymize_ip": true });
+  </script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-FY31JVB4P1"></script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="https://magpiestudios.app" aria-label="Magpie Studios">
+      <svg class="brand-mark" aria-hidden="true" viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="brand-magpie-grad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#FB923C"/>
+            <stop offset="60%" stop-color="#C2410C"/>
+            <stop offset="100%" stop-color="#7C2D12"/>
+          </linearGradient>
+        </defs>
+        <path d="M8 26 Q2 28 1 24 Q4 30 8 30 Z" fill="#1F2937" opacity="0.8"/>
+        <ellipse cx="22" cy="26" rx="11" ry="8" fill="url(#brand-magpie-grad)"/>
+        <ellipse cx="22" cy="29" rx="7" ry="3" fill="#FFEDD5" opacity="0.55"/>
+        <path d="M20 22 Q14 24 18 30 Q22 28 22 24 Z" fill="#1F2937" opacity="0.9"/>
+        <circle cx="30" cy="20" r="6" fill="url(#brand-magpie-grad)"/>
+        <path d="M36 20 L43 19 L36 21 Z" fill="#FCD34D"/>
+        <ellipse cx="31.5" cy="19" rx="1.1" ry="1.1" fill="#1F2937"/>
+        <circle cx="31.8" cy="18.7" r="0.35" fill="#FFFFFF"/>
+      </svg>
+      <span>Magpie Studios</span>
+    </a>
+    <nav aria-label="Page navigation">
+      <a href="#tracker" data-i18n="nav.tracker">Tracker</a>
+      <a href="#trends" data-i18n="nav.trends">Trends</a>
+      <a href="#shop" data-i18n="nav.devices">Devices</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow" data-i18n="hero.eyebrow">Private session journal</p>
+        <h1 data-i18n="hero.title">Red Light Therapy Tracker</h1>
+        <p class="lede" data-i18n="hero.lede">Log sessions, symptom changes, device settings, and consistency without turning your health notes into a spreadsheet.</p>
+        <div class="hero-actions">
+          <a class="button primary" href="#tracker" data-i18n="hero.start">Start logging</a>
+          <a class="button secondary" href="#shop" data-i18n="hero.shop">Shop NovaaLab</a>
+        </div>
+        <div class="hero-points" aria-label="Tracker highlights">
+          <span data-i18n="hero.local">Local-first logs</span>
+          <span data-i18n="hero.csv">CSV export</span>
+          <span data-i18n="hero.assistant">AI-assisted guidance</span>
+        </div>
+        <p class="mini-disclosure" data-i18n="affiliate.disclosureShort">Disclosure: Magpie Studios LLC may earn a commission if you buy through affiliate links on this page, at no extra cost to you.</p>
+      </div>
+      <div class="device-scene" aria-hidden="true">
+        <div class="panel">
+          <div class="light-grid">
+            <span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span>
+          </div>
+        </div>
+        <div class="session-card">
+          <strong>15:00</strong>
+          <span data-i18n="hero.protocol">Tailbone protocol</span>
+          <div class="pulse-line"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="tracker" class="workspace">
+      <div class="tracker-panel">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow" data-i18n="tracker.eyebrow">Session</p>
+            <h2 data-i18n="tracker.title">Log a treatment</h2>
+          </div>
+          <button class="button ghost" id="exportCsv" type="button" data-i18n="tracker.export">Export CSV</button>
+        </div>
+
+        <form id="sessionForm" class="tracker-form">
+          <label>
+            <span data-i18n="form.date">Date</span>
+            <input id="sessionDate" name="sessionDate" type="date" required>
+          </label>
+
+          <label>
+            <span data-i18n="form.bodyArea">Body area</span>
+            <select id="bodyArea" name="bodyArea" required>
+              <option value="Tailbone / coccyx" data-i18n="body.tailbone">Tailbone / coccyx</option>
+              <option value="Lower back" data-i18n="body.lowerBack">Lower back</option>
+              <option value="Neck / shoulders" data-i18n="body.neck">Neck / shoulders</option>
+              <option value="Knee / joint" data-i18n="body.knee">Knee / joint</option>
+              <option value="Skin / face" data-i18n="body.skin">Skin / face</option>
+              <option value="Other" data-i18n="body.other">Other</option>
+            </select>
+          </label>
+
+          <label>
+            <span data-i18n="form.device">Device</span>
+            <input id="deviceName" name="deviceName" type="text" value="NovaaLab device" autocomplete="off">
+          </label>
+
+          <label>
+            <span data-i18n="form.wavelength">Wavelength</span>
+            <select id="wavelength" name="wavelength">
+              <option value="Red + NIR" data-i18n="wave.redNir">Red + NIR</option>
+              <option value="660 nm red" data-i18n="wave.red">660 nm red</option>
+              <option value="850 nm near infrared" data-i18n="wave.nir">850 nm near infrared</option>
+              <option value="Mixed / unknown" data-i18n="wave.unknown">Mixed / unknown</option>
+            </select>
+          </label>
+
+          <label>
+            <span data-i18n="form.duration">Duration</span>
+            <div class="stepper">
+              <button type="button" data-step="-1" aria-label="Decrease duration">-</button>
+              <input id="durationMinutes" name="durationMinutes" type="number" min="1" max="60" value="15" required>
+              <button type="button" data-step="1" aria-label="Increase duration">+</button>
+            </div>
+          </label>
+
+          <label>
+            <span data-i18n="form.distance">Distance</span>
+            <select id="distance" name="distance">
+              <option value="Direct contact" data-i18n="distance.contact">Direct contact</option>
+              <option value="6 inches" data-i18n="distance.six">6 inches</option>
+              <option value="12 inches" data-i18n="distance.twelve">12 inches</option>
+              <option value="18 inches" data-i18n="distance.eighteen">18 inches</option>
+              <option value="Other / unknown" data-i18n="distance.unknown">Other / unknown</option>
+            </select>
+          </label>
+
+          <label>
+            <span data-i18n="form.painBefore">Pain before</span>
+            <input id="painBefore" name="painBefore" type="range" min="0" max="10" value="4">
+            <span class="range-value" id="painBeforeValue">4</span>
+          </label>
+
+          <label>
+            <span data-i18n="form.painAfter">Pain after</span>
+            <input id="painAfter" name="painAfter" type="range" min="0" max="10" value="1">
+            <span class="range-value" id="painAfterValue">1</span>
+          </label>
+
+          <label class="wide">
+            <span data-i18n="form.notes">Notes</span>
+            <textarea id="notes" name="notes" rows="4" placeholder="What changed? Sitting tolerance, flare triggers, setup, or anything worth remembering." data-i18n-placeholder="form.notesPlaceholder"></textarea>
+          </label>
+
+          <div class="timer wide">
+            <div>
+              <p class="eyebrow" data-i18n="timer.eyebrow">Timer</p>
+              <strong id="timerDisplay">15:00</strong>
+            </div>
+            <div class="timer-controls" aria-label="Timer controls">
+              <button class="button secondary" id="startTimer" type="button" data-i18n="timer.start">Start</button>
+              <button class="button secondary" id="pauseTimer" type="button" data-i18n="timer.pause">Pause</button>
+              <button class="button secondary" id="resetTimer" type="button" data-i18n="timer.reset">Reset</button>
+            </div>
+          </div>
+
+          <button class="button primary wide" type="submit" data-i18n="tracker.save">Save session</button>
+        </form>
+      </div>
+
+      <aside class="summary-panel" id="trends">
+        <div class="metric-grid">
+          <div>
+            <span data-i18n="metrics.sessions">Sessions</span>
+            <strong id="metricSessions">0</strong>
+          </div>
+          <div>
+            <span data-i18n="metrics.minutes">Total minutes</span>
+            <strong id="metricMinutes">0</strong>
+          </div>
+          <div>
+            <span data-i18n="metrics.change">Avg change</span>
+            <strong id="metricChange">0.0</strong>
+          </div>
+          <div>
+            <span data-i18n="metrics.streak">Streak</span>
+            <strong id="metricStreak">0d</strong>
+          </div>
+        </div>
+
+        <div class="trend-block">
+          <div class="section-head compact">
+            <div>
+              <p class="eyebrow" data-i18n="trends.eyebrow">Last 7 days</p>
+              <h2 data-i18n="trends.title">Minutes logged</h2>
+            </div>
+          </div>
+          <div class="bar-chart" id="barChart" aria-label="Last seven days minutes chart"></div>
+        </div>
+
+        <div class="recent-block">
+          <div class="section-head compact">
+            <div>
+              <p class="eyebrow" data-i18n="recent.eyebrow">Recent</p>
+              <h2 data-i18n="recent.title">Session history</h2>
+            </div>
+            <button class="button ghost danger" id="clearData" type="button" data-i18n="recent.clear">Clear</button>
+          </div>
+          <div class="session-list" id="sessionList"></div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="info-band">
+      <article>
+        <h3 data-i18n="info.protocolsTitle">Track protocols</h3>
+        <p data-i18n="info.protocolsText">Save the body area, device, wavelength, distance, duration, and before/after symptom score for each session.</p>
+      </article>
+      <article>
+        <h3 data-i18n="info.patternsTitle">Spot patterns</h3>
+        <p data-i18n="info.patternsText">Use weekly minutes, streaks, and average change to see whether your routine is staying consistent.</p>
+      </article>
+      <article>
+        <h3 data-i18n="info.ownershipTitle">Keep ownership</h3>
+        <p data-i18n="info.ownershipText">Your tracker entries are stored in this browser with localStorage. Export CSV whenever you want your own copy.</p>
+      </article>
+    </section>
+
+    <section class="family-section" aria-labelledby="family-title">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow" data-i18n="family.eyebrow">Magpie family</p>
+          <h2 id="family-title" data-i18n="family.title">Built beside the rest of the Magpie stack.</h2>
+        </div>
+      </div>
+      <div class="family-grid">
+        <a class="family-card" href="https://magpiestudios.app/research.html" target="_blank" rel="noopener noreferrer">
+          <span data-i18n="family.labsLabel">Magpie Labs</span>
+          <strong data-i18n="family.labsTitle">Research and active projects</strong>
+          <p data-i18n="family.labsText">Public notes on the research work that sharpens Magpie products.</p>
+        </a>
+        <a class="family-card" href="https://grubtruck.app" target="_blank" rel="noopener noreferrer">
+          <span data-i18n="family.grubLabel">GrubTrucks</span>
+          <strong data-i18n="family.grubTitle">Food-truck discovery</strong>
+          <p data-i18n="family.grubText">A live product for finding food trucks and helping vendors reach customers.</p>
+        </a>
+        <a class="family-card" href="https://magpiestudios.app" target="_blank" rel="noopener noreferrer">
+          <span data-i18n="family.studioLabel">Magpie Studios</span>
+          <strong data-i18n="family.studioTitle">Apps, tools, and product experiments</strong>
+          <p data-i18n="family.studioText">The studio home for shipped tools, support, and future releases.</p>
+        </a>
+      </div>
+    </section>
+
+    <section id="shop" class="shop-section">
+      <div>
+        <p class="eyebrow" data-i18n="shop.eyebrow">Affiliate partner</p>
+        <h2 data-i18n="shop.title">Need a red light device?</h2>
+        <p data-i18n="shop.text">NovaaLab offers accessible red light therapy products. Use your own judgment, read product details carefully, and talk to a qualified clinician for persistent or severe symptoms.</p>
+      </div>
+      <div class="shop-actions">
+        <a class="button primary" id="affiliateLink" href="https://novaalab.com/" target="_blank" rel="noopener noreferrer sponsored" data-i18n="shop.cta">Shop NovaaLab</a>
+        <p data-i18n="affiliate.disclosureLong">Disclosure: Magpie Studios LLC may earn a commission if you purchase through this link, at no extra cost to you.</p>
+      </div>
+    </section>
+
+    <section class="legal-note">
+      <h2 data-i18n="legal.title">Health note</h2>
+      <p data-i18n="legal.text">This tracker is for personal logging and education. It is not medical advice and is not intended to diagnose, treat, cure, or prevent any disease. Seek medical care for severe, persistent, worsening, or unexplained symptoms.</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-links" aria-label="Magpie Studios links">
+      <a href="https://magpiestudios.app" target="_blank" rel="noopener noreferrer">Magpie Studios</a>
+      <a href="https://magpiestudios.app/research.html" target="_blank" rel="noopener noreferrer">Magpie Labs</a>
+      <a href="https://grubtruck.app" target="_blank" rel="noopener noreferrer">GrubTrucks</a>
+      <a href="https://magpiestudios.app/privacy.html" target="_blank" rel="noopener noreferrer">Privacy</a>
+      <a href="mailto:support@magpiestudios.app">Support</a>
+    </div>
+    <div class="language-switcher" aria-label="Language">
+      <button type="button" data-lang="en">English</button>
+      <button type="button" data-lang="es">Español</button>
+    </div>
+    <p data-i18n="footer.copyright">Copyright 2026 Magpie Studios LLC. Built in Arizona.</p>
+    <p data-i18n="footer.trademark">Red Light Therapy Tracker and the Magpie mark are product marks of Magpie Studios LLC.</p>
+  </footer>
+
+  <div id="cookie-consent" hidden role="dialog" aria-labelledby="cookie-consent-title">
+    <p id="cookie-consent-title" data-i18n="cookie.text">We use Google Analytics, with your consent, to count aggregate visits and improve this page. Affiliate links may earn Magpie Studios LLC a commission. See the Magpie Studios privacy policy for details.</p>
+    <div class="cc-actions">
+      <button type="button" id="cookie-consent-accept" data-i18n="cookie.accept">Accept analytics</button>
+      <button type="button" class="decline" id="cookie-consent-decline" data-i18n="cookie.decline">Decline</button>
+    </div>
+  </div>
+
+  <button class="chat-launcher" id="chatLauncher" type="button" aria-label="Open tracker assistant">
+    <span aria-hidden="true"></span>
+  </button>
+
+  <section class="chat-panel" id="chatPanel" aria-label="Red Light Therapy Tracker assistant" hidden>
+    <div class="chat-header">
+      <div>
+        <strong data-i18n="chat.title">Magpie Wellness Assistant</strong>
+        <span data-i18n="chat.subtitle">Session logging help</span>
+      </div>
+      <span class="assistant-pill" data-i18n="chat.mode">AI + local fallback</span>
+      <div class="chat-header-actions">
+        <button id="chatExpand" type="button" aria-label="Expand tracker assistant" title="Expand">↗</button>
+        <button id="chatClose" type="button" aria-label="Close tracker assistant" title="Close">×</button>
+      </div>
+    </div>
+    <div class="chat-messages" id="chatMessages" aria-live="polite"></div>
+    <div class="chat-prompts" aria-label="Suggested questions">
+      <button type="button" data-chat-prompt="How do I use the tracker?" data-chat-prompt-es="¿Cómo uso el tracker?" data-i18n="chat.use">Use tracker</button>
+      <button type="button" data-chat-prompt="What should I log?" data-chat-prompt-es="¿Qué debo registrar?" data-i18n="chat.log">What to log</button>
+      <button type="button" data-chat-prompt="How do I export my data?" data-chat-prompt-es="¿Cómo exporto mis datos?" data-i18n="chat.export">Export</button>
+      <button type="button" data-chat-prompt="Where is the NovaaLab link?" data-chat-prompt-es="¿Dónde está el enlace de NovaaLab?" data-i18n="chat.novaa">NovaaLab</button>
+    </div>
+    <form class="chat-form" id="chatForm">
+      <input id="chatInput" type="text" autocomplete="off" placeholder="Ask about logging sessions..." aria-label="Ask the tracker assistant" data-i18n-placeholder="chat.placeholder">
+      <button type="submit" data-i18n="chat.send">Send</button>
+    </form>
+    <p class="chat-footnote" data-i18n="chat.footnote">Informational only. Not medical advice. Do not share sensitive personal details.</p>
+  </section>
+
+  <script>window.RED_LIGHT_CHAT_API_URL = "https://magpiestudios-chat.onrender.com/chat";</script>
+  <script src="./app.js"></script>
+</body>
+</html>
