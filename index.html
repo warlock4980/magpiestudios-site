@@ -199,6 +199,68 @@
       border-top: 1px solid var(--border);
     }
 
+    .product-rail {
+      display: grid;
+      gap: 16px;
+    }
+    .product-card {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 20px;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 22px 24px;
+      box-shadow: 0 6px 24px rgba(13, 77, 166, 0.08);
+    }
+    .product-card .eyebrow {
+      display: inline-block;
+      margin-bottom: 6px;
+      color: var(--accent-dark);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .product-card h3 {
+      margin: 0 0 6px;
+      font-size: 22px;
+      letter-spacing: -0.01em;
+    }
+    .product-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 15px;
+    }
+    .product-card .mini-cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      padding: 0 18px;
+      border-radius: 10px;
+      background: var(--card);
+      color: var(--accent-dark);
+      border: 1px solid rgba(13, 110, 253, 0.22);
+      font-weight: 700;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .product-card .mini-cta:hover {
+      background: var(--accent);
+      color: white;
+      text-decoration: none;
+    }
+    @media (max-width: 640px) {
+      .product-card {
+        grid-template-columns: 1fr;
+      }
+      .product-card .mini-cta {
+        width: 100%;
+      }
+    }
+
     footer {
       padding: 48px 0 32px;
       text-align: center;
@@ -387,6 +449,22 @@
   </section>
 
   <section class="section">
+    <div class="container">
+      <h2>Also from Magpie</h2>
+      <div class="product-rail">
+        <article class="product-card">
+          <div>
+            <span class="eyebrow">Wellness tracker</span>
+            <h3>Red Light Therapy Tracker</h3>
+            <p>Log red light sessions, device settings, discomfort scores, notes, streaks, and CSV exports from a private browser-based tracker.</p>
+          </div>
+          <a class="mini-cta" href="red-light-tracker/">Open tracker →</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
     <div class="container" style="text-align: center;">
       <a href="https://buy.polar.sh/polar_cl_5sY0vI1Y9GronWTpkn0LzQHyDOELYsbHZ7MAQ13Gt1U" class="cta">
         Get MacJanitor for $19.99 →
@@ -400,6 +478,7 @@
       <div class="links">
         <a href="about.html">About</a>
         <a href="research.html">Magpie Labs</a>
+        <a href="red-light-tracker/">Red Light Tracker</a>
         <a href="help.html">Help &amp; Manual</a>
         <a href="terms.html">Terms &amp; License</a>
         <a href="privacy.html">Privacy Policy</a>
