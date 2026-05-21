@@ -831,6 +831,27 @@ function reportRows(sessions) {
   }).join("");
 }
 
+function reportBrandMark() {
+  return `
+    <svg viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Magpie Studios">
+      <defs>
+        <linearGradient id="report-magpie-grad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#FB923C"/>
+          <stop offset="60%" stop-color="#C2410C"/>
+          <stop offset="100%" stop-color="#7C2D12"/>
+        </linearGradient>
+      </defs>
+      <path d="M8 26 Q2 28 1 24 Q4 30 8 30 Z" fill="#1F2937" opacity="0.8"/>
+      <ellipse cx="22" cy="26" rx="11" ry="8" fill="url(#report-magpie-grad)"/>
+      <ellipse cx="22" cy="29" rx="7" ry="3" fill="#FFEDD5" opacity="0.55"/>
+      <path d="M20 22 Q14 24 18 30 Q22 28 22 24 Z" fill="#1F2937" opacity="0.9"/>
+      <circle cx="30" cy="20" r="6" fill="url(#report-magpie-grad)"/>
+      <path d="M36 20 L43 19 L36 21 Z" fill="#FCD34D"/>
+      <ellipse cx="31.5" cy="19" rx="1.1" ry="1.1" fill="#1F2937"/>
+      <circle cx="31.8" cy="18.7" r="0.35" fill="#FFFFFF"/>
+    </svg>`;
+}
+
 function buildPdfReportHtml(sessions) {
   const stats = reportStats(sessions);
   const generatedAt = new Date().toLocaleString(locale(), { dateStyle: "medium", timeStyle: "short" });
@@ -838,7 +859,7 @@ function buildPdfReportHtml(sessions) {
     <main class="report">
       <section class="report-hero">
         <div>
-          <div class="brand"><span class="brand-dot"></span><span>Magpie Studios LLC</span></div>
+          <div class="brand"><span class="report-brand-mark">${reportBrandMark()}</span><span>Magpie Studios LLC</span></div>
           <h1>${escapeHtml(t("report.title"))}</h1>
         </div>
         <div class="meta">

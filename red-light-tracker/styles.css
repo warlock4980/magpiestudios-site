@@ -760,12 +760,18 @@ input[type="range"] {
   font-weight: 850;
 }
 
-.print-report .brand-dot {
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 35% 35%, #ffd3c4, var(--red) 54%, var(--red-deep));
-  box-shadow: 0 8px 22px rgba(201, 54, 44, 0.26);
+.print-report .report-brand-mark {
+  width: 34px;
+  height: 34px;
+  display: inline-flex;
+  flex: 0 0 34px;
+  filter: drop-shadow(0 6px 16px rgba(201, 54, 44, 0.22));
+}
+
+.print-report .report-brand-mark svg {
+  width: 100%;
+  height: 100%;
+  display: block;
 }
 
 .print-report h1,
