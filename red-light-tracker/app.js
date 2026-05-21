@@ -20,6 +20,7 @@ const chatExpand = document.getElementById("chatExpand");
 const chatMessages = document.getElementById("chatMessages");
 const chatForm = document.getElementById("chatForm");
 const chatInput = document.getElementById("chatInput");
+const printReport = document.getElementById("printReport");
 const cookieBanner = document.getElementById("cookie-consent");
 const cookieAccept = document.getElementById("cookie-consent-accept");
 const cookieDecline = document.getElementById("cookie-consent-decline");
@@ -830,279 +831,73 @@ function reportRows(sessions) {
   }).join("");
 }
 
-function reportStyles() {
-  return `
-    <style>
-      :root {
-        --ink: #171514;
-        --muted: #68625f;
-        --paper: #fffaf4;
-        --surface: #ffffff;
-        --line: #eadbd0;
-        --red: #c9362c;
-        --amber: #d9983d;
-        --teal: #276c68;
-        --mint: #d9f1e8;
-      }
-      * { box-sizing: border-box; }
-      body {
-        margin: 0;
-        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-        background: linear-gradient(135deg, rgba(217, 241, 232, 0.55), rgba(255, 241, 232, 0.92)), var(--paper);
-        color: var(--ink);
-      }
-      .report {
-        max-width: 1020px;
-        margin: 0 auto;
-        padding: 38px;
-      }
-      .report-hero {
-        display: grid;
-        grid-template-columns: minmax(0, 1fr) auto;
-        gap: 24px;
-        align-items: start;
-        border: 1px solid var(--line);
-        border-radius: 8px;
-        padding: 28px;
-        background:
-          linear-gradient(135deg, rgba(255, 255, 255, 0.92), rgba(255, 241, 232, 0.84)),
-          var(--surface);
-        box-shadow: 0 18px 50px rgba(59, 28, 19, 0.12);
-      }
-      .brand {
-        display: inline-flex;
-        align-items: center;
-        gap: 10px;
-        margin-bottom: 18px;
-        color: var(--teal);
-        font-weight: 850;
-      }
-      .brand-dot {
-        width: 26px;
-        height: 26px;
-        border-radius: 50%;
-        background: radial-gradient(circle at 35% 35%, #ffd3c4, var(--red) 54%, #8d1f1b);
-        box-shadow: 0 8px 22px rgba(201, 54, 44, 0.26);
-      }
-      h1, h2, p { margin: 0; }
-      h1 {
-        max-width: 720px;
-        font-size: 34px;
-        line-height: 1.04;
-        letter-spacing: 0;
-      }
-      .meta {
-        display: grid;
-        gap: 8px;
-        color: var(--muted);
-        font-size: 13px;
-        text-align: right;
-      }
-      .print-button {
-        min-height: 40px;
-        border: 0;
-        border-radius: 999px;
-        padding: 0 16px;
-        color: #fff;
-        background: linear-gradient(135deg, var(--red), var(--red-deep, #8d1f1b));
-        font-weight: 850;
-        cursor: pointer;
-      }
-      .metric-grid {
-        display: grid;
-        grid-template-columns: repeat(4, minmax(0, 1fr));
-        gap: 12px;
-        margin: 18px 0;
-      }
-      .metric {
-        border: 1px solid var(--line);
-        border-radius: 8px;
-        padding: 16px;
-        background: rgba(255, 255, 255, 0.84);
-      }
-      .metric span {
-        display: block;
-        color: var(--muted);
-        font-size: 12px;
-        font-weight: 850;
-      }
-      .metric strong {
-        display: block;
-        margin-top: 8px;
-        color: var(--teal);
-        font-size: 26px;
-      }
-      .panel {
-        break-inside: avoid;
-        border: 1px solid var(--line);
-        border-radius: 8px;
-        margin-top: 18px;
-        padding: 20px;
-        background: rgba(255, 255, 255, 0.86);
-      }
-      .panel h2 {
-        margin-bottom: 14px;
-        font-size: 18px;
-      }
-      .report-chart {
-        height: 156px;
-        display: grid;
-        grid-template-columns: repeat(7, minmax(0, 1fr));
-        gap: 10px;
-        align-items: end;
-      }
-      .report-bar {
-        display: grid;
-        gap: 6px;
-        justify-items: center;
-      }
-      .report-bar-track {
-        width: 100%;
-        height: 112px;
-        display: flex;
-        align-items: end;
-        border-radius: 999px;
-        background: #f4e8df;
-        overflow: hidden;
-      }
-      .report-bar-track span {
-        width: 100%;
-        display: block;
-        border-radius: 999px 999px 0 0;
-        background: linear-gradient(180deg, var(--red), var(--amber));
-      }
-      .report-bar strong {
-        color: var(--teal);
-        font-size: 12px;
-      }
-      .report-bar small {
-        color: var(--muted);
-        font-size: 11px;
-        font-weight: 800;
-      }
-      table {
-        width: 100%;
-        border-collapse: collapse;
-        font-size: 12px;
-      }
-      th, td {
-        border-bottom: 1px solid var(--line);
-        padding: 10px 8px;
-        text-align: left;
-        vertical-align: top;
-      }
-      th {
-        color: var(--teal);
-        font-size: 11px;
-        text-transform: uppercase;
-      }
-      .empty-row {
-        color: var(--muted);
-        text-align: center;
-      }
-      .notice {
-        display: grid;
-        gap: 8px;
-        margin-top: 18px;
-        color: var(--muted);
-        font-size: 12px;
-        line-height: 1.5;
-      }
-      @media print {
-        @page { size: letter; margin: 0.45in; }
-        body { background: #fff; }
-        .report { padding: 0; }
-        .print-button { display: none; }
-        .report-hero, .metric, .panel { box-shadow: none; }
-      }
-      @media (max-width: 760px) {
-        .report { padding: 18px; }
-        .report-hero, .metric-grid { grid-template-columns: 1fr; }
-        .meta { text-align: left; }
-        table { font-size: 11px; }
-      }
-    </style>
-  `;
-}
-
 function buildPdfReportHtml(sessions) {
   const stats = reportStats(sessions);
   const generatedAt = new Date().toLocaleString(locale(), { dateStyle: "medium", timeStyle: "short" });
-  return `<!doctype html>
-    <html lang="${currentLang === "es" ? "es-MX" : "en"}">
-      <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>${escapeHtml(t("report.title"))} ${escapeHtml(todayIso())}</title>
-        ${reportStyles()}
-      </head>
-      <body>
-        <main class="report">
-          <section class="report-hero">
-            <div>
-              <div class="brand"><span class="brand-dot"></span><span>Magpie Studios LLC</span></div>
-              <h1>${escapeHtml(t("report.title"))}</h1>
-            </div>
-            <div class="meta">
-              <span><strong>${escapeHtml(t("report.generated"))}:</strong> ${escapeHtml(generatedAt)}</span>
-              <span><strong>${escapeHtml(t("report.range"))}:</strong> ${escapeHtml(reportDateRange(sessions))}</span>
-              <button class="print-button" type="button" onclick="window.print()">${escapeHtml(t("report.printHint"))}</button>
-            </div>
-          </section>
+  return `
+    <main class="report">
+      <section class="report-hero">
+        <div>
+          <div class="brand"><span class="brand-dot"></span><span>Magpie Studios LLC</span></div>
+          <h1>${escapeHtml(t("report.title"))}</h1>
+        </div>
+        <div class="meta">
+          <span><strong>${escapeHtml(t("report.generated"))}:</strong> ${escapeHtml(generatedAt)}</span>
+          <span><strong>${escapeHtml(t("report.range"))}:</strong> ${escapeHtml(reportDateRange(sessions))}</span>
+        </div>
+      </section>
 
-          <section class="metric-grid" aria-label="Report summary">
-            <div class="metric"><span>${escapeHtml(t("report.sessions"))}</span><strong>${stats.count}</strong></div>
-            <div class="metric"><span>${escapeHtml(t("report.totalMinutes"))}</span><strong>${stats.totalMinutes}</strong></div>
-            <div class="metric"><span>${escapeHtml(t("report.avgChange"))}</span><strong>${stats.avgChange.toFixed(1)}</strong></div>
-            <div class="metric"><span>${escapeHtml(t("report.streak"))}</span><strong>${stats.streak}${escapeHtml(t("unit.daysShort"))}</strong></div>
-          </section>
+      <section class="metric-grid" aria-label="Report summary">
+        <div class="metric"><span>${escapeHtml(t("report.sessions"))}</span><strong>${stats.count}</strong></div>
+        <div class="metric"><span>${escapeHtml(t("report.totalMinutes"))}</span><strong>${stats.totalMinutes}</strong></div>
+        <div class="metric"><span>${escapeHtml(t("report.avgChange"))}</span><strong>${stats.avgChange.toFixed(1)}</strong></div>
+        <div class="metric"><span>${escapeHtml(t("report.streak"))}</span><strong>${stats.streak}${escapeHtml(t("unit.daysShort"))}</strong></div>
+      </section>
 
-          <section class="panel">
-            <h2>${escapeHtml(t("report.lastSeven"))}</h2>
-            <div class="report-chart">${reportChart(sessions)}</div>
-          </section>
+      <section class="report-panel">
+        <h2>${escapeHtml(t("report.lastSeven"))}</h2>
+        <div class="report-chart">${reportChart(sessions)}</div>
+      </section>
 
-          <section class="panel">
-            <h2>${escapeHtml(t("report.history"))}</h2>
-            <table>
-              <thead>
-                <tr>
-                  <th>${escapeHtml(t("form.date"))}</th>
-                  <th>${escapeHtml(t("report.bodyArea"))}</th>
-                  <th>${escapeHtml(t("report.device"))}</th>
-                  <th>${escapeHtml(t("report.wavelength"))}</th>
-                  <th>${escapeHtml(t("report.duration"))}</th>
-                  <th>${escapeHtml(t("report.distance"))}</th>
-                  <th>${escapeHtml(t("report.beforeAfter"))}</th>
-                  <th>${escapeHtml(t("report.notes"))}</th>
-                </tr>
-              </thead>
-              <tbody>${reportRows(sessions)}</tbody>
-            </table>
-          </section>
+      <section class="report-panel">
+        <h2>${escapeHtml(t("report.history"))}</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>${escapeHtml(t("form.date"))}</th>
+              <th>${escapeHtml(t("report.bodyArea"))}</th>
+              <th>${escapeHtml(t("report.device"))}</th>
+              <th>${escapeHtml(t("report.wavelength"))}</th>
+              <th>${escapeHtml(t("report.duration"))}</th>
+              <th>${escapeHtml(t("report.distance"))}</th>
+              <th>${escapeHtml(t("report.beforeAfter"))}</th>
+              <th>${escapeHtml(t("report.notes"))}</th>
+            </tr>
+          </thead>
+          <tbody>${reportRows(sessions)}</tbody>
+        </table>
+      </section>
 
-          <section class="notice">
-            <p>${escapeHtml(t("report.localNotice"))}</p>
-            <p>${escapeHtml(t("affiliate.disclosureLong"))}</p>
-            <p>${escapeHtml(t("report.healthNote"))}</p>
-          </section>
-        </main>
-      </body>
-    </html>`;
+      <section class="notice">
+        <p>${escapeHtml(t("report.localNotice"))}</p>
+        <p>${escapeHtml(t("affiliate.disclosureLong"))}</p>
+        <p>${escapeHtml(t("report.healthNote"))}</p>
+      </section>
+    </main>`;
 }
 
 function openPdfReport() {
-  const reportWindow = window.open("", "_blank", "width=980,height=760");
-  if (!reportWindow) {
-    window.alert(t("report.popupBlocked"));
-    return;
-  }
-  reportWindow.opener = null;
-  reportWindow.document.open();
-  reportWindow.document.write(buildPdfReportHtml(readSessions()));
-  reportWindow.document.close();
-  reportWindow.focus();
-  reportWindow.setTimeout(() => reportWindow.print(), 400);
+  printReport.innerHTML = buildPdfReportHtml(readSessions());
+  printReport.hidden = false;
+  printReport.setAttribute("aria-hidden", "false");
+  document.body.classList.add("is-printing-report");
+  window.setTimeout(() => window.print(), 80);
+}
+
+function closePrintReport() {
+  document.body.classList.remove("is-printing-report");
+  printReport.hidden = true;
+  printReport.setAttribute("aria-hidden", "true");
 }
 
 function startTimer() {
@@ -1203,9 +998,6 @@ document.querySelectorAll("[data-hero-action]").forEach((button) => {
     if (action === "logs") {
       scrollToElement(document.querySelector(".recent-block") || document.getElementById("tracker"));
     }
-    if (action === "csv") {
-      downloadCsv();
-    }
     if (action === "assistant") {
       openChat();
     }
@@ -1225,6 +1017,7 @@ cookieDecline.addEventListener("click", () => {
 chatLauncher.addEventListener("click", openChat);
 chatClose.addEventListener("click", closeChat);
 chatExpand.addEventListener("click", toggleChatExpanded);
+window.addEventListener("afterprint", closePrintReport);
 chatForm.addEventListener("submit", (event) => {
   event.preventDefault();
   const text = chatInput.value.trim();

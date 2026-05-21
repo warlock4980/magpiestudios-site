@@ -465,6 +465,8 @@ input,
 select,
 textarea {
   width: 100%;
+  max-width: 100%;
+  min-width: 0;
   min-height: 44px;
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -508,6 +510,14 @@ input[type="range"] {
   display: grid;
   grid-template-columns: 44px minmax(0, 1fr) 44px;
   gap: 8px;
+}
+
+.stepper > * {
+  min-width: 0;
+}
+
+.stepper input {
+  text-align: center;
 }
 
 .stepper button {
@@ -713,6 +723,216 @@ input[type="range"] {
   border-radius: 8px;
   color: var(--muted);
   text-align: center;
+}
+
+.print-report {
+  display: none;
+}
+
+.print-report .report {
+  max-width: 1020px;
+  margin: 0 auto;
+  padding: 38px;
+  color: var(--ink);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.print-report .report-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 24px;
+  align-items: start;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 28px;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.94), rgba(255, 241, 232, 0.86)),
+    var(--surface);
+  box-shadow: 0 18px 50px rgba(59, 28, 19, 0.12);
+}
+
+.print-report .brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 18px;
+  color: var(--teal);
+  font-weight: 850;
+}
+
+.print-report .brand-dot {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #ffd3c4, var(--red) 54%, var(--red-deep));
+  box-shadow: 0 8px 22px rgba(201, 54, 44, 0.26);
+}
+
+.print-report h1,
+.print-report h2,
+.print-report p {
+  margin: 0;
+}
+
+.print-report h1 {
+  max-width: 720px;
+  font-size: 34px;
+  line-height: 1.04;
+}
+
+.print-report .meta {
+  display: grid;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 13px;
+  text-align: right;
+}
+
+.print-report .metric-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin: 18px 0;
+}
+
+.print-report .metric {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.84);
+}
+
+.print-report .metric span {
+  display: block;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 850;
+}
+
+.print-report .metric strong {
+  display: block;
+  margin-top: 8px;
+  color: var(--teal);
+  font-size: 26px;
+}
+
+.print-report .report-panel {
+  break-inside: avoid;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  margin-top: 18px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.86);
+}
+
+.print-report .report-panel h2 {
+  margin-bottom: 14px;
+  font-size: 18px;
+}
+
+.print-report .report-chart {
+  height: 156px;
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 10px;
+  align-items: end;
+}
+
+.print-report .report-bar {
+  display: grid;
+  gap: 6px;
+  justify-items: center;
+}
+
+.print-report .report-bar-track {
+  width: 100%;
+  height: 112px;
+  display: flex;
+  align-items: end;
+  border-radius: 999px;
+  background: #f4e8df;
+  overflow: hidden;
+}
+
+.print-report .report-bar-track span {
+  width: 100%;
+  display: block;
+  border-radius: 999px 999px 0 0;
+  background: linear-gradient(180deg, var(--red), var(--amber));
+}
+
+.print-report .report-bar strong {
+  color: var(--teal);
+  font-size: 12px;
+}
+
+.print-report .report-bar small {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.print-report table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.print-report th,
+.print-report td {
+  border-bottom: 1px solid var(--line);
+  padding: 10px 8px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.print-report th {
+  color: var(--teal);
+  font-size: 11px;
+  text-transform: uppercase;
+}
+
+.print-report .empty-row {
+  color: var(--muted);
+  text-align: center;
+}
+
+.print-report .notice {
+  display: grid;
+  gap: 8px;
+  margin-top: 18px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+@media print {
+  @page {
+    size: letter;
+    margin: 0.45in;
+  }
+
+  body.is-printing-report {
+    background: #fff !important;
+  }
+
+  body.is-printing-report > :not(.print-report) {
+    display: none !important;
+  }
+
+  body.is-printing-report .print-report {
+    display: block !important;
+  }
+
+  body.is-printing-report .print-report .report {
+    padding: 0;
+  }
+
+  body.is-printing-report .print-report .report-hero,
+  body.is-printing-report .print-report .metric,
+  body.is-printing-report .print-report .report-panel {
+    box-shadow: none;
+  }
 }
 
 .info-band {
@@ -1280,9 +1500,15 @@ input[type="range"] {
     grid-template-columns: 1fr;
   }
 
-  .section-head,
-  .timer {
+  .section-head {
+    flex-direction: column;
     align-items: stretch;
+  }
+
+  .section-actions {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .button {
@@ -1290,24 +1516,59 @@ input[type="range"] {
   }
 
   .hero-actions .button,
-  .timer-controls .button,
   .shop-actions .button,
   .build-section .button {
     width: auto;
     flex: 1 1 140px;
   }
 
-  .flip-clock {
-    grid-template-columns: repeat(2, minmax(32px, 1fr)) auto repeat(2, minmax(32px, 1fr));
-    width: 100%;
+  .timer {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    align-items: stretch;
+    overflow: hidden;
+    padding: 16px;
   }
 
-  .flip-unit {
+  .timer-face {
+    display: grid;
+    justify-items: center;
+    gap: 8px;
     min-width: 0;
   }
 
+  .flip-clock {
+    grid-template-columns: repeat(2, minmax(34px, 1fr)) auto repeat(2, minmax(34px, 1fr));
+    width: min(100%, 310px);
+    gap: 5px;
+    justify-self: center;
+  }
+
+  .flip-unit {
+    width: 100%;
+    min-width: 0;
+    min-height: clamp(52px, 15vw, 68px);
+    font-size: clamp(30px, 11vw, 46px);
+  }
+
+  .flip-separator {
+    font-size: clamp(28px, 9vw, 40px);
+  }
+
   .timer-controls {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    width: 100%;
+    gap: 8px;
     justify-content: stretch;
+  }
+
+  .timer-controls .button {
+    width: 100%;
+    min-width: 0;
+    min-height: 42px;
+    padding-inline: 6px;
+    font-size: 13px;
   }
 
   .chat-launcher {
@@ -1334,12 +1595,17 @@ input[type="range"] {
 }
 
 @media (max-width: 520px) {
-  .site-header,
-  main,
-  .site-footer {
-    width: min(100%, 430px);
-    margin-left: 0;
-    margin-right: 0;
+  .site-header {
+    padding-inline: 14px;
+  }
+
+  main {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .section-actions {
+    grid-template-columns: 1fr;
   }
 }
 
