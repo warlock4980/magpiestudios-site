@@ -4,9 +4,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Red Light Therapy Tracker | Magpie Studios</title>
-  <meta name="description" content="A private red light therapy session tracker for logging duration, body area, device details, symptoms, and trends over time.">
+  <meta name="description" content="A private red light therapy session tracker for logging duration, body area, device details, comfort notes, and trends over time.">
   <meta property="og:title" content="Red Light Therapy Tracker | Magpie Studios">
-  <meta property="og:description" content="Track red light therapy sessions, symptom changes, device settings, and consistency over time.">
+  <meta property="og:description" content="Track red light therapy sessions, comfort notes, device settings, and consistency over time.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://magpiestudios.app/red-light-tracker/">
   <meta name="theme-color" content="#fffaf4">
@@ -71,7 +71,7 @@
       <div class="hero-copy">
         <p class="eyebrow" data-i18n="hero.eyebrow">Private session journal</p>
         <h1 data-i18n="hero.title">Red Light Therapy Tracker</h1>
-        <p class="lede" data-i18n="hero.lede">Log sessions, symptom changes, device settings, and consistency without turning your health notes into a spreadsheet.</p>
+        <p class="lede" data-i18n="hero.lede">Log sessions, comfort changes, device settings, and consistency without turning your wellness notes into a spreadsheet.</p>
         <div class="hero-actions">
           <a class="button primary" href="#tracker" data-i18n="hero.start">Start logging</a>
           <a class="button secondary" href="#shop" data-i18n="hero.shop">Shop NovaaLab</a>
@@ -94,7 +94,7 @@
         </div>
         <div class="session-card">
           <strong>15:00</strong>
-          <span data-i18n="hero.protocol">Tailbone protocol</span>
+          <span data-i18n="hero.protocol">Sample routine</span>
           <div class="pulse-line"></div>
         </div>
       </div>
@@ -105,7 +105,7 @@
         <div class="section-head">
           <div>
             <p class="eyebrow" data-i18n="tracker.eyebrow">Session</p>
-            <h2 data-i18n="tracker.title">Log a treatment</h2>
+            <h2 data-i18n="tracker.title">Log a session</h2>
           </div>
           <button class="button ghost" id="exportCsv" type="button" data-i18n="tracker.export">Export CSV</button>
         </div>
@@ -164,20 +164,20 @@
           </label>
 
           <label>
-            <span data-i18n="form.painBefore">Pain before</span>
+            <span data-i18n="form.painBefore">Discomfort before</span>
             <input id="painBefore" name="painBefore" type="range" min="0" max="10" value="4">
             <span class="range-value" id="painBeforeValue">4</span>
           </label>
 
           <label>
-            <span data-i18n="form.painAfter">Pain after</span>
+            <span data-i18n="form.painAfter">Discomfort after</span>
             <input id="painAfter" name="painAfter" type="range" min="0" max="10" value="1">
             <span class="range-value" id="painAfterValue">1</span>
           </label>
 
           <label class="wide">
             <span data-i18n="form.notes">Notes</span>
-            <textarea id="notes" name="notes" rows="4" placeholder="What changed? Sitting tolerance, flare triggers, setup, or anything worth remembering." data-i18n-placeholder="form.notesPlaceholder"></textarea>
+            <textarea id="notes" name="notes" rows="4" placeholder="What changed? Sitting tolerance, setup, consistency, or anything worth remembering." data-i18n-placeholder="form.notesPlaceholder"></textarea>
           </label>
 
           <div class="timer wide">
@@ -241,8 +241,8 @@
 
     <section class="info-band">
       <article>
-        <h3 data-i18n="info.protocolsTitle">Track protocols</h3>
-        <p data-i18n="info.protocolsText">Save the body area, device, wavelength, distance, duration, and before/after symptom score for each session.</p>
+        <h3 data-i18n="info.protocolsTitle">Track routines</h3>
+        <p data-i18n="info.protocolsText">Save the body area, device, wavelength, distance, duration, and before/after comfort score for each session.</p>
       </article>
       <article>
         <h3 data-i18n="info.patternsTitle">Spot patterns</h3>
@@ -284,7 +284,7 @@
       <div>
         <p class="eyebrow" data-i18n="shop.eyebrow">Affiliate partner</p>
         <h2 data-i18n="shop.title">Need a red light device?</h2>
-        <p data-i18n="shop.text">NovaaLab offers accessible red light therapy products. Use your own judgment, read product details carefully, and talk to a qualified clinician for persistent or severe symptoms.</p>
+        <p data-i18n="shop.text">NovaaLab offers accessible red light therapy products. Use your own judgment, read product details carefully, and talk to a qualified clinician for persistent or severe discomfort.</p>
       </div>
       <div class="shop-actions">
         <a class="button primary" id="affiliateLink" href="https://novaalab.com/" target="_blank" rel="noopener noreferrer sponsored" data-i18n="shop.cta">Shop NovaaLab</a>
@@ -332,7 +332,7 @@
         <strong data-i18n="chat.title">Magpie Wellness Assistant</strong>
         <span data-i18n="chat.subtitle">Session logging help</span>
       </div>
-      <span class="assistant-pill" data-i18n="chat.mode">AI + local fallback</span>
+      <span class="assistant-pill" data-i18n="chat.mode">Tracker help</span>
       <div class="chat-header-actions">
         <button id="chatExpand" type="button" aria-label="Expand tracker assistant" title="Expand">↗</button>
         <button id="chatClose" type="button" aria-label="Close tracker assistant" title="Close">×</button>
