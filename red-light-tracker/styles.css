@@ -398,6 +398,9 @@ h3 {
 .info-band article,
 .shop-section,
 .family-section,
+.guide-section,
+.content-panel,
+.content-card,
 .legal-note {
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -967,6 +970,171 @@ input[type="range"] {
   padding: 26px;
 }
 
+.guide-section {
+  margin-top: 22px;
+  padding: 26px;
+  background:
+    linear-gradient(135deg, rgba(255, 246, 230, 0.7), rgba(255, 255, 255, 0.9)),
+    #fffdfb;
+}
+
+.guide-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.guide-card {
+  min-height: 190px;
+  display: grid;
+  align-content: start;
+  gap: 10px;
+  padding: 18px;
+  border: 1px solid rgba(234, 219, 208, 0.88);
+  border-radius: 8px;
+  background:
+    linear-gradient(180deg, rgba(217, 241, 232, 0.32), rgba(255, 253, 251, 0.98)),
+    #fffdfb;
+  transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.guide-card:hover,
+.guide-card:focus-visible {
+  transform: translateY(-2px);
+  border-color: rgba(39, 108, 104, 0.28);
+  box-shadow: 0 14px 32px rgba(59, 28, 19, 0.12);
+}
+
+.guide-card span {
+  color: var(--teal);
+  font-size: 12px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.guide-card strong {
+  color: var(--ink);
+  font-size: 19px;
+  line-height: 1.18;
+}
+
+.guide-card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.content-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 0.38fr);
+  gap: 32px;
+  align-items: end;
+  padding: 62px 0 26px;
+}
+
+.content-hero > *,
+.content-layout > *,
+.content-panel,
+.content-card {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.content-hero h1 {
+  max-width: 860px;
+  font-size: clamp(42px, 7vw, 74px);
+}
+
+.content-hero aside {
+  border: 1px solid rgba(234, 219, 208, 0.92);
+  border-radius: 8px;
+  padding: 20px;
+  background:
+    linear-gradient(180deg, rgba(255, 246, 230, 0.9), rgba(217, 241, 232, 0.55)),
+    #fffdfb;
+  box-shadow: var(--shadow);
+}
+
+.content-hero aside p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.content-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 0.34fr);
+  gap: 22px;
+  align-items: start;
+}
+
+.content-panel,
+.content-card {
+  padding: 24px;
+}
+
+.content-panel {
+  display: grid;
+  gap: 22px;
+  background: rgba(255, 255, 255, 0.84);
+}
+
+.content-panel section {
+  display: grid;
+  gap: 12px;
+}
+
+.content-panel h2 {
+  font-size: clamp(24px, 3vw, 34px);
+}
+
+.content-panel p,
+.content-panel li,
+.content-card p {
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.content-panel ul,
+.content-panel ol {
+  margin: 0;
+  padding-left: 22px;
+}
+
+.content-panel li + li {
+  margin-top: 8px;
+}
+
+.content-card {
+  position: sticky;
+  top: 92px;
+  display: grid;
+  gap: 14px;
+  background:
+    linear-gradient(135deg, rgba(217, 241, 232, 0.68), rgba(255, 241, 232, 0.92)),
+    #fffdfb;
+}
+
+.content-card .mini-disclosure {
+  margin: 0;
+}
+
+.guide-links {
+  display: grid;
+  gap: 10px;
+}
+
+.guide-links a {
+  display: block;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 12px;
+  background: rgba(255, 253, 251, 0.82);
+  color: var(--teal);
+  font-weight: 850;
+}
+
 .build-section {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
@@ -1415,8 +1583,20 @@ input[type="range"] {
   .shop-section,
   .info-band,
   .family-grid,
+  .guide-grid,
+  .content-hero,
+  .content-layout,
   .build-section {
     grid-template-columns: 1fr;
+  }
+
+  .content-hero,
+  .content-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .content-card {
+    position: static;
   }
 
   .hero {
@@ -1446,6 +1626,53 @@ input[type="range"] {
     max-width: 100%;
     font-size: clamp(36px, 9.8vw, 42px);
     line-height: 1.02;
+    overflow-wrap: break-word;
+  }
+
+  .content-hero {
+    gap: 20px;
+    padding: 42px 0 22px;
+    width: 100%;
+    max-width: 100%;
+    overflow: visible;
+  }
+
+  .content-hero h1 {
+    max-width: 100%;
+    font-size: clamp(28px, 7.4vw, 32px);
+    line-height: 1.08;
+    text-wrap: balance;
+  }
+
+  .content-layout {
+    width: 100%;
+    max-width: 100%;
+    overflow: visible;
+  }
+
+  .content-hero > div,
+  .content-hero aside,
+  .content-panel,
+  .content-card {
+    justify-self: center;
+    width: min(100%, 360px);
+  }
+
+  .content-hero aside,
+  .content-panel,
+  .content-card {
+    padding: 18px;
+  }
+
+  .content-panel h2 {
+    font-size: clamp(23px, 7vw, 29px);
+  }
+
+  .content-panel p,
+  .content-panel li,
+  .content-card p,
+  .content-hero aside p {
+    font-size: 16px;
     overflow-wrap: break-word;
   }
 
