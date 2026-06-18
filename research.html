@@ -205,6 +205,38 @@
     footer a:hover { text-decoration: underline; }
     footer .links { margin-bottom: 12px; }
     footer .links a { margin: 0 12px; }
+
+    .site-header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+    .ninjutsu-site-link {
+      width: 156px;
+      height: 64px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex: 0 0 auto;
+      text-decoration: none;
+    }
+    .ninjutsu-site-link img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: contain;
+      filter: drop-shadow(0 10px 24px rgba(0, 0, 0, 0.24));
+    }
+    @media (max-width: 640px) {
+      .site-header-row {
+        align-items: flex-start;
+      }
+      .ninjutsu-site-link {
+        width: 120px;
+        height: 50px;
+      }
+    }
   </style>
 
   <!-- Google Analytics 4 with Consent Mode v2 (default denied until user opts in) -->
@@ -274,10 +306,13 @@
 </head>
 <body>
   <header>
-    <div class="container">
+    <div class="container site-header-row">
       <a href="/" class="brand">
         <img src="magpie-logo.png" alt="Magpie Studios" class="brand-logo" />
         <span>Magpie <span class="accent">Studios</span></span>
+      </a>
+      <a class="ninjutsu-site-link" href="/ninjutsu/" aria-label="Ninjutsu">
+        <img src="/ninjutsu-assets/brand/ninjutsu-logo-final.png" alt="Ninjutsu" />
       </a>
     </div>
   </header>

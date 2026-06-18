@@ -29,6 +29,34 @@
     a { color: #0d6efd; }
     .back { display: inline-block; margin-top: 32px; }
     code { background: #f3f4f6; padding: 2px 6px; border-radius: 4px; font-size: 14px; }
+
+    .ninjutsu-site-link {
+      position: fixed;
+      top: 18px;
+      right: 18px;
+      z-index: 9999;
+      width: 132px;
+      height: 54px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+    }
+    .ninjutsu-site-link img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: contain;
+      filter: drop-shadow(0 10px 24px rgba(0, 0, 0, 0.24));
+    }
+    @media (max-width: 640px) {
+      .ninjutsu-site-link {
+        top: 10px;
+        right: 10px;
+        width: 104px;
+        height: 44px;
+      }
+    }
   </style>
 
   <!-- Google Analytics 4 with Consent Mode v2 (default denied until user opts in) -->
@@ -97,6 +125,9 @@
   </style>
 </head>
 <body>
+  <a class="ninjutsu-site-link" href="/ninjutsu/" aria-label="Ninjutsu">
+    <img src="/ninjutsu-assets/brand/ninjutsu-logo-final.png" alt="Ninjutsu" />
+  </a>
 
   <h1>Terms of Service &amp; End User License Agreement</h1>
   <p class="meta">Last updated: 2026-05-11 &middot; Effective: 2026-05-11</p>
@@ -447,7 +478,7 @@
                   0 4px 12px rgba(13, 77, 166, 0.18);
       border: 1px solid #e5e7eb;
       display: none; flex-direction: column; overflow: hidden;
-      z-index: 10001;
+      z-index: 9999;
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
       /* Native bottom-right resize handle */
       resize: both;
