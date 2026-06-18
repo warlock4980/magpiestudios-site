@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Ninjutsu — Magpie Studios</title>
+  <meta name="description" content="Ninjutsu is a pre-alpha Unreal Engine action game prototype from Magpie Studios, focused on shinobi combat, movement, and a moonlit feudal-Japan fantasy." />
+  <meta property="og:title" content="Ninjutsu — Magpie Studios" />
+  <meta property="og:description" content="A pre-alpha Unreal Engine action game prototype focused on shinobi combat, movement, and a moonlit feudal-Japan fantasy." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://magpiestudios.app/ninjutsu-assets/ninjutsu-hero-concept.png" />
+  <meta property="og:url" content="https://magpiestudios.app/ninjutsu.html" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://magpiestudios.app/ninjutsu-assets/ninjutsu-hero-concept.png" />
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <style>
+    :root {
+      --ink: #070809;
+      --ink-2: #101316;
+      --panel: rgba(12, 15, 18, 0.86);
+      --panel-soft: rgba(20, 24, 28, 0.82);
+      --line: rgba(225, 230, 236, 0.16);
+      --moon: #dbe7f3;
+      --text: #f3f5f7;
+      --muted: #a8b2bc;
+      --ember: #d84232;
+      --ember-2: #ff725f;
+      --gold: #b99a64;
+      --warm: #f4ad68;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; background: var(--ink); }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      color: var(--text);
+      line-height: 1.65;
+      background:
+        linear-gradient(180deg, rgba(4, 5, 7, 0.12), #070809 92%),
+        #070809;
+      min-height: 100vh;
+    }
+    a { color: inherit; }
+    .container { width: min(1120px, calc(100vw - 40px)); margin: 0 auto; }
+    header {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 10;
+      padding: 22px 0;
+    }
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      color: #fff;
+      font-weight: 650;
+      font-size: 17px;
+      text-decoration: none;
+      text-shadow: 0 2px 16px rgba(0,0,0,0.7);
+    }
+    .brand-logo {
+      width: 40px;
+      height: 40px;
+      display: block;
+      border-radius: 8px;
+      box-shadow: 0 8px 26px rgba(0,0,0,0.42);
+    }
+    .nav-links {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+      flex-wrap: wrap;
+      font-size: 14px;
+    }
+    .nav-links a {
+      color: rgba(255,255,255,0.86);
+      text-decoration: none;
+      padding: 6px 0;
+    }
+    .nav-links a:hover { color: #fff; }
+
+    .hero {
+      min-height: min(760px, 92vh);
+      display: grid;
+      align-items: end;
+      position: relative;
+      overflow: hidden;
+      background:
+        linear-gradient(90deg, rgba(4,5,7,0.95), rgba(4,5,7,0.46) 42%, rgba(4,5,7,0.76)),
+        linear-gradient(180deg, rgba(4,5,7,0.08), rgba(4,5,7,0.16) 55%, #070809 100%),
+        url("/ninjutsu-assets/ninjutsu-hero-concept.png") center / cover no-repeat;
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 38% 22%, rgba(219,231,243,0.18), transparent 28%);
+      pointer-events: none;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      padding: 148px 0 64px;
+      max-width: 700px;
+    }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--warm);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .eyebrow::before {
+      content: "";
+      display: inline-block;
+      width: 36px;
+      height: 1px;
+      background: var(--ember);
+    }
+    h1 {
+      font-size: clamp(48px, 9vw, 112px);
+      line-height: 0.92;
+      font-weight: 800;
+      letter-spacing: 0;
+      margin-bottom: 20px;
+    }
+    .hero-copy {
+      color: var(--moon);
+      font-size: clamp(18px, 2.5vw, 23px);
+      max-width: 650px;
+      text-shadow: 0 2px 18px rgba(0,0,0,0.65);
+    }
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 30px;
+    }
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 0 20px;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.2);
+      color: #fff;
+      text-decoration: none;
+      font-weight: 700;
+      background: rgba(216, 66, 50, 0.92);
+      box-shadow: 0 10px 34px rgba(0,0,0,0.32);
+    }
+    .button.secondary {
+      background: rgba(255,255,255,0.08);
+      color: var(--moon);
+    }
+    .button:hover { filter: brightness(1.08); }
+    .status-row {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1px;
+      background: var(--line);
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+    .status-item {
+      padding: 22px;
+      background: rgba(7,8,9,0.92);
+    }
+    .status-item span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 5px;
+    }
+    .status-item strong {
+      color: var(--text);
+      font-size: 16px;
+    }
+
+    section { padding: 78px 0; }
+    .section-head {
+      max-width: 760px;
+      margin-bottom: 32px;
+    }
+    .section-head h2 {
+      font-size: clamp(30px, 5vw, 52px);
+      line-height: 1.05;
+      letter-spacing: 0;
+      margin-bottom: 14px;
+    }
+    .section-head p,
+    .lede {
+      color: var(--muted);
+      font-size: 18px;
+      max-width: 760px;
+    }
+    .split {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
+      gap: 34px;
+      align-items: start;
+    }
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+    .video-card,
+    .fact-card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .video-thumb {
+      aspect-ratio: 16 / 9;
+      display: grid;
+      place-items: center;
+      background:
+        linear-gradient(180deg, rgba(7,8,9,0.12), rgba(7,8,9,0.7)),
+        url("/ninjutsu-assets/ninjutsu-hero-concept.png") center / cover no-repeat;
+      border-bottom: 1px solid var(--line);
+    }
+    .video-thumb.closeup {
+      background:
+        linear-gradient(180deg, rgba(7,8,9,0.05), rgba(7,8,9,0.74)),
+        url("/ninjutsu-assets/ninjutsu-torii-poster.png") center / cover no-repeat;
+    }
+    .video-media {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      display: block;
+      background: #000;
+      border-bottom: 1px solid var(--line);
+    }
+    .play {
+      width: 62px;
+      height: 62px;
+      border-radius: 50%;
+      background: rgba(216,66,50,0.92);
+      display: grid;
+      place-items: center;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.45);
+    }
+    .play::before {
+      content: "";
+      width: 0;
+      height: 0;
+      border-top: 12px solid transparent;
+      border-bottom: 12px solid transparent;
+      border-left: 18px solid #fff;
+      margin-left: 4px;
+    }
+    .video-body,
+    .fact-card {
+      padding: 20px;
+    }
+    .video-body h3,
+    .fact-card h3 {
+      font-size: 20px;
+      line-height: 1.2;
+      margin-bottom: 8px;
+    }
+    .video-body p,
+    .fact-card p,
+    .fact-card li {
+      color: var(--muted);
+      font-size: 15px;
+    }
+    .label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--warm);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+    figure {
+      background: var(--panel-soft);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    figure img {
+      width: 100%;
+      height: 390px;
+      object-fit: cover;
+      display: block;
+    }
+    figcaption {
+      color: var(--muted);
+      font-size: 13px;
+      padding: 13px 14px;
+      border-top: 1px solid var(--line);
+    }
+    .facts {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+    .fact-card ul {
+      list-style: none;
+      display: grid;
+      gap: 9px;
+    }
+    .fact-card li {
+      position: relative;
+      padding-left: 20px;
+    }
+    .fact-card li::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--ember);
+      position: absolute;
+      left: 0;
+      top: 0.7em;
+    }
+    .note {
+      border-left: 3px solid var(--ember);
+      background: rgba(216,66,50,0.08);
+      padding: 16px 18px;
+      color: var(--moon);
+      margin-top: 22px;
+      border-radius: 0 8px 8px 0;
+    }
+    footer {
+      padding: 48px 0 32px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 14px;
+      border-top: 1px solid var(--line);
+      margin-top: 40px;
+    }
+    footer a {
+      color: var(--moon);
+      text-decoration: none;
+    }
+    footer a:hover { text-decoration: underline; }
+    footer .links {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+    #cookie-consent {
+      position: fixed; bottom: 16px; left: 16px; right: 16px;
+      max-width: 720px; margin: 0 auto;
+      background: #1c1c1e; color: #ffffff;
+      padding: 20px 24px; border-radius: 12px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+      z-index: 10000;
+      font-size: 14px; line-height: 1.5;
+    }
+    #cookie-consent p { margin: 0 0 12px; color: #ffffff; font-size: 14px; }
+    #cookie-consent a { color: #7dbdff; text-decoration: underline; }
+    #cookie-consent .cc-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+    #cookie-consent button {
+      background: #1E90FF; color: white; border: none;
+      padding: 8px 18px; border-radius: 8px;
+      font-size: 14px; font-weight: 600; cursor: pointer;
+      font-family: inherit;
+    }
+    #cookie-consent .decline {
+      background: transparent; color: #ffffff;
+      border: 1px solid #6b7280;
+    }
+    @media (max-width: 840px) {
+      header { position: absolute; }
+      .nav { align-items: flex-start; }
+      .nav-links { justify-content: flex-end; gap: 10px; }
+      .hero { min-height: 760px; background-position: center top; }
+      .hero-content { padding-top: 128px; }
+      .status-row,
+      .split,
+      .video-grid,
+      .gallery,
+      .facts {
+        grid-template-columns: 1fr;
+      }
+      figure img { height: auto; }
+    }
+  </style>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('consent', 'default', {
+      'ad_storage': 'denied',
+      'ad_user_data': 'denied',
+      'ad_personalization': 'denied',
+      'analytics_storage': 'denied',
+      'wait_for_update': 500
+    });
+    try {
+      if (localStorage.getItem('magpie-analytics-consent') === 'granted') {
+        gtag('consent', 'update', { 'analytics_storage': 'granted' });
+      }
+    } catch (e) {}
+    gtag('js', new Date());
+    gtag('config', 'G-FY31JVB4P1', { 'anonymize_ip': true });
+  </script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-FY31JVB4P1"></script>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <a href="/" class="brand">
+        <img src="magpie-logo.png" alt="Magpie Studios" class="brand-logo" />
+        <span>Magpie Studios</span>
+      </a>
+      <nav class="nav-links" aria-label="Main navigation">
+        <a href="/">MacJanitor</a>
+        <a href="/research.html">Labs</a>
+        <a href="/about.html">About</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-content">
+        <span class="eyebrow">Pre-alpha game project</span>
+        <h1>Ninjutsu</h1>
+        <p class="hero-copy">A third-person shinobi action game prototype from Magpie Studios, built in Unreal Engine and focused on combat feel, movement, ninja tools, and a moonlit feudal-Japan fantasy.</p>
+        <div class="hero-actions">
+          <a class="button" href="#videos">Watch progress</a>
+          <a class="button secondary" href="#gallery">View concept art</a>
+        </div>
+      </div>
+    </section>
+
+    <div class="status-row">
+      <div class="status-item">
+        <span>Status</span>
+        <strong>Pre-alpha prototype</strong>
+      </div>
+      <div class="status-item">
+        <span>Engine</span>
+        <strong>Unreal Engine 5</strong>
+      </div>
+      <div class="status-item">
+        <span>Platforms</span>
+        <strong>To be announced</strong>
+      </div>
+    </div>
+
+    <section id="videos">
+      <div class="container">
+        <div class="section-head">
+          <h2>Videos</h2>
+          <p>Gameplay and trailer links will live here once the current captures are uploaded. The two video types are intentionally labeled separately.</p>
+        </div>
+        <div class="video-grid">
+          <article class="video-card">
+            <a class="video-thumb" href="#" aria-label="Pre-alpha gameplay video link coming soon">
+              <span class="play" aria-hidden="true"></span>
+            </a>
+            <div class="video-body">
+              <span class="label">Gameplay capture</span>
+              <h3>Pre-alpha gameplay</h3>
+              <p>Captured in Unreal Engine. Work in progress. This slot is reserved for the real gameplay video once recording is complete.</p>
+            </div>
+          </article>
+          <article class="video-card">
+            <iframe class="video-media" src="https://www.youtube-nocookie.com/embed/0Rg2yDPJtoQ"
+              title="NINJUTSU — Concept Trailer (Pre-Alpha)"
+              frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen></iframe>
+            <div class="video-body">
+              <span class="label">Concept trailer</span>
+              <h3>Concept teaser trailer</h3>
+              <p>Pre-rendered concept trailer and mood piece — not gameplay. A visualization of the world and tone we're building toward.</p>
+            </div>
+          </article>
+        </div>
+        <p class="note">This direct MOV is intentionally included for review. After upload, a YouTube embed or link can be added for easier sharing while keeping the downloadable review cut available.</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="container split">
+        <div>
+          <div class="section-head">
+            <h2>About the game</h2>
+            <p>Ninjutsu follows a lone shinobi, Kage Ren, as he grows from a grounded fighter into a near-mythic force. The current prototype is deliberately narrow: prove the combat, movement, visual identity, and slice atmosphere before expanding scope.</p>
+          </div>
+        </div>
+        <div class="fact-card">
+          <h3>Current prototype focus</h3>
+          <ul>
+            <li>Light and heavy katana attacks</li>
+            <li>Shuriken throw and smoke bomb vanish</li>
+            <li>Focus meter and Shadow Strike prototype</li>
+            <li>Training dummy combat arena</li>
+            <li>Moonlit shrine environment pass</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="gallery">
+      <div class="container">
+        <div class="section-head">
+          <h2>Concept art direction</h2>
+          <p>These are concept and mood references for Kage Ren, the shrine world, and the trailer look. They are not final gameplay screenshots unless explicitly labeled as in-engine.</p>
+        </div>
+        <div class="gallery">
+          <figure>
+            <img src="/ninjutsu-assets/ninjutsu-closeup-concept.png" alt="Close concept image of Kage Ren's eyes under a worn black hood and mask" loading="lazy" />
+            <figcaption>Concept reference: hood, mask, wet black cloth, expressive eyes.</figcaption>
+          </figure>
+          <figure>
+            <img src="/ninjutsu-assets/ninjutsu-overlook-concept.png" alt="Kage Ren overlooking a moonlit castle and shrine village" loading="lazy" />
+            <figcaption>Concept reference: moonlit shrine world, warm lantern pockets, long cloak silhouette.</figcaption>
+          </figure>
+          <figure>
+            <img src="/ninjutsu-assets/ninjutsu-back-concept.png" alt="Back view of Kage Ren with a torn cloak and small crimson clan mark" loading="lazy" />
+            <figcaption>Concept reference: cloak-dominant silhouette, subtle crimson clan mark, hip katana.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="section-head">
+          <h2>Development notes</h2>
+          <p>This page is meant to track public-facing progress without overstating the state of the game.</p>
+        </div>
+        <div class="facts">
+          <article class="fact-card">
+            <h3>Honest labels</h3>
+            <p>Concept trailer material is labeled as concept. Gameplay is reserved for real Unreal Engine capture.</p>
+          </article>
+          <article class="fact-card">
+            <h3>Original IP</h3>
+            <p>Ninjutsu is a Magpie Studios property. The combat and visual goals are inspired by action-game craft, not copied characters or assets.</p>
+          </article>
+          <article class="fact-card">
+            <h3>Scope discipline</h3>
+            <p>The current target is a focused vertical slice: combat, presentation, environment, and a strong trailer-ready identity.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="links">
+        <a href="/">MacJanitor</a>
+        <a href="/research.html">Magpie Labs</a>
+        <a href="/about.html">About</a>
+        <a href="/help.html">Help &amp; Manual</a>
+        <a href="/terms.html">Terms &amp; License</a>
+        <a href="/privacy.html">Privacy Policy</a>
+        <a href="/refund.html">Refund Policy</a>
+        <a href="mailto:support@magpiestudios.app">Support</a>
+      </div>
+      <div>© 2026 Magpie Studios LLC · Arizona, USA · All rights reserved.</div>
+    </div>
+  </footer>
+
+  <div id="cookie-consent" hidden role="dialog" aria-labelledby="cookie-consent-title">
+    <p id="cookie-consent-title">
+      We use Google Analytics (with your consent) to count aggregate visits to magpiestudios.app. No personal information is collected without your okay. See our <a href="/privacy.html">Privacy Policy</a>.
+    </p>
+    <div class="cc-actions">
+      <button type="button" id="cookie-consent-accept">Accept analytics</button>
+      <button type="button" class="decline" id="cookie-consent-decline">Decline</button>
+    </div>
+  </div>
+  <script>
+  (function() {
+    var key = 'magpie-analytics-consent';
+    var banner = document.getElementById('cookie-consent');
+    if (!banner) return;
+    try {
+      var existing = localStorage.getItem(key);
+      if (existing === 'granted' || existing === 'denied') return;
+    } catch (e) {}
+    banner.hidden = false;
+    document.getElementById('cookie-consent-accept').addEventListener('click', function() {
+      try { localStorage.setItem(key, 'granted'); } catch (e) {}
+      if (typeof gtag === 'function') {
+        gtag('consent', 'update', { 'analytics_storage': 'granted' });
+      }
+      banner.hidden = true;
+    });
+    document.getElementById('cookie-consent-decline').addEventListener('click', function() {
+      try { localStorage.setItem(key, 'denied'); } catch (e) {}
+      banner.hidden = true;
+    });
+  })();
+  </script>
+</body>
+</html>
