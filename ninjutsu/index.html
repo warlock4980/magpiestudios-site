@@ -8,10 +8,10 @@
   <meta property="og:title" content="Ninjutsu — Magpie Studios" />
   <meta property="og:description" content="A pre-alpha Unreal Engine action game prototype focused on shinobi combat, movement, and a moonlit feudal-Japan fantasy." />
   <meta property="og:type" content="website" />
-  <meta property="og:image" content="https://magpiestudios.app/ninjutsu-assets/ninjutsu-hero-concept.png" />
+  <meta property="og:image" content="https://magpiestudios.app/ninjutsu-assets/brand/ninjutsu-website-hero.png" />
   <meta property="og:url" content="https://magpiestudios.app/ninjutsu.html" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:image" content="https://magpiestudios.app/ninjutsu-assets/ninjutsu-hero-concept.png" />
+  <meta name="twitter:image" content="https://magpiestudios.app/ninjutsu-assets/brand/ninjutsu-website-hero.png" />
   <link rel="icon" type="image/png" href="/favicon.png" />
   <style>
     :root {
@@ -134,6 +134,26 @@
       font-weight: 800;
       letter-spacing: 0;
       margin-bottom: 20px;
+    }
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+    .hero-logo {
+      display: block;
+      width: min(560px, 88vw);
+      max-height: 300px;
+      object-fit: contain;
+      object-position: left center;
+      margin: 0 0 20px -18px;
+      filter: drop-shadow(0 18px 42px rgba(0,0,0,0.78));
     }
     .hero-copy {
       color: var(--moon);
@@ -429,7 +449,7 @@
   <header>
     <div class="container nav">
       <a href="/" class="brand">
-        <img src="magpie-logo.png" alt="Magpie Studios" class="brand-logo" />
+        <img src="/magpie-logo.png" alt="Magpie Studios" class="brand-logo" />
         <span>Magpie Studios</span>
       </a>
       <nav class="nav-links" aria-label="Main navigation">
@@ -444,7 +464,8 @@
     <section class="hero">
       <div class="container hero-content">
         <span class="eyebrow">Pre-alpha game project</span>
-        <h1>Ninjutsu</h1>
+        <h1 class="sr-only">Ninjutsu</h1>
+        <img class="hero-logo" src="/ninjutsu-assets/brand/ninjutsu-logo-transparent.png" alt="Ninjutsu" />
         <p class="hero-copy">A third-person shinobi action game prototype from Magpie Studios, built in Unreal Engine and focused on combat feel, movement, ninja tools, and a moonlit feudal-Japan fantasy.</p>
         <div class="hero-actions">
           <a class="button" href="#videos">Watch progress</a>
