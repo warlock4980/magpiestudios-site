@@ -295,20 +295,37 @@
     }
     .gallery {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(6, minmax(0, 1fr));
       gap: 18px;
     }
     figure {
+      grid-column: span 2;
       background: var(--panel-soft);
       border: 1px solid var(--line);
       border-radius: 8px;
       overflow: hidden;
     }
+    figure.wide,
+    figure.sheet {
+      grid-column: span 3;
+    }
     figure img {
       width: 100%;
-      height: 390px;
+      height: 330px;
       object-fit: cover;
       display: block;
+    }
+    figure.wide img {
+      height: 360px;
+    }
+    figure.tall img {
+      height: 430px;
+      object-position: center top;
+    }
+    figure.sheet img {
+      height: 360px;
+      object-fit: contain;
+      background: #040506;
     }
     figcaption {
       color: var(--muted);
@@ -402,6 +419,11 @@
       .gallery,
       .facts {
         grid-template-columns: 1fr;
+      }
+      .gallery figure,
+      .gallery figure.wide,
+      .gallery figure.sheet {
+        grid-column: 1 / -1;
       }
       figure img { height: auto; }
     }
@@ -529,17 +551,53 @@
           <p>These are concept and mood references for Kage Ren, the shrine world, and the trailer look. They are not final gameplay screenshots unless explicitly labeled as in-engine.</p>
         </div>
         <div class="gallery">
-          <figure>
+          <figure class="wide">
+            <img src="/ninjutsu-assets/concept/castle-vista.jpg" alt="Moonlit castle vista with lantern-lit water, red blossoms, and mountain silhouettes" loading="lazy" />
+            <figcaption>World mood: moonlit castle approach, wet stone, distant lanterns, and red blossom contrast.</figcaption>
+          </figure>
+          <figure class="tall">
             <img src="/ninjutsu-assets/ninjutsu-closeup-concept.png" alt="Close concept image of Kage Ren's eyes under a worn black hood and mask" loading="lazy" />
             <figcaption>Concept reference: hood, mask, wet black cloth, expressive eyes.</figcaption>
           </figure>
-          <figure>
+          <figure class="wide">
+            <img src="/ninjutsu-assets/concept/torii-path.jpg" alt="Rain-dark shrine path under a torii gate with lanterns and falling petals" loading="lazy" />
+            <figcaption>Environment direction: torii approach, soft lantern pools, rain sheen, and heavy atmosphere.</figcaption>
+          </figure>
+          <figure class="tall">
             <img src="/ninjutsu-assets/ninjutsu-overlook-concept.png" alt="Kage Ren overlooking a moonlit castle and shrine village" loading="lazy" />
             <figcaption>Concept reference: moonlit shrine world, warm lantern pockets, long cloak silhouette.</figcaption>
           </figure>
-          <figure>
+          <figure class="wide">
+            <img src="/ninjutsu-assets/concept/rooftop-leap.jpg" alt="Kage Ren leaping across a moonlit rooftop toward a distant castle" loading="lazy" />
+            <figcaption>Traversal mood: rooftop movement, high silhouette readability, and wind-driven petals.</figcaption>
+          </figure>
+          <figure class="tall">
             <img src="/ninjutsu-assets/ninjutsu-back-concept.png" alt="Back view of Kage Ren with a torn cloak and small crimson clan mark" loading="lazy" />
             <figcaption>Concept reference: cloak-dominant silhouette, subtle crimson clan mark, hip katana.</figcaption>
+          </figure>
+          <figure class="wide">
+            <img src="/ninjutsu-assets/concept/burning-village.jpg" alt="Kage Ren standing before a burning village under a storm-lit sky" loading="lazy" />
+            <figcaption>Story mood: revenge path, burning village, and warm firelight against a cold night palette.</figcaption>
+          </figure>
+          <figure class="wide">
+            <img src="/ninjutsu-assets/concept/one-choice-standoff.jpg" alt="Kage Ren kneeling before shadowy opponents in a torchlit village gate" loading="lazy" />
+            <figcaption>Encounter mood: decisive standoff, enemy pressure, and firelit combat staging.</figcaption>
+          </figure>
+          <figure class="tall">
+            <img src="/ninjutsu-assets/concept/full-body-portrait.jpg" alt="Full body concept of Kage Ren standing in a burning shrine courtyard" loading="lazy" />
+            <figcaption>Character direction: full-body shinobi silhouette, layered black cloth, and katana posture.</figcaption>
+          </figure>
+          <figure class="tall">
+            <img src="/ninjutsu-assets/concept/shrine-overlook-portrait.jpg" alt="Kage Ren overlooking a moonlit shrine city from a cliff" loading="lazy" />
+            <figcaption>Scale reference: lone ninja against a layered shrine city and castle skyline.</figcaption>
+          </figure>
+          <figure class="sheet">
+            <img src="/ninjutsu-assets/concept/environment-board.jpg" alt="Annotated environment concept board for the Ninjutsu shrine world" loading="lazy" />
+            <figcaption>Design board: shrine-world layout, lighting references, and environment mood notes.</figcaption>
+          </figure>
+          <figure class="sheet">
+            <img src="/ninjutsu-assets/concept/character-board.jpg" alt="Annotated character and weapon concept board for Kage Ren" loading="lazy" />
+            <figcaption>Design board: suit silhouette, weapon handling, katana references, and material language.</figcaption>
           </figure>
         </div>
       </div>
